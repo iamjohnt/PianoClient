@@ -1,17 +1,14 @@
 {
-    "name": "your-project-name",
-    "version": "1.0.0",
-    "description": "Your project description",
-    "main": "index.js",
-    "scripts": {
-      "start": "node index.js"
-    },
-    "dependencies": {
-      "stompjs": "^5.0.6",
-      "sockjs": "^0.5.2"
-    },
-    "devDependencies": {},
-    "author": "Your Name",
-    "license": "MIT"
+  "name": "client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@stomp/stompjs": "^7.0.0"
   }
-  
+}
