@@ -1,4 +1,4 @@
-import {connect, disconnect, sendHello, sendChord} from "./stomp.js"
+import {connect, disconnect, sendHello, sendChord} from "/stomp/stomp.js"
 
 // function setConnected(connected) {
 //     $("#connect").prop("disabled", connected);
