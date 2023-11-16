@@ -1,20 +1,8 @@
 import {connect, disconnect, sendHello, sendChord} from "/stomp/stomp.js"
+import { connectMidi } from "/midi/midi.js";
 
-// function setConnected(connected) {
-//     $("#connect").prop("disabled", connected);
-//     $("#disconnect").prop("disabled", !connected);
-//     if (connected) {
-//         $("#conversation").show();
-//     }
-//     else {
-//         $("#conversation").hide();
-//     }
-//     $("#greetings").html("");
-// }
 
-// function showGreeting(message) {
-//     $("#greetings").append("<tr><td>" + message + "</td></tr>");
-// }
+connectMidi();
 
 // jquery
 $(function () {
