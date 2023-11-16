@@ -26,7 +26,7 @@ function connect() {
         // setConnected(true);
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/greetings', (greeting) => {
-            console.log(JSON.parse(greeting.body).content);
+            console.log(JSON.parse(greeting.body));
         });
     };
 
@@ -42,8 +42,24 @@ function disconnect() {
 function sendHello() {
     stompClient.publish({
         destination: "/app/hello",
-        body: JSON.stringify({'name': $("#name").val()})
+        body: JSON.stringify(
+            {
+                'name': $("#name").val(),
+                'age':5
+            }
+        )
     });
 }
 
-export {connect, disconnect, sendHello};
+function sendChord() {
+    let chord = {
+        "chord": [1,2,3]
+    };
+
+    stompClient.publish({
+        destination: "/app/chord",
+        body: JSON.stringify(chord)
+    });
+}
+
+export {connect, disconnect, sendHello, sendChord};

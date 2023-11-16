@@ -1,4 +1,4 @@
-import {connect, disconnect, sendHello} from "./stomp.js"
+import {connect, disconnect, sendHello, sendChord} from "./stomp.js"
 
 // function setConnected(connected) {
 //     $("#connect").prop("disabled", connected);
@@ -21,5 +21,5 @@ $(function () {
     $("form").on('submit', (e) => e.preventDefault());
     $( "#connect" ).click(() => connect());
     $( "#disconnect" ).click(() => disconnect());
-    $( "#send" ).click(() => sendHello());
+    $( "#send" ).click(() => sendChord());
 });
