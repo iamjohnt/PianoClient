@@ -25,8 +25,8 @@ function connect() {
     stompClient.onConnect = (frame) => {
         // setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/greetings', (greeting) => {
-            console.log(JSON.parse(greeting.body));
+        stompClient.subscribe('/topic/chord', (response) => {
+            console.log(JSON.parse(response.body));
         });
     };
 
