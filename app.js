@@ -1,8 +1,8 @@
 import {connect, disconnect, sendHello, sendChord} from "/stomp/stomp.js"
-import { connectMidi } from "/midi/midi.js";
+import { connectMidi, MidiConnection } from "/midi/midi.js";
 
-
-connectMidi();
+let mc = new MidiConnection();
+mc.connectMidi();
 
 // jquery
 $(function () {
