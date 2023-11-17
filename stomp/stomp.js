@@ -1,65 +1,71 @@
-const stompURL = 'ws://localhost:8081/ws';
-const stompDomain = 'ws://localhost:8080';
-const stompBrokerPath = '/chordresponse';
-const stompSendChordPath = '/chord'
+class StompConnection {
 
-let stompClient;
+    stompURL = 'ws://localhost:8081/ws';
+    stompDomain = 'ws://localhost:8080';
+    stompBrokerPath = '/chordresponse';
+    stompSendChordPath = '/chord'
 
-function connect() {
+    stompClient;
 
-    console.log("Attempting to connect...");
+    connectStomp = () => {
 
-    stompClient = new StompJs.Client({
-        brokerURL: stompURL
-    });
-      
-    stompClient.onWebSocketError = (error) => {
-        console.error('Error with websocket:', error);
-    };
+        console.log("Attempting to connect...");
 
-    stompClient.onStompError = (frame) => {
-        console.error('Broker reported error: ' + frame.headers['message']);
-        console.error('Additional details: ' + frame.body);
-    };
-
-    stompClient.onConnect = (frame) => {
-        // setConnected(true);
-        console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/chord', (response) => {
-            console.log(JSON.parse(response.body));
+        this.stompClient = new StompJs.Client({
+            brokerURL: this.stompURL
         });
-    };
+        
+        this.stompClient.onWebSocketError = (error) => {
+            console.error('Error with websocket:', error);
+        };
 
-    stompClient.activate();
+        this.stompClient.onStompError = (frame) => {
+            console.error('Broker reported error: ' + frame.headers['message']);
+            console.error('Additional details: ' + frame.body);
+        };
+
+        this.stompClient.onConnect = (frame) => {
+            // setConnected(true);
+            console.log('Connected: ' + frame);
+            // stompClient.subscribe('/topic/chord', (response) => {
+            //     console.log(JSON.parse(response.body));
+            // });
+            this.stompClient.subscribe('/topic/greetings', (response) => {
+                console.log(JSON.parse(response.body));
+            });
+        };
+
+        this.stompClient.activate();
+    }
+
+    disconnect = () => {
+        // this.stompClient.deactivate();
+        // setConnected(false);
+        // console.log("Disconnected");
+    }
+    
+    sendHello = () => {
+        this.stompClient.publish({
+            destination: "/app/hello",
+            body: JSON.stringify(
+                {
+                    'name': $("#name").val(),
+                    'age':5
+                }
+            )
+        });
+    }
+
+    sendChord = () => {
+        let chord = {
+            "chord": [1,2,3]
+        };
+    
+        this.stompClient.publish({
+            destination: "/app/chord",
+            body: JSON.stringify(chord)
+        });
+    }
 }
 
-function disconnect() {
-    // stompClient.deactivate();
-    // setConnected(false);
-    // console.log("Disconnected");
-}
-
-function sendHello() {
-    stompClient.publish({
-        destination: "/app/hello",
-        body: JSON.stringify(
-            {
-                'name': $("#name").val(),
-                'age':5
-            }
-        )
-    });
-}
-
-function sendChord() {
-    let chord = {
-        "chord": [1,2,3]
-    };
-
-    stompClient.publish({
-        destination: "/app/chord",
-        body: JSON.stringify(chord)
-    });
-}
-
-export {connect, disconnect, sendHello, sendChord};
+export {StompConnection};

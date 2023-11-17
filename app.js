@@ -1,13 +1,17 @@
-import {connect, disconnect, sendHello, sendChord} from "/stomp/stomp.js"
+import {StompConnection} from "/stomp/stomp.js"
 import {MidiConnection } from "/midi/midi.js";
 
 let mc = new MidiConnection();
 mc.connectMidi();
 
+let sc = new StompConnection();
+
+
+
 // jquery
 $(function () {
     $("form").on('submit', (e) => e.preventDefault());
-    $( "#connect" ).click(() => connect());
+    $( "#connect" ).click(() => sc.connectStomp());
     $( "#disconnect" ).click(() => disconnect());
-    $( "#send" ).click(() => sendChord());
+    $( "#send" ).click(() => sc.sendHello());
 });
