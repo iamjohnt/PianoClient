@@ -1,17 +1,17 @@
 import { Countdown } from "./countdown.js";
 
 class MidiConnection {
-    #noteBuffer = new Set();
+    noteBuffer = new Set();
 
-    #submitChord = () => {
+    submitChord = () => {
         console.log("mock send cord to database");
-        console.log(noteBuffer);
-        noteBuffer.clear();
+        console.log(this.noteBuffer);
+        this.noteBuffer.clear();
     }
 
-    #countDown = new Countdown(submitChord);
+    countDown = new Countdown(this.submitChord);
 
-    #logMidi = (message) => {
+    logMidi = (message) => {
         let timestamp = Date.now();
         let date = new Date(timestamp);
         console.info(
@@ -28,28 +28,28 @@ class MidiConnection {
         );
     }
 
-    #onMIDIMessage = (message) => {  
+    onMIDIMessage = (message) => {  
         if (message.data[0] == 144 && message.data[2] != 0) {
-            logMidi(message);
+            this.logMidi(message);
             let noteValue = message.data[1];
-            if (countdown.isActive == false) {
-                countdown.startCountdown();
+            if (this.countDown.isActive == false) {
+                this.countDown.startCountdown();
             } else {
-                countdown.refreshCountdown();
+                this.countDown.refreshCountdown();
             }
-            noteBuffer.add(noteValue);
+            this.noteBuffer.add(noteValue);
         }
     }
 
-    #success = (midi) => {
+    success = (midi) => {
         console.info("connected");
         var inputs = midi.inputs.values();
         for (var input = inputs.next(); input && !input.done; input = inputs.next()) {
-            input.value.onmidimessage = onMIDIMessage;
+            input.value.onmidimessage = this.onMIDIMessage;
         }
     }
     
-    #failure = () => {
+    failure = () => {
         console.error('No access to your midi devices.');
     }
     
@@ -57,10 +57,9 @@ class MidiConnection {
         console.info("connecting...")
         if (navigator.requestMIDIAccess) {
             navigator.requestMIDIAccess()
-                .then(success, failure);
+                .then(this.success, this.failure);
         }
     }
-
 }
 
-export {connectMidi, MidiConnection};
+export {MidiConnection};

@@ -1,5 +1,5 @@
 import {connect, disconnect, sendHello, sendChord} from "/stomp/stomp.js"
-import { connectMidi, MidiConnection } from "/midi/midi.js";
+import {MidiConnection } from "/midi/midi.js";
 
 let mc = new MidiConnection();
 mc.connectMidi();
