@@ -56,15 +56,17 @@ class StompConnection {
         });
     }
 
-    sendChord = () => {
-        let chord = {
-            "chord": [1,2,3]
-        };
-    
-        this.stompClient.publish({
-            destination: "/app/chord",
-            body: JSON.stringify(chord)
-        });
+    sendChord = (chord) => {
+        console.log("dummy sendChord from stomp");
+        console.log(chord);
+
+        // TODO i'm able to trigger this upon chord built, and log the cord
+        // now i need to actually send the chord to the server 
+
+        // this.stompClient.publish({
+        //     destination: "/app/chord",
+        //     body: JSON.stringify(chord)
+        // });
     }
 }
 

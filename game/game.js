@@ -3,9 +3,9 @@ import { Countdown } from "./countdown.js";
 class Game {
 
     constructor() {
-        this.countdown = new Countdown();
-        this.countdown.setOnCountdownDone(this.submitChord);
         this.chordBuffer = new Set();
+        this.countdown = new Countdown();
+        this.countdown.setOnCountdownDone(() => console.log("default onCountdownDone. please set new one"));
     }
 
     addNoteToChord = (message) => {
@@ -25,6 +25,16 @@ class Game {
     submitChord = () => {
         console.info("{" + Array.from(this.chordBuffer).join(', ') + "}");
         this.chordBuffer.clear();
+    }
+
+    setOnChordReady = (newHandler) => {
+        this.onChordReady = newHandler;
+        this.submitChord = () => {
+            console.info("{" + Array.from(this.chordBuffer).join(', ') + "}");
+            newHandler(this.chordBuffer);
+            this.chordBuffer.clear();
+        }
+        this.countdown.setOnCountdownDone(this.submitChord);
     }
 
 }

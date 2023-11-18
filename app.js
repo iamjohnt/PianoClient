@@ -3,6 +3,7 @@ import {MidiConnection } from "/midi/midi.js";
 import {Game} from "/game/game.js";
 
 let mc = new MidiConnection();
+let sc = new StompConnection();
 let game = new Game();
 
 
@@ -11,6 +12,10 @@ mc.setOnMIDIMessageHandler(
 );
 
 mc.connectMidiDevice();
+
+game.setOnChordReady(
+    sc.sendChord
+);
 
 
 // jquery
