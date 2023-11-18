@@ -1,11 +1,16 @@
-import {StompConnection} from "/stomp/stomp.js"
+import {StompConnection} from "/stomp/stomp.js";
 import {MidiConnection } from "/midi/midi.js";
+import {Game} from "/game/game.js";
 
 let mc = new MidiConnection();
-mc.connectMidi();
+let game = new Game();
 
-let sc = new StompConnection();
 
+mc.setOnMIDIMessageHandler(
+    game.addNoteToChord
+);
+
+mc.connectMidiDevice();
 
 
 // jquery
