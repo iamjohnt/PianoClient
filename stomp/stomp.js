@@ -25,11 +25,14 @@ class StompConnection {
         };
 
         this.stompClient.onConnect = (frame) => {
-            // setConnected(true);
+            
             console.log('Connected: ' + frame);
-            // stompClient.subscribe('/topic/chord', (response) => {
-            //     console.log(JSON.parse(response.body));
-            // });
+
+            this.stompClient.subscribe('/topic/chord', (response) => {
+                console.log("response received from stomp server")
+                console.log(JSON.parse(response.body));
+            });
+
             this.stompClient.subscribe('/topic/greetings', (response) => {
                 console.log(JSON.parse(response.body));
             });
@@ -56,17 +59,17 @@ class StompConnection {
         });
     }
 
-    sendChord = (chord) => {
-        console.log("dummy sendChord from stomp");
-        console.log(chord);
+    sendChord = (chordSet) => {
+        console.info("sending chord to stomp server...");
+        let chordArray = Array.from(chordSet);
+        let myChord = {
+            "chord": chordArray
+        }
 
-        // TODO i'm able to trigger this upon chord built, and log the cord
-        // now i need to actually send the chord to the server 
-
-        // this.stompClient.publish({
-        //     destination: "/app/chord",
-        //     body: JSON.stringify(chord)
-        // });
+        this.stompClient.publish({
+            destination: "/app/chord",
+            body: JSON.stringify(myChord)
+        });
     }
 }
 
