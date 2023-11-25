@@ -1,19 +1,19 @@
 import {StompConnection} from "/stomp/stomp.js";
 import {MidiConnection } from "/midi/midi.js";
-import {Game} from "/game/game.js";
+import {ChordBuffer} from "/game/chordBuffer.js";
 
 let mc = new MidiConnection();
 let sc = new StompConnection();
-let game = new Game();
+let chordBuffer = new ChordBuffer();
 
 
 mc.setOnMIDIMessageHandler(
-    game.addNoteToChord
+    chordBuffer.addNoteToChord
 );
 
 mc.connectMidiDevice();
 
-game.setOnChordReady(
+chordBuffer.setOnChordReady(
     sc.sendChord
 );
 

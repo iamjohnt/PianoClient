@@ -1,9 +1,9 @@
 import { Countdown } from "./countdown.js";
 
-class Game {
+class ChordBuffer {
 
     constructor() {
-        this.chordBuffer = new Set();
+        this.chord = new Set();
         this.countdown = new Countdown();
         this.countdown.setOnCountdownDone(() => console.log("default onCountdownDone. please set new one"));
     }
@@ -17,26 +17,26 @@ class Game {
             } else {
                 this.countdown.refreshCountdown();
             }
-            this.chordBuffer.add(noteValue);
+            this.chord.add(noteValue);
             console.info(noteValue);
         }
     }
 
     submitChord = () => {
-        console.info("{" + Array.from(this.chordBuffer).join(', ') + "}");
-        this.chordBuffer.clear();
+        console.info("{" + Array.from(this.chord).join(', ') + "}");
+        this.chord.clear();
     }
 
     setOnChordReady = (newHandler) => {
         this.onChordReady = newHandler;
         this.submitChord = () => {
-            console.info("{" + Array.from(this.chordBuffer).join(', ') + "}");
-            newHandler(this.chordBuffer);
-            this.chordBuffer.clear();
+            console.info("{" + Array.from(this.chord).join(', ') + "}");
+            newHandler(this.chord);
+            this.chord.clear();
         }
         this.countdown.setOnCountdownDone(this.submitChord);
     }
 
 }
 
-export {Game};
+export {ChordBuffer};
