@@ -71,6 +71,16 @@ class StompConnection {
             body: JSON.stringify(myChord)
         });
     }
+
+    sendGameSettings = (gameSettings) => {
+        console.info("sending game settings to stomp server...");
+
+        this.stompClient.publish({
+            destination: "/app/settings",
+            body: JSON.stringify(gameSettings)
+        });
+        console.log(gameSettings);
+    }
 }
 
 export {StompConnection};
