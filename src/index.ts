@@ -1,8 +1,7 @@
 import Phaser from 'phaser';
 import config from './ui/config';
 import GameScene from './ui/scenes/Game';
-
-import stomp: any from "./midi/midi";
+import { MidiConnection } from './midi/midi';
 
 new Phaser.Game(
   Object.assign(config, {
@@ -11,7 +10,7 @@ new Phaser.Game(
 );
 
 // non ui code
-console.log("asdf");
+console.log("qwer");
 let mc = new MidiConnection();
 let sc = new StompConnection();
 let chordBuffer = new ChordBuffer();

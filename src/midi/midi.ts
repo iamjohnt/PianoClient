@@ -1,30 +1,13 @@
-class MidiConnection {
+export class MidiConnection {
 
-    // logMidi = (message) => {
-    //     let timestamp = Date.now();
-    //     let date = new Date(timestamp);
-    //     console.info(
-    //         date.getFullYear() + "/" +
-    //         date.getMonth() + "/" +
-    //         date.getDay() + " " + 
-    //         date.getHours() + ":" +
-    //         date.getMinutes() + ":" + 
-    //         date.getSeconds() + ":" + 
-    //         date.getMilliseconds() + " midi data --- " + 
-    //         message.data[0] + " " + 
-    //         message.data[1] + " " + 
-    //         message.data[2]
-    //     );
-    // }
-
-    onMIDIMessageHandler = (message) => {
+    onMIDIMessageHandler = (message: any) => {
         if (message.data[0] == 144 || message.data[1] == 128) {
             console.log("default midi message handler. please explicitly set one via setOnMIDIMessageHandler()");
             console.log(message);
         }
     }
 
-    onConnectSuccess = (midi) => {
+    onConnectSuccess = (midi: any) => {
         console.info("connected");
         var inputs = midi.inputs.values();
         for (var input = inputs.next(); input && !input.done; input = inputs.next()) {
@@ -44,10 +27,8 @@ class MidiConnection {
         }
     }
 
-    setOnMIDIMessageHandler = (newHandler) => {
+    setOnMIDIMessageHandler = (newHandler: any) => {
         this.onMIDIMessageHandler = newHandler;
     }
 
 }
-
-export {MidiConnection};
