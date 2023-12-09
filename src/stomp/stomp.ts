@@ -1,39 +1,41 @@
-class StompConnection {
+import * as StompJsTypes from "@stomp/stompjs"
+
+export class StompConnection {
 
     stompURL = 'ws://localhost:8081/ws';
     stompDomain = 'ws://localhost:8080';
     stompBrokerPath = '/chordresponse';
     stompSendChordPath = '/chord'
 
-    stompClient;
+    stompClient: any;
 
     connectStomp = () => {
 
         console.log("Attempting to connect...");
 
-        this.stompClient = new StompJs.Client({
+        this.stompClient = new StompJsTypes.Client({
             brokerURL: this.stompURL
         });
         
-        this.stompClient.onWebSocketError = (error) => {
+        this.stompClient.onWebSocketError = (error: any) => {
             console.error('Error with websocket:', error);
         };
 
-        this.stompClient.onStompError = (frame) => {
+        this.stompClient.onStompError = (frame: any) => {
             console.error('Broker reported error: ' + frame.headers['message']);
             console.error('Additional details: ' + frame.body);
         };
 
-        this.stompClient.onConnect = (frame) => {
+        this.stompClient.onConnect = (frame: any) => {
             
             console.log('Connected: ' + frame);
 
-            this.stompClient.subscribe('/topic/chord', (response) => {
+            this.stompClient.subscribe('/topic/chord', (response: any) => {
                 console.log("response received from stomp server")
                 console.log(JSON.parse(response.body));
             });
 
-            this.stompClient.subscribe('/topic/greetings', (response) => {
+            this.stompClient.subscribe('/topic/greetings', (response: any) => {
                 console.log(JSON.parse(response.body));
             });
         };
@@ -47,19 +49,19 @@ class StompConnection {
         // console.log("Disconnected");
     }
     
-    sendHello = () => {
+    sendHello = (name: string, age: string) => {
         this.stompClient.publish({
             destination: "/app/hello",
             body: JSON.stringify(
                 {
-                    'name': $("#name").val(),
-                    'age':5
+                    'name': name,
+                    'age': age
                 }
             )
         });
     }
 
-    sendChord = (chordSet) => {
+    sendChord = (chordSet: any) => {
         console.info("sending chord to stomp server...");
         let chordArray = Array.from(chordSet);
         let myChord = {
@@ -72,7 +74,7 @@ class StompConnection {
         });
     }
 
-    sendGameSettings = (gameSettings) => {
+    sendGameSettings = (gameSettings: any) => {
         console.info("sending game settings to stomp server...");
 
         this.stompClient.publish({
@@ -82,5 +84,3 @@ class StompConnection {
         console.log(gameSettings);
     }
 }
-
-export {StompConnection};

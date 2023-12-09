@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import config from './ui/config';
 import GameScene from './ui/scenes/Game';
 import { MidiConnection } from './midi/midi';
+import { StompConnection } from './stomp/stomp';
 
 new Phaser.Game(
   Object.assign(config, {
