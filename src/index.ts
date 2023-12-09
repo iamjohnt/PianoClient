@@ -1,8 +1,17 @@
-import {StompConnection} from "/stomp/stomp.js";
-import {MidiConnection } from "/midi/midi.js";
-import {ChordBuffer} from "/game/chordBuffer.js";
-import { GameSettings } from "/game/gameSettings.js";
+import Phaser from 'phaser';
+import config from './ui/config';
+import GameScene from './ui/scenes/Game';
 
+import stomp: any from "./midi/midi";
+
+new Phaser.Game(
+  Object.assign(config, {
+    scene: [GameScene]
+  })
+);
+
+// non ui code
+console.log("asdf");
 let mc = new MidiConnection();
 let sc = new StompConnection();
 let chordBuffer = new ChordBuffer();
@@ -18,13 +27,10 @@ chordBuffer.setOnChordReady(
     sc.sendChord
 );
 
-
 let dummySendSettings = () => {
     let settings = new GameSettings();
     sc.sendHello();
 }
-
-
 
 // jquery
 $(function () {
