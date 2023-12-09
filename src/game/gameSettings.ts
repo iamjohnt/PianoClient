@@ -1,5 +1,15 @@
-class GameSettings {
+export class GameSettings {
 
+    public keySigNote;
+    public keySigMode;
+    public chordPool;
+    public whichHands;
+    public leftMin;
+    public leftMax;
+    public rightMin;
+    public rightMax;
+    public length;
+    
     constructor() {
         this.keySigNote = 'C';
         this.keySigMode = 'MAJOR';
@@ -13,9 +23,3 @@ class GameSettings {
     }
 
 }
-
-let asdf = new GameSettings();
-asdf.aa = "hello"
-console.log(asdf.aa)
-
-export {GameSettings};

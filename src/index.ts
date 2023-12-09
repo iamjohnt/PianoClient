@@ -3,6 +3,8 @@ import config from './ui/config';
 import GameScene from './ui/scenes/Game';
 import { MidiConnection } from './midi/midi';
 import { StompConnection } from './stomp/stomp';
+import * as $ from "jquery";
+import { GameSettings } from './game/gameSettings';
 
 new Phaser.Game(
   Object.assign(config, {
@@ -29,14 +31,14 @@ chordBuffer.setOnChordReady(
 
 let dummySendSettings = () => {
     let settings = new GameSettings();
-    sc.sendHello();
+    sc.sendHello("john", "5");
 }
 
 // jquery
 $(function () {
     $("form").on('submit', (e) => e.preventDefault());
-    $( "#connect" ).click(() => sc.connectStomp());
-    $( "#disconnect" ).click(() => disconnect());
-    $( "#send" ).click(() => sc.sendHello());
-    $( "#sendConfig" ).click(() => sc.sendGameSettings(new GameSettings()));
+    $( "#connect" ).on("click", () => sc.connectStomp());
+    $( "#disconnect" ).on("click", () => sc.disconnect());
+    $( "#send" ).on("click", () => sc.sendHello("john", "5"));
+    $( "#sendConfig" ).on("click", () => sc.sendGameSettings(new GameSettings()));
 });
