@@ -3,7 +3,7 @@ import config from './ui/config';
 import GameScene from './ui/scenes/Game';
 import { MidiConnection } from './midi/midi';
 import { StompConnection } from './stomp/stomp';
-import * as $ from "jquery";
+import J from "jquery";
 import { GameSettings } from './game/gameSettings';
 import { ChordBuffer } from './game/chordBuffer';
 
@@ -36,10 +36,10 @@ let dummySendSettings = () => {
 }
 
 // jquery
-$(function () {
-    $("form").on('submit', (e) => e.preventDefault());
-    $( "#connect" ).on("click", () => sc.connectStomp());
-    $( "#disconnect" ).on("click", () => sc.disconnect());
-    $( "#send" ).on("click", () => sc.sendHello("john", "5"));
-    $( "#sendConfig" ).on("click", () => sc.sendGameSettings(new GameSettings()));
+J(function () {
+    J("form").on('submit', (e) => e.preventDefault());
+    J( "#connect" ).on("click", () => sc.connectStomp());
+    J( "#disconnect" ).on("click", () => sc.disconnect());
+    J( "#send" ).on("click", () => sc.sendHello("john", "5"));
+    J( "#sendConfig" ).on("click", () => sc.sendGameSettings(new GameSettings()));
 });
