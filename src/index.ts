@@ -5,6 +5,7 @@ import { MidiConnection } from './midi/midi';
 import { StompConnection } from './stomp/stomp';
 import * as $ from "jquery";
 import { GameSettings } from './game/gameSettings';
+import { ChordBuffer } from './game/chordBuffer';
 
 new Phaser.Game(
   Object.assign(config, {

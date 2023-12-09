@@ -1,6 +1,10 @@
 import { Countdown } from "./countdown.js";
 
-class ChordBuffer {
+export class ChordBuffer {
+
+    chord;
+    countdown;
+    onChordReady: any;
 
     constructor() {
         this.chord = new Set();
@@ -8,7 +12,7 @@ class ChordBuffer {
         this.countdown.setOnCountdownDone(() => console.log("default onCountdownDone. please set new one"));
     }
 
-    addNoteToChord = (message) => {
+    addNoteToChord = (message: any) => {
         let isDownKey = message.data[0] == 144 && message.data[2] != 0;
         let noteValue = message.data[1];
         if (isDownKey) {
@@ -27,7 +31,7 @@ class ChordBuffer {
         this.chord.clear();
     }
 
-    setOnChordReady = (newHandler) => {
+    setOnChordReady = (newHandler: any) => {
         this.onChordReady = newHandler;
         this.submitChord = () => {
             console.info("{" + Array.from(this.chord).join(', ') + "}");
@@ -38,5 +42,3 @@ class ChordBuffer {
     }
 
 }
-
-export {ChordBuffer};

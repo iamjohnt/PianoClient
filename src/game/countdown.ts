@@ -1,11 +1,17 @@
-class Countdown {
+export class Countdown {
+
+    MAX_TIME_LEFT = 100;
+    TICK_INTERVAL = 10;
+    timeLeft;
+    isActive;
+    intervalId = 0;
+    onCountdownDone;
 
     constructor() {
         this.MAX_TIME_LEFT = 100;
         this.TICK_INTERVAL = 10;
         this.timeLeft = this.MAX_TIME_LEFT;
         this.isActive = false;
-        this.intervalId;
         this.onCountdownDone = () => console.log("default onCountdownDone. please set new one");
     }
 
@@ -37,10 +43,8 @@ class Countdown {
         console.debug("countdown refreshed");
     }
 
-    setOnCountdownDone = (newHandler) => {
+    setOnCountdownDone = (newHandler: any) => {
         this.onCountdownDone = newHandler;
     }
 
 }
-
-export {Countdown};
