@@ -4,7 +4,7 @@ export class Countdown {
     TICK_INTERVAL = 10;
     timeLeft;
     isActive;
-    intervalId = 0;
+    intervalId: any;
     onCountdownDone;
 
     constructor() {
