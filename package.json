@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "vite",
+    "test": "vitest",
     "build": "vite build",
     "serve": "vite preview"
   },
@@ -27,7 +28,8 @@
     "jquery": "^3.7.1",
     "phaser": "^3.55.2",
     "typescript": "^4.6.4",
-    "vite": "^2.9.13"
+    "vite": "^2.9.13",
+    "vitest": "^1.0.4"
   },
   "dependencies": {
     "@types/jquery": "^3.5.29"
