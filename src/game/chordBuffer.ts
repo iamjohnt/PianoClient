@@ -1,44 +1,28 @@
-import { Countdown } from "./countdown.js";
+import MidiMessage from "../midi/MidiMessage.js";
+import MidiObservable from "../midi/MidiObservable.js";
+import CountdownV2 from "./CountdownV2.js";
 
-export class ChordBuffer {
+export default class ChordBuffer implements MidiObservable{
 
-    chord;
-    countdown;
-    onChordReady: any;
+    private readonly MS_TILL_BUFFER_FLUSH: number = 100;
+    private chord: Set<number>;
+    private countdown: CountdownV2;
 
-    constructor() {
+    constructor(whenChordReadyHandler: (chord: Set<number>) => void) {
         this.chord = new Set();
-        this.countdown = new Countdown();
-        this.countdown.setOnCountdownDone(() => console.log("default onCountdownDone. please set new one"));
-    }
 
-    addNoteToChord = (message: any) => {
-        let isDownKey = message.data[0] == 144 && message.data[2] != 0;
-        let noteValue = message.data[1];
-        if (isDownKey) {
-            if (this.countdown.isActive == false) {
-                this.countdown.startCountdown();
-            } else {
-                this.countdown.refreshCountdown();
-            }
-            this.chord.add(noteValue);
-            console.info(noteValue);
+        let onCountdownDone = () => {
+            whenChordReadyHandler(this.chord);
         }
+        
+        this.countdown = new CountdownV2(onCountdownDone, this.MS_TILL_BUFFER_FLUSH);
     }
 
-    submitChord = () => {
-        console.info("{" + Array.from(this.chord).join(', ') + "}");
-        this.chord.clear();
-    }
-
-    setOnChordReady = (newHandler: any) => {
-        this.onChordReady = newHandler;
-        this.submitChord = () => {
-            console.info("{" + Array.from(this.chord).join(', ') + "}");
-            newHandler(this.chord);
-            this.chord.clear();
+    public onUpdate(midiMessage: MidiMessage) {
+        if (midiMessage.isNoteOn()) {
+            this.countdown.startOrRestartCountdown();
+            this.chord.add(midiMessage.getNote());
         }
-        this.countdown.setOnCountdownDone(this.submitChord);
     }
 
 }
