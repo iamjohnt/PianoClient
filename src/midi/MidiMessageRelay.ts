@@ -7,7 +7,7 @@ previously, they were together. now, unit tests can simulate new midi messages, 
 */
 export default class MidiConnectionRelay {
 
-    private observers: Array<MidiObservable>;
+    private observers: Array<MidiObservable> = new Array<MidiObservable>();
 
     constructor() {}
 
