@@ -2,3 +2,4 @@
 /node_modules
 /test/dummy.test.ts
 /notes.txt
+/.vscode
