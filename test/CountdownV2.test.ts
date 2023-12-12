@@ -1,4 +1,4 @@
-import CountdownV2 from "../src/game/CountdownTimeout";
+import CountdownV2 from "../src/game/CountdownV2";
 import {afterEach, beforeEach, describe, test, expect, it, vi} from "vitest";
 
 
@@ -15,7 +15,7 @@ afterEach(() => {
 
 describe('when countdown is done', () => {
 
-    it('mock should execute when timer done', () => {
+    it('mock should execute when timer done', (q) => {
         let ctdn = new CountdownV2(mock, 100);
         ctdn.startOrRestartCountdown();
         vi.runAllTimers()
