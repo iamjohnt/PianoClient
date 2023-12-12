@@ -4,7 +4,7 @@ import CountdownV2 from "./CountdownV2.js";
 
 export default class ChordBuffer implements MidiObservable{
 
-    private readonly MS_TILL_BUFFER_FLUSH: number = 100;
+    public readonly MS_TILL_BUFFER_FLUSH: number = 100;
     private chord: Set<number>;
     private countdown: CountdownV2;
 
