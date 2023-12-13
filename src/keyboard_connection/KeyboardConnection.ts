@@ -21,15 +21,7 @@ export default class KeyboardConnection {
     }
 
     public connectMidi = () => {
-
-    }
-
-    public disconnectMidi = () => {
-
-    }
-
-    public getMidiDevices = () => {
-        
+        this.midiConnection.connectMidiDevice();
     }
 
     public setOnConnectMidiSuccess = (newHandler: any) => {
@@ -39,5 +31,13 @@ export default class KeyboardConnection {
     public setOnConnectMidiFailure = (newHandler: any) => {
         this.midiConnection.setOnConnectFailure(newHandler);
     }
+
+    // public disconnectMidi = () => {
+    //     // set onmidimessage = undefined
+    // }
+
+    // public getMidiDevices = () => {
+    //     // todo
+    // }
 
 }
