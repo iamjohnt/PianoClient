@@ -13,6 +13,7 @@ export default class ChordBuffer implements MidiObservable{
 
         let onCountdownDone = () => {
             whenChordReadyHandler(this.chord);
+            this.chord.clear();
         }
         
         this.countdown = new CountdownV2(onCountdownDone, this.MS_TILL_BUFFER_FLUSH);
