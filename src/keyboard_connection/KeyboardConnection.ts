@@ -1,16 +1,26 @@
 import ChordBuffer from "./ChordBuffer"
 import MidiConnection from "./MidiConnection";
 import MidiConnectionRelay from "./MidiMessageRelay";
+import ChordObservable from "./ChordObservable";
 
 export default class KeyboardConnection {
 
     private chordBuffer: ChordBuffer;
     private midiConnection: MidiConnection;
     private midiConnectionRelay: MidiConnectionRelay;
+    private chordObservers: Array<ChordObservable> = new Array<ChordObservable>();
 
-    constructor(onChord: (chord: Set<number>) => void) {
+    constructor() {
 
-        this.chordBuffer = new ChordBuffer(onChord);
+        let onChordPrintIt = (chord: Set<number>): void => {
+            this.chordObservers.forEach(
+                (observer) => {
+                    observer.onUpdate(chord);
+                }
+            )
+        } 
+
+        this.chordBuffer = new ChordBuffer(this.notifyObservers);
         this.midiConnection = new MidiConnection();
         this.midiConnectionRelay = new MidiConnectionRelay();
 
@@ -30,6 +40,25 @@ export default class KeyboardConnection {
 
     public setOnConnectMidiFailure = (newHandler: any) => {
         this.midiConnection.setOnConnectFailure(newHandler);
+    }
+
+    public addObserver = (newObserver: ChordObservable) => {
+        this.chordObservers.push(newObserver);
+    }
+
+    public removeObserver = (observer: ChordObservable) => {
+        const index = this.chordObservers.indexOf(observer);
+        if (index !== -1) {
+          this.chordObservers.splice(index, 1);
+        }
+    }
+
+    private notifyObservers = (chord: Set<number>) => {
+        this.chordObservers.forEach(
+            (observer) => {
+                observer.onUpdate(chord);
+            }
+        )
     }
 
     // public disconnectMidi = () => {

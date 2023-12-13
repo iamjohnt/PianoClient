@@ -5,7 +5,9 @@ import { MidiConnection } from './keyboard_connection/midi';
 import { StompConnection } from './stomp/stomp';
 import J from "jquery";
 import { GameSettings } from './game/gameSettings';
-import { ChordBuffer } from './keyboard_connection/ChordBuffer';
+import KeyboardConnection from './keyboard_connection/KeyboardConnection';
+import ChordObservable from "./keyboard_connection/ChordObservable";
+
 
 new Phaser.Game(
   Object.assign(config, {
@@ -13,33 +15,42 @@ new Phaser.Game(
   })
 );
 
-// non ui code
-console.log("qwer");
-let mc = new MidiConnection();
-let sc = new StompConnection();
-let chordBuffer = new ChordBuffer();
+// // non ui code
+// console.log("qwer");
+// let mc = new MidiConnection();
+// let sc = new StompConnection();
+// let chordBuffer = new ChordBuffer();
 
 
-mc.setOnMIDIMessageHandler(
-    chordBuffer.addNoteToChord
-);
+// mc.setOnMIDIMessageHandler(
+//     chordBuffer.addNoteToChord
+// );
 
-mc.connectMidiDevice();
+// mc.connectMidiDevice();
 
-chordBuffer.setOnChordReady(
-    sc.sendChord
-);
+// chordBuffer.setOnChordReady(
+//     sc.sendChord
+// );
 
-let dummySendSettings = () => {
-    let settings = new GameSettings();
-    sc.sendHello("john", "5");
+// let dummySendSettings = () => {
+//     let settings = new GameSettings();
+//     sc.sendHello("john", "5");
+// }
+
+class chordObserver implements ChordObservable {
+  onUpdate(chord: Set<number>): void {
+      console.log(chord);
+  }
 }
+let keyboardConnection = new KeyboardConnection();
+keyboardConnection.addObserver(new chordObserver);
+keyboardConnection.connectMidi();
 
-// jquery
-J(function () {
-    J("form").on('submit', (e) => e.preventDefault());
-    J( "#connect" ).on("click", () => sc.connectStomp());
-    J( "#disconnect" ).on("click", () => sc.disconnect());
-    J( "#send" ).on("click", () => sc.sendHello("john", "5"));
-    J( "#sendConfig" ).on("click", () => sc.sendGameSettings(new GameSettings()));
-});
+// // jquery
+// J(function () {
+//     J("form").on('submit', (e) => e.preventDefault());
+//     J( "#connect" ).on("click", () => sc.connectStomp());
+//     J( "#disconnect" ).on("click", () => sc.disconnect());
+//     J( "#send" ).on("click", () => sc.sendHello("john", "5"));
+//     J( "#sendConfig" ).on("click", () => sc.sendGameSettings(new GameSettings()));
+// });
