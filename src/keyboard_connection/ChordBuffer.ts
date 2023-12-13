@@ -1,5 +1,5 @@
-import MidiMessage from "../midi/MidiMessage.js";
-import MidiObservable from "../midi/MidiObservable.js";
+import MidiMessage from "./MidiMessage.js";
+import MidiObservable from "./MidiObservable.js";
 import CountdownV2 from "./CountdownV2.js";
 
 export default class ChordBuffer implements MidiObservable{

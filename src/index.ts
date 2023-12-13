@@ -1,11 +1,11 @@
 import Phaser from 'phaser';
 import config from './ui/config';
 import GameScene from './ui/scenes/Game';
-import { MidiConnection } from './midi/midi';
+import { MidiConnection } from './keyboard_connection/midi';
 import { StompConnection } from './stomp/stomp';
 import J from "jquery";
 import { GameSettings } from './game/gameSettings';
-import { ChordBuffer } from './game/chordBuffer';
+import { ChordBuffer } from './keyboard_connection/ChordBuffer';
 
 new Phaser.Game(
   Object.assign(config, {

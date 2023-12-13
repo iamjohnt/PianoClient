@@ -1,7 +1,7 @@
 import {afterEach, beforeEach, describe, test, expect, it, vi} from "vitest";
-import MidiObservable from "../../src/midi/MidiObservable";
-import MidiMessage from "../../src/midi/MidiMessage";
-import MidiConnectionRelay from "../../src/midi/MidiMessageRelay";
+import MidiObservable from "../../src/keyboard_connection/MidiObservable";
+import MidiMessage from "../../src/keyboard_connection/MidiMessage";
+import MidiConnectionRelay from "../../src/keyboard_connection/MidiMessageRelay";
 import { exec } from "child_process";
 
 class ConcreteObserver implements MidiObservable{

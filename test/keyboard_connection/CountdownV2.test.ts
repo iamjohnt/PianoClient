@@ -1,4 +1,4 @@
-import CountdownV2 from "../src/game/CountdownV2";
+import CountdownV2 from "../../src/keyboard_connection/CountdownV2"
 import {afterEach, beforeEach, describe, test, expect, it, vi} from "vitest";
 
 

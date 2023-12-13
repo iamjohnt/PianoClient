@@ -1,8 +1,8 @@
 import {afterEach, beforeEach, describe, test, expect, it, vi} from "vitest";
-import MidiObservable from "../src/midi/MidiObservable";
-import MidiMessage from "../src/midi/MidiMessage";
-import MidiConnectionRelay from "../src/midi/MidiMessageRelay";
-import ChordBuffer from "../src/game/chordBuffer";
+import MidiObservable from "../../src/keyboard_connection/MidiObservable";
+import MidiMessage from "../../src/keyboard_connection/MidiMessage";
+import MidiConnectionRelay from "../../src/keyboard_connection/MidiMessageRelay";
+import ChordBuffer from "../../src/keyboard_connection/ChordBuffer";
 
 let mockOnChordReady = vi.fn((chord: Set<number>) => console.log("mock"));
 let relay: MidiConnectionRelay;
