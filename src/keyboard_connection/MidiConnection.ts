@@ -48,7 +48,7 @@ export default class MidiConnection {
             let velocity = message.data[2];
     
             let midiMsg: MidiMessage = new MidiMessage(status, note, velocity);
-            this.relay.receiveMidiMessage(message);
+            this.relay.receiveMidiMessage(midiMsg);
         }
     }
 
