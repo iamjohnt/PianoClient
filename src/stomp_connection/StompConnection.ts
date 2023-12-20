@@ -1,15 +1,19 @@
 import * as StompJsTypes from "@stomp/stompjs"
 
-export class StompConnection {
+export default class StompConnection {
 
-    stompURL = 'ws://localhost:8081/ws';
-    stompDomain = 'ws://localhost:8080';
-    stompBrokerPath = '/chordresponse';
-    stompSendChordPath = '/chord'
+    private stompURL = 'ws://localhost:8081/ws';
+    private stompDomain = 'ws://localhost:8080';
+    private stompBrokerPath = '/chordresponse';
+    private stompSendChordPath = '/chord'
 
-    stompClient: any;
+    private stompClient: any;
 
-    connectStomp = () => {
+    constructor(stompConnectionUrl: string) {
+        this.stompURL = stompConnectionUrl;
+    }
+
+    public connectStomp = () => {
 
         console.log("Attempting to connect...");
 
@@ -43,44 +47,28 @@ export class StompConnection {
         this.stompClient.activate();
     }
 
-    disconnect = () => {
-        // this.stompClient.deactivate();
-        // setConnected(false);
-        // console.log("Disconnected");
-    }
-    
-    sendHello = (name: string, age: string) => {
-        this.stompClient.publish({
-            destination: "/app/hello",
-            body: JSON.stringify(
-                {
-                    'name': name,
-                    'age': age
-                }
-            )
-        });
-    }
 
-    sendChord = (chordSet: any) => {
-        console.info("sending chord to stomp server...");
-        let chordArray = Array.from(chordSet);
-        let myChord = {
-            "chord": chordArray
+    public setOnWebSocketError = (callback: (error: any) => any) => {
+        this.stompClient.onWebSocketError = (error: any) => {
+            callback(error);
         }
-
-        this.stompClient.publish({
-            destination: "/app/chord",
-            body: JSON.stringify(myChord)
-        });
     }
 
-    sendGameSettings = (gameSettings: any) => {
-        console.info("sending game settings to stomp server...");
-
-        this.stompClient.publish({
-            destination: "/app/settings",
-            body: JSON.stringify(gameSettings)
-        });
-        console.log(gameSettings);
+    public setOnStompError = (callback: (frame: any) => any) => {
+        this.stompClient.onStompError = (frame: any) => {
+            callback(frame);
+        }
     }
+
+    public setOnConnectSuccess = (callback: (frame: any) => any) => {
+        this.stompClient.onConnect = (frame: any) => {
+            callback(frame);
+        }
+    }
+
+    public getStompClient = (): StompJsTypes.Client => {
+        return this.stompClient;
+    }
+
+
 }
