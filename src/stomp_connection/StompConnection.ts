@@ -13,38 +13,17 @@ export default class StompConnection {
         this.stompURL = stompConnectionUrl;
     }
 
-    public connectStomp = () => {
-
+    public connectStomp = (): StompJsTypes.Client => {
         console.log("Attempting to connect...");
 
         this.stompClient = new StompJsTypes.Client({
             brokerURL: this.stompURL
         });
-        
-        this.stompClient.onWebSocketError = (error: any) => {
-            console.error('Error with websocket:', error);
-        };
 
-        this.stompClient.onStompError = (frame: any) => {
-            console.error('Broker reported error: ' + frame.headers['message']);
-            console.error('Additional details: ' + frame.body);
-        };
-
-        this.stompClient.onConnect = (frame: any) => {
-            
-            console.log('Connected: ' + frame);
-
-            this.stompClient.subscribe('/topic/chord', (response: any) => {
-                console.log("response received from stomp server")
-                console.log(JSON.parse(response.body));
-            });
-
-            this.stompClient.subscribe('/topic/greetings', (response: any) => {
-                console.log(JSON.parse(response.body));
-            });
-        };
+        this.privateSetDefaultStompClientCallbacks(this.stompClient);
 
         this.stompClient.activate();
+        return this.stompClient;
     }
 
 
@@ -69,6 +48,34 @@ export default class StompConnection {
     public getStompClient = (): StompJsTypes.Client => {
         return this.stompClient;
     }
+
+    public privateSetDefaultStompClientCallbacks = (stompClient: StompJsTypes.Client) => {
+
+        stompClient.onWebSocketError = (error: any) => {
+            console.error('Error with websocket:', error);
+        };
+
+        stompClient.onStompError = (frame: any) => {
+            console.error('Broker reported error: ' + frame.headers['message']);
+            console.error('Additional details: ' + frame.body);
+        };
+
+        stompClient.onConnect = (frame: any) => {
+            
+            console.log('Connected: ' + frame);
+
+            stompClient.subscribe('/topic/chord', (response: any) => {
+                console.log("response received from stomp server")
+                console.log(JSON.parse(response.body));
+            });
+
+            stompClient.subscribe('/topic/greetings', (response: any) => {
+                console.log(JSON.parse(response.body));
+            });
+        };
+    }
+
+
 
 
 }
