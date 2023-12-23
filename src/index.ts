@@ -1,12 +1,14 @@
 import Phaser from 'phaser';
 import config from './ui/config';
 import GameScene from './ui/scenes/Game';
-import { MidiConnection } from './keyboard_connection/midi';
-import { StompConnection } from './stomp/stomp';
+import StompConnection from './stomp_connection/StompConnection';
 import J from "jquery";
-import { GameSettings } from './game/gameSettings';
+import { GameSettings } from './game/GameSettings';
 import KeyboardConnection from './keyboard_connection/KeyboardConnection';
 import ChordObservable from "./keyboard_connection/ChordObservable";
+import StompMethods from './stomp_connection/StompMethods';
+import KeyboardToServerCommunicationInterface from './stomp_connection/KeyboardToServerInterface';
+import { ChordPool, KeySigNote, KeySigMode, WhichHands } from './game/Enum';
 
 
 new Phaser.Game(
@@ -15,42 +17,48 @@ new Phaser.Game(
   })
 );
 
-// // non ui code
-// console.log("qwer");
-// let mc = new MidiConnection();
-// let sc = new StompConnection();
-// let chordBuffer = new ChordBuffer();
+
+// setup keyboard connection
+let kc = new KeyboardConnection();
+kc.connectMidi();
 
 
-// mc.setOnMIDIMessageHandler(
-//     chordBuffer.addNoteToChord
-// );
+// setup stomp connection
+let sc: StompConnection = new StompConnection('ws://localhost:8081/ws');
+let sm: StompMethods = new StompMethods();
 
-// mc.connectMidiDevice();
+// setup dumy game settings
+let gs: GameSettings = new GameSettings()
+  .setChordPool(ChordPool.NOTE)
+  .setKeySigNote(KeySigNote.C)
+  .setKeySigMode(KeySigMode.MAJOR)
+  .setWhichHands(WhichHands.RIGHT)
+  .setLeftMin(30)
+  .setLeftMax(48)
+  .setRightMin(50)
+  .setRightMax(72)
 
-// chordBuffer.setOnChordReady(
-//     sc.sendChord
-// );
-
-// let dummySendSettings = () => {
-//     let settings = new GameSettings();
-//     sc.sendHello("john", "5");
-// }
-
+// observer chords from keyboard connection
 class chordObserver implements ChordObservable {
   onUpdate(chord: Set<number>): void {
+      sm.sendChord(chord);
       console.log(chord);
   }
 }
-let keyboardConnection = new KeyboardConnection();
-keyboardConnection.addObserver(new chordObserver);
-keyboardConnection.connectMidi();
 
-// // jquery
-// J(function () {
-//     J("form").on('submit', (e) => e.preventDefault());
-//     J( "#connect" ).on("click", () => sc.connectStomp());
-//     J( "#disconnect" ).on("click", () => sc.disconnect());
-//     J( "#send" ).on("click", () => sc.sendHello("john", "5"));
-//     J( "#sendConfig" ).on("click", () => sc.sendGameSettings(new GameSettings()));
-// });
+kc.addObserver(new chordObserver);
+
+
+// assign methods to buttons
+J(function () {
+    J("form").on('submit', (e) => e.preventDefault());
+
+    J( "#connect" ).on("click", () => {
+      sc.connectStomp(); 
+      sm.setStompClient(sc.getStompClient());
+    });
+
+    J( "#send" ).on("click", () => sm.sendHello("john", "5"));
+    
+    J( "#sendConfig" ).on("click", () => sm.sendGameSettings(gs));
+});
