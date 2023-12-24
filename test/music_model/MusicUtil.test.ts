@@ -16,11 +16,11 @@ describe('when checking is a note is white or black key', () => {
 
     it('knows black keys from C4 - C7 are black keyes', () => {
         let util: MusicUtil = new MusicUtil();
-        expect(util.isWhiteKey(61)).toBe(false);
-        expect(util.isWhiteKey(63)).toBe(false);
-        expect(util.isWhiteKey(66)).toBe(false);
-        expect(util.isWhiteKey(68)).toBe(false);
-        expect(util.isWhiteKey(70)).toBe(false);
+        expect(util.isBlackKey(61)).toBe(true);
+        expect(util.isBlackKey(63)).toBe(true);
+        expect(util.isBlackKey(66)).toBe(true);
+        expect(util.isBlackKey(68)).toBe(true);
+        expect(util.isBlackKey(70)).toBe(true);
     })
 
     it('has edges A0 and C8', () => {
