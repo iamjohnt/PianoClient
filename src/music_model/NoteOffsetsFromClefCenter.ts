@@ -1,7 +1,7 @@
 import { Clef } from "./Enums";
 import MusicUtil from "./MusicUtil";
 
-export default class NotePositionsFromClefCenter {
+export default class NoteOffsetsFromClefCenter {
 
     private readonly D3 = 48;
     private readonly B4 = 71;
