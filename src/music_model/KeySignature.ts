@@ -121,4 +121,8 @@ export default class KeySignature {
 
         return keySig;
     }
+
+    public getAccidental = (): Accidental => {
+        return this.accidental;
+    }
 }
