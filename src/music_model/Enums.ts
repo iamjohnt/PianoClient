@@ -1,4 +1,4 @@
-export enum ClefEnum{
+export enum Clef{
     BASS_CLEF,
     TREBLE_CLEF
 }
