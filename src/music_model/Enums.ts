@@ -30,7 +30,8 @@ export enum KeySigMode {
 
 export enum Accidental {
     FLAT,
-    SHARP
+    SHARP,
+    NATURAL
 }
 
 export enum KeySigFull {
