@@ -1,18 +1,21 @@
 import TheoryChord from "./TheoryChord";
 import MusicUtil from "./MusicUtil";
 import KeySignature from "./KeySignature";
-import { Accidental, KeySigFull } from "./Enums";
+import { Accidental, Clef, KeySigFull } from "./Enums";
 import SheetNote from "./SheetNote"
 import SheetChord from "./SheetChord"
+import NotePositionsFromClefCenter from "./NotePositionsFromClefCenter";
 
 export default class TheoryToSheetChordConverter {
 
     private keySig: KeySignature;
     private util: MusicUtil;
+    private offsetsFromCenterMap: NotePositionsFromClefCenter;
     
-    constructor(keySig: KeySignature) {
+    constructor(keySig: KeySignature, clef: Clef) {
         this.keySig = keySig;
         this.util = new MusicUtil();
+        this.offsetsFromCenterMap = new NotePositionsFromClefCenter(clef);
     }
 
     public convertTheoryToSheetChord = (theoryChord: TheoryChord): SheetChord => {
@@ -40,14 +43,20 @@ export default class TheoryToSheetChordConverter {
 
     private getBlackKeySheetNote = (note: number): SheetNote => {
         if (this.keySig.getAccidental() == Accidental.FLAT) {
-            return new SheetNote(note + 1, Accidental.FLAT);
+
+            let adjustedNote = note + 1;
+            let posFromCenter = this.offsetsFromCenterMap.getPositionByNote(adjustedNote);
+            return new SheetNote(posFromCenter, Accidental.FLAT);
         } 
         else {
+            let adjustedNote = note - 1;
+            let posFromCenter = this.offsetsFromCenterMap.getPositionByNote(adjustedNote);
             return new SheetNote(note - 1, Accidental.SHARP);
         }
     }
 
     private getWhiteKeySheetNote = (note: number) => {
+        let posFromCenter = this.offsetsFromCenterMap.getPositionByNote(note);
         return new SheetNote(note, Accidental.NATURAL)
     }
 
