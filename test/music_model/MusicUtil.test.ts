@@ -30,3 +30,23 @@ describe('when checking is a note is white or black key', () => {
     })
 });
 
+describe('when getting list of white notes', () => {
+    it('has some white notes, does not have some black notes', () => {
+        let util: MusicUtil = new MusicUtil();
+        let whitenotes: Array<number> = util.getWhiteNotes();
+
+        expect(whitenotes[0]).toBe(21);
+        expect(whitenotes[1]).toBe(23);
+        expect(whitenotes[2]).toBe(24);
+        expect(whitenotes[3]).toBe(26);
+        expect(whitenotes[4]).toBe(28);
+        expect(whitenotes[5]).toBe(29);
+        expect(whitenotes[6]).toBe(31);
+        expect(whitenotes[7]).toBe(33);
+
+        expect(whitenotes[whitenotes.length - 1]).toBe(108);
+
+
+    })
+
+});
