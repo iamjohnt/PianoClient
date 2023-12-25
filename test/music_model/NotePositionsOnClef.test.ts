@@ -1,5 +1,5 @@
 import {afterEach, beforeEach, describe, test, expect, it, vi} from "vitest";
-import NoteOffsetsFromClefCenter from "../../src/music_model/NoteOffsetsFromClefCenter"
+import NoteOffsetsFromClefCenter from "../../src/music_model/NotePositionsOnClef"
 import { Clef } from "../../src/music_model/Enums";
 
 describe('', () => {

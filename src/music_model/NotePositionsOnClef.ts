@@ -1,7 +1,7 @@
 import { Clef } from "./Enums";
 import BlackWhiteKeys from "./BlackWhiteKeys";
 
-export default class NoteOffsetsFromClefCenter {
+export default class NotePositionsOnClef {
 
     private readonly D3 = 48;
     private readonly B4 = 71;
