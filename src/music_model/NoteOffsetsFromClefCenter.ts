@@ -1,5 +1,5 @@
 import { Clef } from "./Enums";
-import MusicUtil from "./MusicUtil";
+import BlackWhiteKeys from "./BlackWhiteKeys";
 
 export default class NoteOffsetsFromClefCenter {
 
@@ -18,7 +18,7 @@ export default class NoteOffsetsFromClefCenter {
         } else {
             this.center = this.B4;
         }
-        this.whiteKeys = new MusicUtil().getWhiteNotes();
+        this.whiteKeys = new BlackWhiteKeys().getWhiteNotes();
         this.centerIndex = this.getIndexOfNote(this.center, this.whiteKeys);
         this.populateMap();
     }

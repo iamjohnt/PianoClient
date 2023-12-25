@@ -1,6 +1,4 @@
-import { KeySigFull } from "./Enums";
-
-export default class MusicUtil {
+export default class BlackWhiteKeys {
 
     private whiteNotesSet: Set<number>;
     private whiteNotesArray: Array<number>;

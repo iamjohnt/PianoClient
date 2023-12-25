@@ -1,9 +1,9 @@
 import {afterEach, beforeEach, describe, test, expect, it, vi} from "vitest";
-import MusicUtil from "../../src/music_model/MusicUtil"
+import BlackWhiteKeys from "../../src/music_model/BlackWhiteKeys"
 
 describe('when checking is a note is white or black key', () => {
     it('knows white keys from C4 - C7 are white keyes', () => {
-        let util: MusicUtil = new MusicUtil();
+        let util: BlackWhiteKeys = new BlackWhiteKeys();
         expect(util.isWhiteKey(60)).toBe(true);
         expect(util.isWhiteKey(62)).toBe(true);
         expect(util.isWhiteKey(64)).toBe(true);
@@ -15,7 +15,7 @@ describe('when checking is a note is white or black key', () => {
     })
 
     it('knows black keys from C4 - C7 are black keyes', () => {
-        let util: MusicUtil = new MusicUtil();
+        let util: BlackWhiteKeys = new BlackWhiteKeys();
         expect(util.isBlackKey(61)).toBe(true);
         expect(util.isBlackKey(63)).toBe(true);
         expect(util.isBlackKey(66)).toBe(true);
@@ -24,7 +24,7 @@ describe('when checking is a note is white or black key', () => {
     })
 
     it('has edges A0 and C8', () => {
-        let util: MusicUtil = new MusicUtil();
+        let util: BlackWhiteKeys = new BlackWhiteKeys();
         expect(util.isWhiteKey(21)).toBe(true);
         expect(util.isWhiteKey(108)).toBe(true);
     })
@@ -32,7 +32,7 @@ describe('when checking is a note is white or black key', () => {
 
 describe('when getting list of white notes', () => {
     it('has some white notes, does not have some black notes', () => {
-        let util: MusicUtil = new MusicUtil();
+        let util: BlackWhiteKeys = new BlackWhiteKeys();
         let whitenotes: Array<number> = util.getWhiteNotes();
 
         expect(whitenotes[0]).toBe(21);
