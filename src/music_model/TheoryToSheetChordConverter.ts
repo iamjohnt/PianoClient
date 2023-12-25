@@ -4,7 +4,7 @@ import KeySignature from "./KeySignature";
 import { Accidental, Clef, KeySigFull } from "./Enums";
 import SheetNote from "./SheetNote"
 import SheetChord from "./SheetChord"
-import NoteOffsetsFromClefCenter from "./NotePositionsFromClefCenter";
+import NoteOffsetsFromClefCenter from "./NoteOffsetsFromClefCenter";
 
 export default class TheoryToSheetChordConverter {
 

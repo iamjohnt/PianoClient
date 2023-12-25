@@ -1,6 +1,6 @@
 import { Accidental } from "./Enums";
 
-export default class Note {
+export default class SheetNote {
 
     private accidental: Accidental;
     private sheetNote: number;

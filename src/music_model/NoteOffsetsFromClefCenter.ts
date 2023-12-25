@@ -12,6 +12,7 @@ export default class NoteOffsetsFromClefCenter {
     private map: Map<number, number>;
 
     constructor(clef: Clef) {
+        this.map = new Map();
         if (clef == Clef.BASS_CLEF) {
             this.center = this.D3;
         } else {
@@ -19,6 +20,7 @@ export default class NoteOffsetsFromClefCenter {
         }
         this.whiteKeys = new MusicUtil().getWhiteNotes();
         this.centerIndex = this.getIndexOfNote(this.center, this.whiteKeys);
+        this.populateMap();
     }
 
     public populateMap = () => {
@@ -29,7 +31,7 @@ export default class NoteOffsetsFromClefCenter {
         }
 
         pos = 0;
-        for (let i = this.centerIndex; i >= this.whiteKeys.length; i-- ) {
+        for (let i = this.centerIndex; i >= 0; i-- ) {
             this.map.set(this.whiteKeys[i], pos)
             pos--;
         }
