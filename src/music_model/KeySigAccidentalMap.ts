@@ -6,16 +6,18 @@ export default class KeySigAccidentalMap {
 
     constructor() {
 
+        this.keySigMap = new Map();
+
         // add mappings of key signatures to their accidentals
 
         // natural root major
-        this.keySigMap.set(this.concat(KeySigNote.C, KeySigMode.MAJOR), Accidental.SHARP)
+        this.keySigMap.set(this.concat(KeySigNote.C, KeySigMode.MAJOR), Accidental.FLAT)
         this.keySigMap.set(this.concat(KeySigNote.D, KeySigMode.MAJOR), Accidental.SHARP)
         this.keySigMap.set(this.concat(KeySigNote.E, KeySigMode.MAJOR), Accidental.SHARP)
         this.keySigMap.set(this.concat(KeySigNote.F, KeySigMode.MAJOR), Accidental.FLAT)
         this.keySigMap.set(this.concat(KeySigNote.G, KeySigMode.MAJOR), Accidental.SHARP)
         this.keySigMap.set(this.concat(KeySigNote.A, KeySigMode.MAJOR), Accidental.SHARP)
-        this.keySigMap.set(this.concat(KeySigNote.A, KeySigMode.MAJOR), Accidental.SHARP)
+        this.keySigMap.set(this.concat(KeySigNote.B, KeySigMode.MAJOR), Accidental.SHARP)
 
         // Natural Root Minor
         this.keySigMap.set(this.concat(KeySigNote.C, KeySigMode.MINOR), Accidental.FLAT)
@@ -23,7 +25,7 @@ export default class KeySigAccidentalMap {
         this.keySigMap.set(this.concat(KeySigNote.E, KeySigMode.MINOR), Accidental.SHARP)
         this.keySigMap.set(this.concat(KeySigNote.F, KeySigMode.MINOR), Accidental.FLAT)
         this.keySigMap.set(this.concat(KeySigNote.G, KeySigMode.MINOR), Accidental.FLAT)
-        this.keySigMap.set(this.concat(KeySigNote.A, KeySigMode.MINOR), Accidental.FLAT)
+        this.keySigMap.set(this.concat(KeySigNote.A, KeySigMode.MINOR), Accidental.SHARP)
         this.keySigMap.set(this.concat(KeySigNote.B, KeySigMode.MINOR), Accidental.SHARP)
 
         // Sharp Root Major
