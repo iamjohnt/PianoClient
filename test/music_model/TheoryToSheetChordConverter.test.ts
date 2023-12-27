@@ -6,20 +6,19 @@ import KeySignature from "../../src/music_model/KeySignature";
 import {Clef, KeySigFull, KeySigNote, KeySigMode, Accidental} from "../../src/music_model/Enums"
 import SheetNote from "../../src/music_model/SheetNote";
 
-describe('', () => {
-    it('', () => {
-        let keysig = new KeySignature(KeySigNote.C, KeySigMode.MINOR);
-        
-        let converter = new TheoryToSheetChordConverter(keysig, Clef.TREBLE_CLEF);
+describe('when c minor', () => {
+    it('accidental = flat and adjusted note is 4 intervals below B4 - so E4 FLAT', () => {        
+        let converter = new TheoryToSheetChordConverter(KeySigNote.C, KeySigMode.MINOR, Clef.TREBLE_CLEF);
 
-        let e_flat = new TheoryChord(63);
+        let e_flat_note = new TheoryChord(63);
 
-        let sheetChord: SheetChord = converter.convertTheoryToSheetChord(e_flat);
+        let sheetChord: SheetChord = converter.convertTheoryToSheetChord(e_flat_note);
 
         let thing: Set<SheetNote> = sheetChord.getSheetNotes();
 
         thing.forEach( (sheetNote: SheetNote) => { 
             expect(sheetNote.getAccidental()).toBe(Accidental.FLAT)
+            expect(sheetNote.getSheetNote()).toBe(-4)
         });
     })
 });
