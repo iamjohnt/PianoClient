@@ -1,7 +1,7 @@
 import TheoryChord from "./TheoryChord";
 import BlackWhiteKeys from "./BlackWhiteKeys";
 import KeySignature from "./KeySignature";
-import { Accidental, Clef, KeySigFull } from "./Enums";
+import { Accidental, Clef, KeySigMode, KeySigNote } from "./Enums";
 import SheetNote from "./SheetNote"
 import SheetChord from "./SheetChord"
 import NotePositionsOnClef from "./NotePositionsOnClef";
@@ -12,8 +12,8 @@ export default class TheoryToSheetChordConverter {
     private util: BlackWhiteKeys;
     private offsetsFromCenterMap: NotePositionsOnClef;
     
-    constructor(keySig: KeySignature, clef: Clef) {
-        this.keySig = keySig;
+    constructor(note: KeySigNote, mode: KeySigMode, clef: Clef) {
+        this.keySig = new KeySignature(note, mode);
         this.util = new BlackWhiteKeys();
         this.offsetsFromCenterMap = new NotePositionsOnClef(clef);
     }
