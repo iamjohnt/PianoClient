@@ -30,6 +30,8 @@ const game: Phaser.Game = new Phaser.Game(
 );
 
 game.scene.start('Game', gs)
+let gameScene: Phaser.Scene = game.scene.getScene('Game');
+
 
 
 // setup keyboard connection
