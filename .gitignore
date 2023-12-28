@@ -5,3 +5,4 @@
 /.vscode
 /coverage
 /test/dummy.ts
+/public
