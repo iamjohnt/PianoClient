@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import config from './ui/config';
-import GameScene from './ui/scenes/Game';
+import Game from './ui/scenes/Game';
 import StompConnection from './stomp_connection/StompConnection';
 import J from "jquery";
 import { GameSettings } from './game/GameSettings';
@@ -10,22 +10,6 @@ import StompMethods from './stomp_connection/StompMethods';
 import KeyboardToServerCommunicationInterface from './stomp_connection/KeyboardToServerInterface';
 import { ChordPool, KeySigNote, KeySigMode, WhichHands } from './game/Enum';
 
-
-new Phaser.Game(
-  Object.assign(config, {
-    scene: [GameScene]
-  })
-);
-
-
-// setup keyboard connection
-let kc = new KeyboardConnection();
-kc.connectMidi();
-
-
-// setup stomp connection
-let sc: StompConnection = new StompConnection('ws://localhost:8081/ws');
-let sm: StompMethods = new StompMethods();
 
 // setup dumy game settings
 let gs: GameSettings = new GameSettings()
@@ -37,6 +21,27 @@ let gs: GameSettings = new GameSettings()
   .setLeftMax(48)
   .setRightMin(50)
   .setRightMax(72)
+
+// phaser setup and start
+const game: Phaser.Game = new Phaser.Game(
+  Object.assign(config, {
+    scene: [Game]
+  })
+);
+
+game.scene.start('Game', gs)
+
+
+// setup keyboard connection
+let kc = new KeyboardConnection();
+kc.connectMidi();
+
+
+// setup stomp connection
+let sc: StompConnection = new StompConnection('ws://localhost:8081/ws');
+let sm: StompMethods = new StompMethods();
+
+
 
 // observer chords from keyboard connection
 class chordObserver implements ChordObservable {
