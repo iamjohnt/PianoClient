@@ -1,24 +1,39 @@
-import Phaser from 'phaser';
+import { WhichHands } from "../../game/Enum";
+import { GameSettings } from "../../game/GameSettings";
 
-export default class Demo extends Phaser.Scene {
-  constructor() {
-    super('GameScene');
-  }
+export default class Game extends Phaser.Scene{
 
-  preload() {
-    this.load.image('logo', 'assets/phaser3-logo.png');
-  }
+    private settings: GameSettings;
+    
+    constructor() {
+        super('Game');
+    }
 
-  create() {
-    const logo = this.add.image(400, 70, 'logo');
+    public init = (settings: GameSettings) => {
+      this.settings = settings;
+    }
 
-    this.tweens.add({
-      targets: logo,
-      y: 350,
-      duration: 1500,
-      ease: 'Sine.inOut',
-      yoyo: true,
-      repeat: -1
-    });
-  }
+    public preload = () => {
+      this.load.image('staff', 'assets/staff.png')
+      this.load.image('bass_clef', 'assets/bass_clef.png')
+      this.load.image('treble_clef', 'assets/treble_clef.png')
+      this.load.image('note', 'assets/note.png')
+    };
+    
+    public create = () => {
+      this.add.image(0, 0, 'staff').setOrigin(0,0);
+
+      if (this.settings.getWhichHands() == WhichHands.LEFT) {
+        this.add.image(0, 0, 'bass_clef').setOrigin(0,0);
+      }
+      else {
+        this.add.image(0, 0, 'treble_clef').setOrigin(0,0);
+      }
+    };
+
+    public update: () => {
+
+    };
+    
+
 }
