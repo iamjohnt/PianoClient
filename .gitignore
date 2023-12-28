@@ -1,1 +1,8 @@
+/dist
 /node_modules
+/test/dummy.test.ts
+/notes.txt
+/.vscode
+/coverage
+/test/dummy.ts
+/public
