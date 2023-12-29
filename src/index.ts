@@ -3,7 +3,7 @@ import config from './ui/config';
 import Game from './ui/scenes/Game';
 import StompConnection from './stomp_connection/StompConnection';
 import J from "jquery";
-import { GameSettings } from './game/gameSettings';
+import { GameSettings } from './game/GameSettings';
 import KeyboardConnection from './keyboard_connection/KeyboardConnection';
 import ChordObservable from "./keyboard_connection/ChordObservable";
 import StompMethods from './stomp_connection/StompMethods';

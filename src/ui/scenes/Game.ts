@@ -1,18 +1,21 @@
-import { WhichHands } from "../../game/Enum";
 import { GameSettings } from "../../game/GameSettings";
-import PhaserChordSpawner from "../PhaserChordSpawner";
+import MidiMessage from "../../keyboard_connection/MidiMessage";
+import GameContext from "./GameContext";
+import Queue from "../../data_structure/Queue";
 
 export default class Game extends Phaser.Scene{
 
     private settings: GameSettings;
+    private noteEventQ: Queue<MidiMessage>;
+
     
     constructor() {
       super({ key: 'Game' });
     }
 
-    public init = (chordSpawner: PhaserChordSpawner) => {
-      // this.settings = settings;
-      chordSpawner.addScene(this);
+    public init = (context: GameContext) => {
+      this.settings = context.settings;
+      this.noteEventQ = context.noteEventQ;
     }
 
     public preload = () => {
