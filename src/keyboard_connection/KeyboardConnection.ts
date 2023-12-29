@@ -2,6 +2,8 @@ import ChordBuffer from "./ChordBuffer"
 import MidiConnection from "./MidiConnection";
 import MidiConnectionRelay from "./MidiMessageRelay";
 import ChordObservable from "./ChordObservable";
+import MidiObservable from "./MidiObservable";
+import MidiMessage from "./MidiMessage";
 
 export default class KeyboardConnection {
 
@@ -9,6 +11,7 @@ export default class KeyboardConnection {
     private midiConnection: MidiConnection;
     private midiConnectionRelay: MidiConnectionRelay;
     private chordObservers: Array<ChordObservable> = new Array<ChordObservable>();
+    private noteObservers: Array<MidiObservable> = new Array<MidiObservable>();
 
     constructor() {
 
@@ -59,6 +62,14 @@ export default class KeyboardConnection {
                 observer.onUpdate(chord);
             }
         )
+    }
+
+    public addNoteObserver = (observer: MidiObservable) => {
+        this.midiConnectionRelay.addObserver(observer);
+    }
+
+    public removeNoteObserver = (observer: MidiObservable) => {
+        this.midiConnectionRelay.removeObserver(observer);
     }
 
     // public disconnectMidi = () => {
