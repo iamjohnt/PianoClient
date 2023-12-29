@@ -3,13 +3,13 @@ import config from './ui/config';
 import Game from './ui/scenes/Game';
 import StompConnection from './stomp_connection/StompConnection';
 import J from "jquery";
-import { GameSettings } from './game/GameSettings';
+import { GameSettings } from './game/gameSettings';
 import KeyboardConnection from './keyboard_connection/KeyboardConnection';
 import ChordObservable from "./keyboard_connection/ChordObservable";
 import StompMethods from './stomp_connection/StompMethods';
 import KeyboardToServerCommunicationInterface from './stomp_connection/KeyboardToServerInterface';
 import { ChordPool, KeySigNote, KeySigMode, WhichHands } from './game/Enum';
-
+import PhaserChordSpawner from './ui/PhaserChordSpawner';
 
 // setup dumy game settings
 let gs: GameSettings = new GameSettings()
@@ -29,8 +29,9 @@ const game: Phaser.Game = new Phaser.Game(
   })
 );
 
-game.scene.start('Game', gs)
-let gameScene: Phaser.Scene = game.scene.getScene('Game');
+let chordSpawner: PhaserChordSpawner = new PhaserChordSpawner();
+
+game.scene.start('Game', chordSpawner)
 
 
 
@@ -54,6 +55,7 @@ class chordObserver implements ChordObservable {
 }
 
 kc.addObserver(new chordObserver);
+kc.addObserver(chordSpawner);
 
 
 // assign methods to buttons

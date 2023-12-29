@@ -1,16 +1,18 @@
 import { WhichHands } from "../../game/Enum";
-import { GameSettings } from "../../game/GameSettings";
+import { GameSettings } from "../../game/gameSettings";
+import PhaserChordSpawner from "../PhaserChordSpawner";
 
 export default class Game extends Phaser.Scene{
 
     private settings: GameSettings;
     
     constructor() {
-        super('Game');
+      super({ key: 'Game' });
     }
 
-    public init = (settings: GameSettings) => {
-      this.settings = settings;
+    public init = (chordSpawner: PhaserChordSpawner) => {
+      // this.settings = settings;
+      chordSpawner.addScene(this);
     }
 
     public preload = () => {
@@ -22,13 +24,7 @@ export default class Game extends Phaser.Scene{
     
     public create = () => {
       this.add.image(0, 0, 'staff').setOrigin(0,0);
-
-      if (this.settings.getWhichHands() == WhichHands.LEFT) {
-        this.add.image(0, 0, 'bass_clef').setOrigin(0,0);
-      }
-      else {
-        this.add.image(0, 0, 'treble_clef').setOrigin(0,0);
-      }
+      this.add.image(0, 0, 'treble_clef').setOrigin(0,0);
     };
 
     public update: () => {
