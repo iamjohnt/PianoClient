@@ -6,18 +6,14 @@ import { GameObjects } from "phaser";
 
 export default class Game extends Phaser.Scene{
 
-    private settings: GameSettings;
-    private noteEventQ: Queue<MidiMessage>;
-    private text: GameObjects.Text | undefined;
+    private context: GameContext;
 
-    
     constructor() {
       super({ key: 'Game' });
     }
 
     public init = (context: GameContext) => {
-      this.settings = context.settings;
-      this.noteEventQ = context.noteEventQ;
+      this.context = context;
     }
 
     public preload = () => {
@@ -34,19 +30,9 @@ export default class Game extends Phaser.Scene{
 
     public update = () => {
       // todo
-      if (!this.noteEventQ.isEmpty()) {
+      if (!this.context.noteEventQ.isEmpty()) {
 
-          let noteEvent: MidiMessage = this.noteEventQ.dequeue();
-          
-          if (noteEvent.isNoteOn()) {
-            this.text = this.add.text(200, 200, 'hello');
-          }
-          else {
-            if (this.text) {
-              this.text.destroy();
-              this.text = undefined;        
-            }
-          }
+          let noteEvent: MidiMessage = this.context.noteEventQ.dequeue();
 
     };
   }
