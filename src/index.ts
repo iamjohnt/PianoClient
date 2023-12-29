@@ -9,10 +9,11 @@ import ChordObservable from "./keyboard_connection/ChordObservable";
 import StompMethods from './stomp_connection/StompMethods';
 import KeyboardToServerCommunicationInterface from './stomp_connection/KeyboardToServerInterface';
 import { ChordPool, KeySigNote, KeySigMode, WhichHands } from './game/Enum';
-import PhaserChordSpawner from './ui/PhaserChordSpawner';
+import PhaserNoteSpawner from './ui/PhaserChordSpawner';
+import GameContext from './ui/scenes/GameContext';
 
 // setup dumy game settings
-let gs: GameSettings = new GameSettings()
+let settings: GameSettings = new GameSettings()
   .setChordPool(ChordPool.NOTE)
   .setKeySigNote(KeySigNote.C)
   .setKeySigMode(KeySigMode.MAJOR)
@@ -22,22 +23,10 @@ let gs: GameSettings = new GameSettings()
   .setRightMin(50)
   .setRightMax(72)
 
-// phaser setup and start
-const game: Phaser.Game = new Phaser.Game(
-  Object.assign(config, {
-    scene: [Game]
-  })
-);
-
-let chordSpawner: PhaserChordSpawner = new PhaserChordSpawner();
-
-game.scene.start('Game', chordSpawner)
-
-
 
 // setup keyboard connection
-let kc = new KeyboardConnection();
-kc.connectMidi();
+let keyboard = new KeyboardConnection();
+keyboard.connectMidi();
 
 
 // setup stomp connection
@@ -45,17 +34,31 @@ let sc: StompConnection = new StompConnection('ws://localhost:8081/ws');
 let sm: StompMethods = new StompMethods();
 
 
-
-// observer chords from keyboard connection
+// connect keyboard -> stomp
 class chordObserver implements ChordObservable {
   onUpdate(chord: Set<number>): void {
       sm.sendChord(chord);
       console.log(chord);
   }
 }
+keyboard.addObserver(new chordObserver);
 
-kc.addObserver(new chordObserver);
-kc.addObserver(chordSpawner);
+// phaser setup and start
+const game: Phaser.Game = new Phaser.Game(
+  Object.assign(config, {
+    scene: [Game]
+  })
+);
+
+let gameSceneContext: GameContext = new GameContext();
+gameSceneContext.settings = settings;
+
+// connect keyboard -> phaser
+keyboard.addNoteObserver(gameSceneContext)
+
+game.scene.start('Game', gameSceneContext)
+
+
 
 
 // assign methods to buttons
@@ -69,5 +72,5 @@ J(function () {
 
     J( "#send" ).on("click", () => sm.sendHello("john", "5"));
     
-    J( "#sendConfig" ).on("click", () => sm.sendGameSettings(gs));
+    J( "#sendConfig" ).on("click", () => sm.sendGameSettings(settings));
 });

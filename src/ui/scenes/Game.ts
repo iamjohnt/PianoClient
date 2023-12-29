@@ -2,11 +2,13 @@ import { GameSettings } from "../../game/GameSettings";
 import MidiMessage from "../../keyboard_connection/MidiMessage";
 import GameContext from "./GameContext";
 import Queue from "../../data_structure/Queue";
+import { GameObjects } from "phaser";
 
 export default class Game extends Phaser.Scene{
 
     private settings: GameSettings;
     private noteEventQ: Queue<MidiMessage>;
+    private text: GameObjects.Text | undefined;
 
     
     constructor() {
@@ -30,9 +32,23 @@ export default class Game extends Phaser.Scene{
       this.add.image(0, 0, 'treble_clef').setOrigin(0,0);
     };
 
-    public update: () => {
+    public update = () => {
+      // todo
+      if (!this.noteEventQ.isEmpty()) {
+
+          let noteEvent: MidiMessage = this.noteEventQ.dequeue();
+          
+          if (noteEvent.isNoteOn()) {
+            this.text = this.add.text(200, 200, 'hello');
+          }
+          else {
+            if (this.text) {
+              this.text.destroy();
+              this.text = undefined;        
+            }
+          }
 
     };
-    
+  }
 
 }
