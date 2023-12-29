@@ -1,5 +1,5 @@
 import { WhichHands } from "../../game/Enum";
-import { GameSettings } from "../../game/gameSettings";
+import { GameSettings } from "../../game/GameSettings";
 import PhaserChordSpawner from "../PhaserChordSpawner";
 
 export default class Game extends Phaser.Scene{
