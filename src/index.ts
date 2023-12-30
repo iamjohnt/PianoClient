@@ -9,7 +9,6 @@ import ChordObservable from "./keyboard_connection/ChordObservable";
 import StompMethods from './stomp_connection/StompMethods';
 import KeyboardToServerCommunicationInterface from './stomp_connection/KeyboardToServerInterface';
 import { ChordPool, KeySigNote, KeySigMode, WhichHands } from './game/Enum';
-import PhaserNoteSpawner from './ui/PhaserChordSpawner';
 import GameContext from './ui/scenes/GameContext';
 
 // setup dumy game settings
