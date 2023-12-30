@@ -35,6 +35,7 @@ export default class Game extends Phaser.Scene{
 
         this.possiblePlayerSprites = this.populatePlayerNoteSprites();
 
+        console.log(this.possiblePlayerSprites);
     };
 
     public update = () => {
@@ -68,7 +69,7 @@ export default class Game extends Phaser.Scene{
         for (let i = key; i < 8; i++) {
             let y = staffCenterPos - (i * intervalDist);
             let curSprite: GameObjects.Sprite = this.add.sprite(600, y, 'note').setVisible(false)
-            sprites.set(key, curSprite)
+            sprites.set(i, curSprite)
         }
 
         return sprites;
