@@ -4,11 +4,13 @@ import { NoteOnOff } from "../../music_model/Enums";
 import SheetNote from "../../music_model/SheetNote";
 import GameContext from "./GameContext";
 import { GameObjects } from "phaser";
+import PlayerChordsManager from "./PlayerChordsManager";
 
 export default class Game extends Phaser.Scene{
 
     private context: GameContext;
     private possiblePlayerSprites: Map<number, GameObjects.Sprite>;
+    private playerChordsManager: PlayerChordsManager;
 
     constructor() {
         super({ key: 'Game' });
@@ -33,27 +35,14 @@ export default class Game extends Phaser.Scene{
         this.add.image(0, 0, 'staff').setOrigin(0,0);
         this.add.image(0, 0, 'clef').setOrigin(0,0);
 
-        this.possiblePlayerSprites = this.populatePlayerNoteSprites();
-
-        console.log(this.possiblePlayerSprites);
+        this.playerChordsManager = new PlayerChordsManager(this);
     };
 
     public update = () => {
         if (!this.context.noteEventQ.isEmpty()) {
 
             let noteEvent: SheetNote = this.context.noteEventQ.dequeue();
-
-            if (noteEvent.getOnOrOff() == NoteOnOff.ON) {
-                let noteSprite: GameObjects.Sprite | undefined = this.possiblePlayerSprites.get(noteEvent.getSheetNote());
-                if (noteSprite) {
-                    noteSprite.setVisible(true);
-                }
-            } else {
-                let noteSprite: GameObjects.Sprite | undefined = this.possiblePlayerSprites.get(noteEvent.getSheetNote());
-                if (noteSprite) {
-                    noteSprite.setVisible(false);
-                }
-            }
+            this.playerChordsManager.handleNoteOnOrOff(noteEvent);
         };
     }
 
