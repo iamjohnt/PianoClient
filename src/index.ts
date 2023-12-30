@@ -49,8 +49,7 @@ const game: Phaser.Game = new Phaser.Game(
   })
 );
 
-let gameSceneContext: GameContext = new GameContext();
-gameSceneContext.settings = settings;
+let gameSceneContext: GameContext = new GameContext(settings);
 
 // connect keyboard -> phaser
 keyboard.addNoteObserver(gameSceneContext)
