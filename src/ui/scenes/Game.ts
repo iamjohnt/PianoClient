@@ -40,8 +40,19 @@ export default class Game extends Phaser.Scene{
     public update = () => {
         if (!this.context.noteEventQ.isEmpty()) {
 
-            // let noteEvent: MidiMessage = this.context.noteEventQ.dequeue();
+            let noteEvent: SheetNote = this.context.noteEventQ.dequeue();
 
+            if (noteEvent.getOnOrOff() == NoteOnOff.ON) {
+                let noteSprite: GameObjects.Sprite | undefined = this.possiblePlayerSprites.get(noteEvent.getSheetNote());
+                if (noteSprite) {
+                    noteSprite.setVisible(true);
+                }
+            } else {
+                let noteSprite: GameObjects.Sprite | undefined = this.possiblePlayerSprites.get(noteEvent.getSheetNote());
+                if (noteSprite) {
+                    noteSprite.setVisible(false);
+                }
+            }
         };
     }
 
