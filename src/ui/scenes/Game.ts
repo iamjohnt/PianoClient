@@ -1,8 +1,5 @@
-import { GameSettings } from "../../game/GameSettings";
 import MidiMessage from "../../keyboard_connection/MidiMessage";
 import GameContext from "./GameContext";
-import Queue from "../../data_structure/Queue";
-import { GameObjects } from "phaser";
 
 export default class Game extends Phaser.Scene{
 

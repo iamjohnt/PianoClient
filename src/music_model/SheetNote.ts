@@ -1,11 +1,12 @@
-import { Accidental } from "./Enums";
+import { Accidental, NoteOnOff} from "./Enums";
 
 export default class SheetNote {
 
     private accidental: Accidental;
     private sheetNote: number;
+    private onOrOff: NoteOnOff;
 
-    constructor(sheet_note: number, accidental: Accidental) {
+    constructor(sheet_note: number, accidental: Accidental, onOrOff: NoteOnOff) {
         this.sheetNote = sheet_note;
         this.accidental = accidental;
     }
@@ -16,6 +17,10 @@ export default class SheetNote {
 
     public getAccidental = () => {
         return this.accidental;
+    }
+
+    public getOnOrOff = (): NoteOnOff => {
+        return this.onOrOff;
     }
 
 }
