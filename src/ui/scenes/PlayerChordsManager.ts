@@ -51,12 +51,12 @@ export default class PlayerChordsManager {
             } else if (spriteBelow?.x == 725 || spriteAbove?.x == 725) {
                 // collision on left, so place right
                 sprite?.setIsActive(true);
-                sprite?.setX(800)
+                sprite?.goRight()
                 sprite?.fadeIn()
             } else {
                 // collision on right, so place left
                 sprite?.setIsActive(true);
-                sprite?.setX(725)
+                sprite?.goLeft()
                 sprite?.fadeIn()
             }
         } else {
@@ -64,13 +64,13 @@ export default class PlayerChordsManager {
             let sprite: PlayerNote | undefined = this.possiblePlayerSprites.get(note);
             let spriteAbove: PlayerNote | undefined = this.possiblePlayerSprites.get(noteAbove);
             let spriteBelow: PlayerNote | undefined = this.possiblePlayerSprites.get(noteBelow);
-            
+
             sprite?.setIsActive(false);
-            sprite?.setX(800)
+            sprite?.goRight()
             sprite?.fadeOut();
             
-            spriteBelow?.setX(800)
-            spriteAbove?.setX(800)
+            spriteBelow?.goRight()
+            spriteAbove?.goRight()
             
         }
     }

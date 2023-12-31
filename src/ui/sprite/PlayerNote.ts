@@ -23,9 +23,29 @@ export default class PlayerNote extends Phaser.GameObjects.Sprite{
         this.scene.tweens.add({
           targets: this,
           alpha: 0,
-          duration: 25,
+          duration: 75,
           ease: 'Linear',
           onComplete: onCompleteCallback
+        });
+    }
+
+    public goRight = (onCompleteCallback?: Function) => {
+        this.scene.tweens.add({
+            targets: this,
+            x: 800,
+            duration: 75,
+            ease: 'Linear',
+            onComplete: onCompleteCallback
+        });
+    }
+
+    public goLeft = (onCompleteCallback?: Function) => {
+        this.scene.tweens.add({
+            targets: this,
+            x: 725,
+            duration: 75,
+            ease: 'Power1',
+            onComplete: onCompleteCallback
         });
     }
 
