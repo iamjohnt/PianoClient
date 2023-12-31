@@ -14,26 +14,8 @@ export default class PlayerChordsManager {
         this.possiblePlayerSprites = this.populatePlayerNoteSprites();
     }
 
-    public addNote = (sheetNote: SheetNote) => {
 
-        // if (willCollide) {
-        //     slotIn()
-        // } else {
-        //     add()
-        // }
-    }
-
-    public removeNote = (sheetNote: SheetNote) => {
-
-        // if (isCollide) {
-        //     tryCenterUp
-        //     tryCenterDown
-        // } else {
-        //     remove()
-        // }
-    }
-
-    public v2 = (noteEvent: SheetNote) => {
+    public handleNoteOnOrOff = (noteEvent: SheetNote) => {
         let onOff = noteEvent.getOnOrOff();
         let note = noteEvent.getSheetNote();
         let noteAbove = note + 1;
@@ -60,7 +42,7 @@ export default class PlayerChordsManager {
                 sprite?.fadeIn()
             }
         } else {
-            
+            // taking note off, so maybe all collided notes can reset? need to confirm, possible bug
             let sprite: PlayerNote | undefined = this.possiblePlayerSprites.get(note);
             let spriteAbove: PlayerNote | undefined = this.possiblePlayerSprites.get(noteAbove);
             let spriteBelow: PlayerNote | undefined = this.possiblePlayerSprites.get(noteBelow);
@@ -75,20 +57,6 @@ export default class PlayerChordsManager {
         }
     }
 
-    public handleNoteOnOrOff = (noteEvent: SheetNote) => {
-
-        if (noteEvent.getOnOrOff() == NoteOnOff.ON) {
-            let noteSprite: PlayerNote | undefined = this.possiblePlayerSprites.get(noteEvent.getSheetNote());
-            if (noteSprite) {
-                noteSprite.fadeIn(() => {})
-            }
-        } else {
-            let noteSprite: PlayerNote | undefined = this.possiblePlayerSprites.get(noteEvent.getSheetNote());
-            if (noteSprite) {
-                noteSprite.fadeOut(() => {})
-            }
-        }
-    }
 
     private populatePlayerNoteSprites = (): Map<number, PlayerNote> => {
 
@@ -101,7 +69,6 @@ export default class PlayerChordsManager {
 
         for (let i = key; i < 8; i++) {
             let y = staffCenterPos - (i * intervalDist);
-            // let curSprite: GameObjects.Sprite = this.scene.add.sprite(800, y, 'note').setVisible(false)
             let curSprite: PlayerNote = new PlayerNote(this.scene, 800, y, 'note');
             sprites.set(i, curSprite)
         }
