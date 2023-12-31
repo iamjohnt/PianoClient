@@ -32,6 +32,41 @@ export default class PlayerChordsManager {
         // }
     }
 
+    public v2 = (noteEvent: SheetNote) => {
+        let onOff = noteEvent.getOnOrOff();
+        let note = noteEvent.getSheetNote();
+        let noteAbove = note + 1;
+        let noteBelow = note - 1;
+
+        if (onOff == NoteOnOff.ON) {
+            let sprite: GameObjects.Sprite | undefined = this.possiblePlayerSprites.get(note);
+            let spriteAbove: GameObjects.Sprite | undefined = this.possiblePlayerSprites.get(noteAbove);
+            let spriteBelow: GameObjects.Sprite | undefined = this.possiblePlayerSprites.get(noteBelow);
+
+            if (spriteAbove?.visible == false && spriteBelow?.visible == false) {
+                // no collision
+                sprite?.setVisible(true);
+            } else if (spriteBelow?.x == 725 || spriteAbove?.x == 725) {
+                sprite?.setX(800)
+                sprite?.setVisible(true)
+            } else {
+                sprite?.setX(725)
+                sprite?.setVisible(true)
+            }
+        } else {
+            let sprite: GameObjects.Sprite | undefined = this.possiblePlayerSprites.get(note);
+            let spriteAbove: GameObjects.Sprite | undefined = this.possiblePlayerSprites.get(noteAbove);
+            let spriteBelow: GameObjects.Sprite | undefined = this.possiblePlayerSprites.get(noteBelow);
+
+            sprite?.setX(800)
+            sprite?.setVisible(false);
+            
+            spriteBelow?.setX(800)
+            spriteAbove?.setX(800)
+            
+        }
+    }
+
     public handleNoteOnOrOff = (noteEvent: SheetNote) => {
 
         if (noteEvent.getOnOrOff() == NoteOnOff.ON) {
@@ -58,7 +93,11 @@ export default class PlayerChordsManager {
 
         for (let i = key; i < 8; i++) {
             let y = staffCenterPos - (i * intervalDist);
-            let curSprite: GameObjects.Sprite = this.scene.add.sprite(600, y, 'note').setVisible(false)
+            let curSprite: GameObjects.Sprite = this.scene.add.sprite(800, y, 'note').setVisible(false)
+
+            curSprite.fadeIn = function() {
+
+            }
             sprites.set(i, curSprite)
         }
 
