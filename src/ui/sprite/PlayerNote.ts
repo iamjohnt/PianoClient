@@ -10,10 +10,10 @@ export default class PlayerNote extends Phaser.GameObjects.Sprite{
     public fadeIn = (onCompleteCallback?: Function) => {
         this.scene.tweens.add({
           targets: this,
-          alpha: 1, // Fade to fully visible
-          duration: 50, // Duration of the tween in milliseconds (default: 1000 ms)
-          ease: 'Linear', // Easing function (you can use other built-in easings)
-          onComplete: onCompleteCallback // Callback function when the tween completes
+          alpha: 1,
+          duration: 50,
+          ease: 'Linear',
+          onComplete: onCompleteCallback
         });
     }
 

@@ -1,11 +1,12 @@
 import { GameObjects } from "phaser";
 import SheetNote from "../../music_model/SheetNote";
 import { NoteOnOff } from "../../music_model/Enums";
+import PlayerNote from "../sprite/PlayerNote";
 
 export default class PlayerChordsManager {
 
     private scene: Phaser.Scene;
-    private possiblePlayerSprites: Map<number, GameObjects.Sprite>;
+    private possiblePlayerSprites: Map<number, PlayerNote>;
 
 
     constructor(scene: Phaser.Scene) {
@@ -70,21 +71,21 @@ export default class PlayerChordsManager {
     public handleNoteOnOrOff = (noteEvent: SheetNote) => {
 
         if (noteEvent.getOnOrOff() == NoteOnOff.ON) {
-            let noteSprite: GameObjects.Sprite | undefined = this.possiblePlayerSprites.get(noteEvent.getSheetNote());
+            let noteSprite: PlayerNote | undefined = this.possiblePlayerSprites.get(noteEvent.getSheetNote());
             if (noteSprite) {
-                noteSprite.setVisible(true);
+                noteSprite.fadeIn(() => {})
             }
         } else {
-            let noteSprite: GameObjects.Sprite | undefined = this.possiblePlayerSprites.get(noteEvent.getSheetNote());
+            let noteSprite: PlayerNote | undefined = this.possiblePlayerSprites.get(noteEvent.getSheetNote());
             if (noteSprite) {
-                noteSprite.setVisible(false);
+                noteSprite.fadeIn(() => {})
             }
         }
     }
 
-    private populatePlayerNoteSprites = (): Map<number, GameObjects.Sprite> => {
+    private populatePlayerNoteSprites = (): Map<number, PlayerNote> => {
 
-        let sprites: Map<number, GameObjects.Sprite> = new Map<number, GameObjects.Sprite>();
+        let sprites: Map<number, PlayerNote> = new Map<number, PlayerNote>();
 
         let staffCenterPos = 700;
         let intervalDist = 50;
@@ -93,11 +94,8 @@ export default class PlayerChordsManager {
 
         for (let i = key; i < 8; i++) {
             let y = staffCenterPos - (i * intervalDist);
-            let curSprite: GameObjects.Sprite = this.scene.add.sprite(800, y, 'note').setVisible(false)
-
-            curSprite.fadeIn = function() {
-
-            }
+            // let curSprite: GameObjects.Sprite = this.scene.add.sprite(800, y, 'note').setVisible(false)
+            let curSprite: PlayerNote = new PlayerNote(this.scene, 800, y, 'note');
             sprites.set(i, curSprite)
         }
 
