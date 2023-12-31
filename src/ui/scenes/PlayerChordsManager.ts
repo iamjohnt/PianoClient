@@ -40,27 +40,34 @@ export default class PlayerChordsManager {
         let noteBelow = note - 1;
 
         if (onOff == NoteOnOff.ON) {
-            let sprite: GameObjects.Sprite | undefined = this.possiblePlayerSprites.get(note);
-            let spriteAbove: GameObjects.Sprite | undefined = this.possiblePlayerSprites.get(noteAbove);
-            let spriteBelow: GameObjects.Sprite | undefined = this.possiblePlayerSprites.get(noteBelow);
+            let sprite: PlayerNote | undefined = this.possiblePlayerSprites.get(note);
+            let spriteAbove: PlayerNote | undefined = this.possiblePlayerSprites.get(noteAbove);
+            let spriteBelow: PlayerNote | undefined = this.possiblePlayerSprites.get(noteBelow);
 
-            if (spriteAbove?.visible == false && spriteBelow?.visible == false) {
+            if (spriteAbove?.getIsActive() == false && spriteBelow?.getIsActive() == false) {
                 // no collision
-                sprite?.setVisible(true);
+                sprite?.setIsActive(true);
+                sprite?.fadeIn()
             } else if (spriteBelow?.x == 725 || spriteAbove?.x == 725) {
+                // collision on left, so place right
+                sprite?.setIsActive(true);
                 sprite?.setX(800)
-                sprite?.setVisible(true)
+                sprite?.fadeIn()
             } else {
+                // collision on right, so place left
+                sprite?.setIsActive(true);
                 sprite?.setX(725)
-                sprite?.setVisible(true)
+                sprite?.fadeIn()
             }
         } else {
-            let sprite: GameObjects.Sprite | undefined = this.possiblePlayerSprites.get(note);
-            let spriteAbove: GameObjects.Sprite | undefined = this.possiblePlayerSprites.get(noteAbove);
-            let spriteBelow: GameObjects.Sprite | undefined = this.possiblePlayerSprites.get(noteBelow);
-
+            
+            let sprite: PlayerNote | undefined = this.possiblePlayerSprites.get(note);
+            let spriteAbove: PlayerNote | undefined = this.possiblePlayerSprites.get(noteAbove);
+            let spriteBelow: PlayerNote | undefined = this.possiblePlayerSprites.get(noteBelow);
+            
+            sprite?.setIsActive(false);
             sprite?.setX(800)
-            sprite?.setVisible(false);
+            sprite?.fadeOut();
             
             spriteBelow?.setX(800)
             spriteAbove?.setX(800)
@@ -78,7 +85,7 @@ export default class PlayerChordsManager {
         } else {
             let noteSprite: PlayerNote | undefined = this.possiblePlayerSprites.get(noteEvent.getSheetNote());
             if (noteSprite) {
-                noteSprite.fadeIn(() => {})
+                noteSprite.fadeOut(() => {})
             }
         }
     }

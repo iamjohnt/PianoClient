@@ -1,5 +1,7 @@
 export default class PlayerNote extends Phaser.GameObjects.Sprite{
 
+    private isActive: boolean = false;
+
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
         super(scene, x, y, texture);
     
@@ -11,7 +13,7 @@ export default class PlayerNote extends Phaser.GameObjects.Sprite{
         this.scene.tweens.add({
           targets: this,
           alpha: 1,
-          duration: 50,
+          duration: 75,
           ease: 'Linear',
           onComplete: onCompleteCallback
         });
@@ -21,10 +23,18 @@ export default class PlayerNote extends Phaser.GameObjects.Sprite{
         this.scene.tweens.add({
           targets: this,
           alpha: 0,
-          duration: 50,
+          duration: 25,
           ease: 'Linear',
           onComplete: onCompleteCallback
         });
+    }
+
+    public getIsActive = (): boolean => {
+        return this.isActive;
+    }
+
+    public setIsActive = (active: boolean) => {
+        this.isActive = active;
     }
     
 }

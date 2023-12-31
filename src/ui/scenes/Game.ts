@@ -42,7 +42,7 @@ export default class Game extends Phaser.Scene{
         if (!this.context.noteEventQ.isEmpty()) {
 
             let noteEvent: SheetNote = this.context.noteEventQ.dequeue();
-            this.playerChordsManager.handleNoteOnOrOff(noteEvent);
+            this.playerChordsManager.v2(noteEvent);
         };
     }
 
