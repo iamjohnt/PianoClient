@@ -81,3 +81,8 @@ export enum KeySigFull {
     A_FLAT_MINOR,
     B_FLAT_MINOR
 }
+
+export enum NoteOnOff {
+    ON,
+    OFF
+}
