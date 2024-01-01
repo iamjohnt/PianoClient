@@ -6,9 +6,10 @@ import MidiObservable from "../../keyboard_connection/MidiObservable";
 import { Clef } from "../../music_model/Enums";
 import MidiToSheetNote from "../../music_model/MidiToSheetNote";
 import SheetNote from "../../music_model/SheetNote";
+import ChordSequenceHandler from "../../stomp_connection/ChordSequenceHandler";
 import StartGameResponse from "../../stomp_connection/response_objects/StartGameResponse";
 
-export default class GameContext implements MidiObservable{
+export default class GameContext implements MidiObservable, ChordSequenceHandler{
     
     public settings: GameSettings;
     public noteEventQ: Queue<SheetNote>;
