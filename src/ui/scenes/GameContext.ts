@@ -20,7 +20,7 @@ export default class GameContext implements MidiObservable{
         this.converter = this.setupConvertor(settings);
     }
 
-    public onUpdate(midiMessage: MidiMessage): void {
+    public onUpdate = (midiMessage: MidiMessage): void => {
         let sheetNote: SheetNote = this.converter.getSheetNote(midiMessage);
         this.noteEventQ.enqueue(sheetNote);
     }
