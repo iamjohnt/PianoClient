@@ -6,6 +6,7 @@ import MidiObservable from "../../keyboard_connection/MidiObservable";
 import { Clef } from "../../music_model/Enums";
 import MidiToSheetNote from "../../music_model/MidiToSheetNote";
 import SheetNote from "../../music_model/SheetNote";
+import StartGameResponse from "../../stomp_connection/response_objects/StartGameResponse";
 
 export default class GameContext implements MidiObservable{
     
@@ -22,6 +23,18 @@ export default class GameContext implements MidiObservable{
     public onUpdate(midiMessage: MidiMessage): void {
         let sheetNote: SheetNote = this.converter.getSheetNote(midiMessage);
         this.noteEventQ.enqueue(sheetNote);
+    }
+
+    public handleChordSequence = (startGameResponse: StartGameResponse) => {
+        let chordSequenceString: string = ''
+        startGameResponse.chordSequence.forEach(wrapper => {
+            chordSequenceString += ' | '
+            let chord: Array<number> = wrapper.chordSet;
+            chord.forEach(note => {
+                chordSequenceString += ' ' + note.toString();
+            })
+        })
+        console.log(chordSequenceString);
     }
 
     private setupConvertor = (settings: GameSettings): MidiToSheetNote => {
