@@ -1,4 +1,7 @@
 import * as StompJsTypes from "@stomp/stompjs"
+import HelloResponse from "./response_objects/HelloResponse";
+import StartGameResponse from "./response_objects/StartGameResponse";
+import StompMethods from "./StompMethods";
 
 export default class StompConnection {
 
@@ -9,11 +12,13 @@ export default class StompConnection {
 
     private stompClient: any;
 
+    public stompMethods: StompMethods;
+
     constructor(stompConnectionUrl: string) {
         this.stompURL = stompConnectionUrl;
     }
 
-    public connectStomp = (): StompJsTypes.Client => {
+    public connectStomp = () => {
         console.log("Attempting to connect...");
 
         this.stompClient = new StompJsTypes.Client({
@@ -23,7 +28,8 @@ export default class StompConnection {
         this.privateSetDefaultStompClientCallbacks(this.stompClient);
 
         this.stompClient.activate();
-        return this.stompClient;
+
+        this.stompMethods = new StompMethods(this.stompClient);
     }
 
 
@@ -75,12 +81,24 @@ export default class StompConnection {
 
             stompClient.subscribe('/user/queue/hello', (response: any) => {
                 console.log("response received from stomp server")
-                console.log(JSON.parse(response.body));
+                let hello: HelloResponse = JSON.parse(response.body);
+                console.log(hello.content + "ayylmao")
             });
 
             stompClient.subscribe('/user/queue/startgame', (response: any) => {
                 console.log("response received from stomp server")
-                console.log(JSON.parse(response.body));
+                let startGameResponse: StartGameResponse = JSON.parse(response.body);
+                console.log(startGameResponse)
+
+                let chordSequenceString: string = ''
+                startGameResponse.chordSequence.forEach(wrapper => {
+                    chordSequenceString += ' | '
+                    let chord: Array<number> = wrapper.chordSet;
+                    chord.forEach(note => {
+                        chordSequenceString += ' ' + note.toString();
+                    })
+                })
+                console.log(chordSequenceString);
             });
         };
     }

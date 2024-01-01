@@ -43,8 +43,8 @@ export default class PlayerNote extends Phaser.GameObjects.Sprite{
         this.scene.tweens.add({
             targets: this,
             x: 725,
-            duration: 75,
-            ease: 'Power1',
+            duration: 125,
+            ease: 'Quint.easeIn',
             onComplete: onCompleteCallback
         });
     }

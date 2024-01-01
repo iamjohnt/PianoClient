@@ -5,7 +5,8 @@ export default class StompMethods implements KeyboardToServerCommunicationInterf
 
     private stompClient: Client;
 
-    constructor() {
+    constructor(client: Client) {
+        this.stompClient = client;
     }
     
     public sendHello = (name: string, age: string) => {
@@ -69,10 +70,6 @@ export default class StompMethods implements KeyboardToServerCommunicationInterf
             destination: "/app/endgame",
             body: JSON.stringify({endGame})
         });
-    }
-
-    public setStompClient = (client: Client) => {
-        this.stompClient = client;
     }
 
 
