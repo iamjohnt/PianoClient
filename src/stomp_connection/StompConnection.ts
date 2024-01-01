@@ -1,6 +1,7 @@
 import * as StompJsTypes from "@stomp/stompjs"
 import HelloResponse from "./response_objects/HelloResponse";
 import StartGameResponse from "./response_objects/StartGameResponse";
+import StompMethods from "./StompMethods";
 
 export default class StompConnection {
 
@@ -11,11 +12,13 @@ export default class StompConnection {
 
     private stompClient: any;
 
+    public stompMethods: StompMethods;
+
     constructor(stompConnectionUrl: string) {
         this.stompURL = stompConnectionUrl;
     }
 
-    public connectStomp = (): StompJsTypes.Client => {
+    public connectStomp = () => {
         console.log("Attempting to connect...");
 
         this.stompClient = new StompJsTypes.Client({
@@ -25,7 +28,8 @@ export default class StompConnection {
         this.privateSetDefaultStompClientCallbacks(this.stompClient);
 
         this.stompClient.activate();
-        return this.stompClient;
+
+        this.stompMethods = new StompMethods(this.stompClient);
     }
 
 
