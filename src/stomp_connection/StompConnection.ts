@@ -64,12 +64,21 @@ export default class StompConnection {
             
             console.log('Connected: ' + frame);
 
-            stompClient.subscribe('/topic/chord', (response: any) => {
+            stompClient.subscribe('/user/queue/chord', (response: any) => {
                 console.log("response received from stomp server")
                 console.log(JSON.parse(response.body));
             });
 
-            stompClient.subscribe('/user/queue/greetings', (response: any) => {
+            stompClient.subscribe('/user/queue/settings', (response: any) => {
+                console.log(JSON.parse(response.body));
+            });
+
+            stompClient.subscribe('/user/queue/hello', (response: any) => {
+                console.log("response received from stomp server")
+                console.log(JSON.parse(response.body));
+            });
+
+            stompClient.subscribe('/user/queue/hello', (response: any) => {
                 console.log("response received from stomp server")
                 console.log(JSON.parse(response.body));
             });
