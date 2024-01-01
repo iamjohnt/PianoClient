@@ -1,7 +1,6 @@
 import * as StompJsTypes from "@stomp/stompjs"
 import HelloResponse from "./response_objects/HelloResponse";
 import StartGameResponse from "./response_objects/StartGameResponse";
-import ChordWrapper from "./response_objects/ChordWrapper";
 
 export default class StompConnection {
 
