@@ -1,4 +1,5 @@
 import * as StompJsTypes from "@stomp/stompjs"
+import HelloResponse from "./response_objects/HelloResponse";
 
 export default class StompConnection {
 
@@ -75,7 +76,8 @@ export default class StompConnection {
 
             stompClient.subscribe('/user/queue/hello', (response: any) => {
                 console.log("response received from stomp server")
-                console.log(JSON.parse(response.body));
+                let hello: HelloResponse = JSON.parse(response.body);
+                console.log(hello.content + "ayylmao")
             });
 
             stompClient.subscribe('/user/queue/startgame', (response: any) => {
