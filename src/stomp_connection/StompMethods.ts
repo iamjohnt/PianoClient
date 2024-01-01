@@ -59,14 +59,14 @@ export default class StompMethods implements KeyboardToServerCommunicationInterf
 
     public startGame = (startGame: string) => {
         this.stompClient.publish({
-            destination: "/app/settings",
+            destination: "/app/startgame",
             body: JSON.stringify({startGame})
         });
     }
 
     public endGame = (endGame: string) => {
         this.stompClient.publish({
-            destination: "/app/settings",
+            destination: "/app/endgame",
             body: JSON.stringify({endGame})
         });
     }

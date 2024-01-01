@@ -46,7 +46,7 @@ export default class TestContainer extends Phaser.GameObjects.Container {
 
         // start a game
         this.createButton(0, 300, 'start game', () => {
-            this.stompMethods.startGameSession('starting game session');
+            this.stompMethods.startGame('starting game session');
         });
     }
   

@@ -78,7 +78,7 @@ export default class StompConnection {
                 console.log(JSON.parse(response.body));
             });
 
-            stompClient.subscribe('/user/queue/hello', (response: any) => {
+            stompClient.subscribe('/user/queue/startgame', (response: any) => {
                 console.log("response received from stomp server")
                 console.log(JSON.parse(response.body));
             });
