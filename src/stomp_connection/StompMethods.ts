@@ -1,5 +1,6 @@
 import { Client } from "@stomp/stompjs";
 import KeyboardToServerCommunicationInterface from "./KeyboardToServerInterface";
+import StartGameResponse from "./response_objects/StartGameResponse";
 
 export default class StompMethods implements KeyboardToServerCommunicationInterface{
 
@@ -69,6 +70,18 @@ export default class StompMethods implements KeyboardToServerCommunicationInterf
         this.stompClient.publish({
             destination: "/app/endgame",
             body: JSON.stringify({endGame})
+        });
+    }
+
+    // calbacks below ============================================================
+
+
+    public setOnStartGameResponse = (callback: Function) => {
+        this.stompClient.unsubscribe('/user/queue/startgame'); // remove any previous subscription callbacks
+        this.stompClient.subscribe('/user/queue/startgame', (response: any) => {
+            console.log("start game response received from stomp server")
+            let startGameResponse: StartGameResponse = JSON.parse(response.body);
+            callback(startGameResponse);
         });
     }
 
