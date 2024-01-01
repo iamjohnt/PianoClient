@@ -62,7 +62,6 @@ export default class KeyboardConnection {
         )
     }
 
-
     public addNoteObserver = (observer: MidiObservable) => {
         this.midiConnectionRelay.addObserver(observer);
     }

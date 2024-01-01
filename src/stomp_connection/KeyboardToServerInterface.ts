@@ -8,8 +8,8 @@ export default interface KeyboardToServerCommunicationInterface {
 
     sendGameSettings(gameSettings: GameSettings): void;
 
-    startGameSession(): void;
+    startGameSession(startSessionString: string): void;
 
-    endGameSession(): void;
+    endGameSession(endSessionString: string): void;
 
 }

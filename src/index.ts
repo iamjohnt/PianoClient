@@ -59,16 +59,16 @@ game.scene.start('Game', gameSceneContext)
 
 
 
-// assign methods to buttons
-J(function () {
-    J("form").on('submit', (e) => e.preventDefault());
+// // assign methods to buttons
+// J(function () {
+//     J("form").on('submit', (e) => e.preventDefault());
 
-    J( "#connect" ).on("click", () => {
-      sc.connectStomp(); 
-      sm.setStompClient(sc.getStompClient());
-    });
+//     J( "#connect" ).on("click", () => {
+//       sc.connectStomp(); 
+//       sm.setStompClient(sc.getStompClient());
+//     });
 
-    J( "#send" ).on("click", () => sm.sendHello("john", "5"));
+//     J( "#send" ).on("click", () => sm.sendHello("john", "5"));
     
-    J( "#sendConfig" ).on("click", () => sm.sendGameSettings(settings));
-});
+//     J( "#sendConfig" ).on("click", () => sm.sendGameSettings(settings));
+// });

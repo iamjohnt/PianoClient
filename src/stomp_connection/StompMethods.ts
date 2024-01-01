@@ -43,15 +43,35 @@ export default class StompMethods implements KeyboardToServerCommunicationInterf
         console.log(gameSettings);
     }
 
-    public startGameSession(): void {
-        
+    public startGameSession = (startSession: string) => {
+        this.stompClient.publish({
+            destination: "/app/startsession",
+            body: JSON.stringify({startSession})
+        });
     }
 
-    public endGameSession(): void {
-        
+    public endGameSession = (endSession: string) => {
+        this.stompClient.publish({
+            destination: "/app/endsession",
+            body: JSON.stringify({endSession})
+        });
     }
 
-    public setStompClient(client: Client) {
+    public startGame = (startGame: string) => {
+        this.stompClient.publish({
+            destination: "/app/startgame",
+            body: JSON.stringify({startGame})
+        });
+    }
+
+    public endGame = (endGame: string) => {
+        this.stompClient.publish({
+            destination: "/app/endgame",
+            body: JSON.stringify({endGame})
+        });
+    }
+
+    public setStompClient = (client: Client) => {
         this.stompClient = client;
     }
 

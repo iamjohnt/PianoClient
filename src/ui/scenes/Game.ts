@@ -2,6 +2,7 @@ import { WhichHands } from "../../game/Enum";
 import SheetNote from "../../music_model/SheetNote";
 import GameContext from "./GameContext";
 import PlayerChordsManager from "./PlayerChordsManager";
+import TestContainer from "../containers/TestContainer"
 
 export default class Game extends Phaser.Scene{
 
@@ -33,6 +34,7 @@ export default class Game extends Phaser.Scene{
         this.add.image(0, 0, 'staff').setOrigin(0,0);
         this.add.image(0, 0, 'clef').setOrigin(0,0);
         this.playerChordsManager = new PlayerChordsManager(this);
+        let gameTester: TestContainer = new TestContainer(this, 0, 0);
     };
 
     public update = () => {
