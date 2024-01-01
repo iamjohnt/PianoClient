@@ -30,13 +30,11 @@ keyboard.connectMidi();
 
 // setup stomp connection
 let sc: StompConnection = new StompConnection('ws://localhost:8081/ws');
-let sm: StompMethods = new StompMethods();
-
 
 // connect keyboard -> stomp
 class chordObserver implements ChordObservable {
   onUpdate(chord: Set<number>): void {
-      sm.sendChord(chord);
+      sc.stompMethods.sendChord(chord);
       console.log(chord);
   }
 }
