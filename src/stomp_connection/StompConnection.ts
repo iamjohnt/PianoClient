@@ -92,16 +92,7 @@ export default class StompConnection {
                 console.log("response received from stomp server")
                 let startGameResponse: StartGameResponse = JSON.parse(response.body);
                 console.log(startGameResponse)
-
-                let chordSequenceString: string = ''
-                startGameResponse.chordSequence.forEach(wrapper => {
-                    chordSequenceString += ' | '
-                    let chord: Array<number> = wrapper.chordSet;
-                    chord.forEach(note => {
-                        chordSequenceString += ' ' + note.toString();
-                    })
-                })
-                console.log(chordSequenceString);
+                this.chordSequenceHandler.handleChordSequence(startGameResponse)
             });
         };
     }
