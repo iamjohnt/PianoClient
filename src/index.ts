@@ -47,7 +47,14 @@ const game: Phaser.Game = new Phaser.Game(
   })
 );
 
+
 let gameSceneContext: GameContext = new GameContext(settings);
+
+// have game scene context listen for chord sequences
+game.registry.set('stompConnection', sc);
+sc.chordSequenceHandler = gameSceneContext;
+
+game.registry.set('stompConnection', sc);
 
 // connect keyboard -> phaser
 keyboard.addNoteObserver(gameSceneContext)

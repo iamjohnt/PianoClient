@@ -2,6 +2,7 @@ import * as StompJsTypes from "@stomp/stompjs"
 import HelloResponse from "./response_objects/HelloResponse";
 import StartGameResponse from "./response_objects/StartGameResponse";
 import StompMethods from "./StompMethods";
+import ChordSequenceHandler from "./ChordSequenceHandler";
 
 export default class StompConnection {
 
@@ -13,6 +14,8 @@ export default class StompConnection {
     private stompClient: any;
 
     public stompMethods: StompMethods;
+
+    public chordSequenceHandler: ChordSequenceHandler;
 
     constructor(stompConnectionUrl: string) {
         this.stompURL = stompConnectionUrl;
