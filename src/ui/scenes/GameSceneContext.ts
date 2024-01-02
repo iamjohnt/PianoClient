@@ -9,7 +9,7 @@ import SheetNote from "../../music_model/SheetNote";
 import ChordSequenceHandler from "../../stomp_connection/ChordSequenceHandler";
 import StartGameResponse from "../../stomp_connection/response_objects/StartGameResponse";
 
-export default class GameContext implements MidiObservable, ChordSequenceHandler{
+export default class GameSceneContext implements MidiObservable, ChordSequenceHandler{
     
     public settings: GameSettings;
     public noteEventQ: Queue<SheetNote>;

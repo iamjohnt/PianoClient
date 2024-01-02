@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import config from './ui/config';
-import Game from './ui/scenes/Game';
+import GameScene from './ui/scenes/GameScene';
 import StompConnection from './stomp_connection/StompConnection';
 import J from "jquery";
 import { GameSettings } from './game/GameSettings';
@@ -9,7 +9,7 @@ import ChordObservable from "./keyboard_connection/ChordObservable";
 import StompMethods from './stomp_connection/StompMethods';
 import KeyboardToServerCommunicationInterface from './stomp_connection/KeyboardToServerInterface';
 import { ChordPool, KeySigNote, KeySigMode, WhichHands } from './game/Enum';
-import GameContext from './ui/scenes/GameContext';
+import GameSceneContext from './ui/scenes/GameSceneContext';
 
 // setup dumy game settings
 let settings: GameSettings = new GameSettings()
@@ -43,12 +43,12 @@ keyboard.addObserver(new chordObserver);
 // phaser setup and start
 const game: Phaser.Game = new Phaser.Game(
   Object.assign(config, {
-    scene: [Game]
+    scene: [GameScene]
   })
 );
 
 
-let gameSceneContext: GameContext = new GameContext(settings);
+let gameSceneContext: GameSceneContext = new GameSceneContext(settings);
 
 // have game scene context listen for chord sequences
 game.registry.set('stompConnection', sc);
