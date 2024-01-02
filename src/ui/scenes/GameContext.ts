@@ -18,7 +18,11 @@ export default class GameContext implements MidiObservable, ChordSequenceHandler
     constructor(settings: GameSettings) {
         this.settings = settings;
         this.noteEventQ = new Queue<SheetNote>(200);
-        this.converter = this.setupConvertor(settings);
+        this.converter = new MidiToSheetNote(
+            settings.getKeySigNote(), 
+            settings.getKeySigMode(), 
+            settings.getWhichHands()
+        );
     }
 
     public onUpdate = (midiMessage: MidiMessage): void => {
@@ -36,20 +40,6 @@ export default class GameContext implements MidiObservable, ChordSequenceHandler
             })
         })
         console.log(chordSequenceString);
-    }
-
-    private setupConvertor = (settings: GameSettings): MidiToSheetNote => {
-        let note = this.settings.getKeySigNote();
-        let mode = this.settings.getKeySigMode();
-        let clef!: Clef;
-
-        if (this.settings.getWhichHands() == WhichHands.LEFT) {
-            clef = Clef.BASS_CLEF 
-        } else if (this.settings.getWhichHands() == WhichHands.RIGHT) {
-            clef = Clef.TREBLE_CLEF
-        }
-
-        return new MidiToSheetNote(note, mode, clef);
     }
     
 }

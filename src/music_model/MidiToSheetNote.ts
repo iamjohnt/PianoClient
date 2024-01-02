@@ -1,3 +1,4 @@
+import { WhichHands } from "../game/Enum";
 import MidiMessage from "../keyboard_connection/MidiMessage";
 import BlackWhiteKeys from "./BlackWhiteKeys";
 import { Accidental, Clef, KeySigMode, KeySigNote, NoteOnOff } from "./Enums";
@@ -11,9 +12,18 @@ export default class MidiToSheetNote {
     private util: BlackWhiteKeys;
     private offsetsFromCenterMap: NotePositionsOnClef;
 
-    constructor (note: KeySigNote, mode: KeySigMode, clef: Clef) {
+    constructor (note: KeySigNote, mode: KeySigMode, hand: WhichHands) {
         this.keySig = new KeySignature(note, mode);
         this.util = new BlackWhiteKeys();
+
+        let clef!: Clef;
+
+        if (hand == WhichHands.LEFT) {
+            clef = Clef.BASS_CLEF 
+        } else if (hand == WhichHands.RIGHT) {
+            clef = Clef.TREBLE_CLEF
+        }
+
         this.offsetsFromCenterMap = new NotePositionsOnClef(clef);
     }
 
