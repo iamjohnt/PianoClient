@@ -1,5 +1,5 @@
 class ChordWrapper {
-    public chordSet: Array<number>
+    public chord: Array<number>
 }
 
 export default class StartGameResponse {

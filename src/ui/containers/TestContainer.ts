@@ -13,7 +13,7 @@ export default class TestContainer extends Phaser.GameObjects.Container {
 
         // connect to stomp
         this.createButton(0, 0, 'connect', () => {
-            this.stompConnection = new StompConnection('ws://localhost:8081/ws');
+            this.stompConnection = scene.game.registry.get('stompConnection');
             this.stompConnection.connectStomp();
         });
         

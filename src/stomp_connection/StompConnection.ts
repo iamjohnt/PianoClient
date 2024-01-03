@@ -2,6 +2,7 @@ import * as StompJsTypes from "@stomp/stompjs"
 import HelloResponse from "./response_objects/HelloResponse";
 import StartGameResponse from "./response_objects/StartGameResponse";
 import StompMethods from "./StompMethods";
+import ChordSequenceHandler from "./ChordSequenceHandler";
 
 export default class StompConnection {
 
@@ -13,6 +14,8 @@ export default class StompConnection {
     private stompClient: any;
 
     public stompMethods: StompMethods;
+
+    public chordSequenceHandler: ChordSequenceHandler;
 
     constructor(stompConnectionUrl: string) {
         this.stompURL = stompConnectionUrl;
@@ -89,16 +92,7 @@ export default class StompConnection {
                 console.log("response received from stomp server")
                 let startGameResponse: StartGameResponse = JSON.parse(response.body);
                 console.log(startGameResponse)
-
-                let chordSequenceString: string = ''
-                startGameResponse.chordSequence.forEach(wrapper => {
-                    chordSequenceString += ' | '
-                    let chord: Array<number> = wrapper.chordSet;
-                    chord.forEach(note => {
-                        chordSequenceString += ' ' + note.toString();
-                    })
-                })
-                console.log(chordSequenceString);
+                this.chordSequenceHandler.handleChordSequence(startGameResponse)
             });
         };
     }
