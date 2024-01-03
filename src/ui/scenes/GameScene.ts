@@ -10,7 +10,7 @@ export default class GameScene extends Phaser.Scene{
     private playerChordsManager: PlayerChordsManager;
 
     constructor() {
-        super({ key: 'Game' });
+        super({ key: 'game' });
     }
 
     public init = (context: GameSceneContext) => {
