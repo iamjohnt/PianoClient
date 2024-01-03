@@ -84,16 +84,25 @@ class GameFlow {
 
     private game: Phaser.Game;
 
-    public goToWelcomeScreen = () => {
+    constructor() {
+        let keyboard = new KeyboardConnection();
+        let stomp = new StompConnection('ws://localhost:8081/ws');
+
         this.game = new Phaser.Game(
             Object.assign(config, {
-            scene: [WelcomeScene, SettingsScene, GameScene]
+                scene: [WelcomeScene, SettingsScene, GameScene]
             })
         );
-        this.game.scene.start('WelcomeScene')
+
+        this.game.registry.set('keyboard', keyboard);
+        this.game.registry.set('stomp', stomp);
     }
+    
+    public start = () => [
+        this.game.scene.start('WelcomeScene')
+    ]
 }
 
 const gameFlow = new GameFlow();
 
-gameFlow.goToWelcomeScreen();
+gameFlow.start()
