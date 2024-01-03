@@ -10,7 +10,10 @@ import StompMethods from './stomp_connection/StompMethods';
 import KeyboardToServerCommunicationInterface from './stomp_connection/KeyboardToServerInterface';
 import { ChordPool, KeySigNote, KeySigMode, WhichHands } from './game/Enum';
 import GameSceneContext from './ui/scenes/GameSceneContext';
+import WelcomeScene from './ui/scenes/welcome/WelcomeScene'
+import SettingsScene from './ui/scenes/settings/SettingsScene';
 
+/*
 // setup dumy game settings
 let settings: GameSettings = new GameSettings()
   .setChordPool(ChordPool.NOTE)
@@ -61,7 +64,7 @@ keyboard.addNoteObserver(gameSceneContext)
 
 game.scene.start('Game', gameSceneContext)
 
-
+*/
 
 
 // // assign methods to buttons
@@ -77,3 +80,20 @@ game.scene.start('Game', gameSceneContext)
     
 //     J( "#sendConfig" ).on("click", () => sm.sendGameSettings(settings));
 // });
+class GameFlow {
+
+    private game: Phaser.Game;
+
+    public goToWelcomeScreen = () => {
+        this.game = new Phaser.Game(
+            Object.assign(config, {
+            scene: [WelcomeScene, SettingsScene, GameScene]
+            })
+        );
+        this.game.scene.start('WelcomeScene')
+    }
+}
+
+const gameFlow = new GameFlow();
+
+gameFlow.goToWelcomeScreen();
