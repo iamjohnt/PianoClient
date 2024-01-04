@@ -1,6 +1,6 @@
-import { ChordPool, KeySigMode, KeySigNote, WhichHands } from "../../game/Enum";
-import { GameSettings } from "../../game/GameSettings";
-import StompConnection from "../../stomp_connection/StompConnection";
+import { ChordPool, KeySigMode, KeySigNote, WhichHands } from "../../../game/Enum";
+import { GameSettings } from "../../../game/GameSettings";
+import StompConnection from "../../../stomp_connection/StompConnection";
 
 
 export default class TestContainer extends Phaser.GameObjects.Container {

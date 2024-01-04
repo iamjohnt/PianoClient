@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
-import config from './ui/config';
-import GameScene from './ui/scenes/GameScene';
+import config from './phaser/config';
+import PlayScene from './phaser/scenes/play/PlayScene';
 import StompConnection from './stomp_connection/StompConnection';
 import J from "jquery";
 import { GameSettings } from './game/GameSettings';
@@ -9,9 +9,8 @@ import ChordObservable from "./keyboard_connection/ChordObservable";
 import StompMethods from './stomp_connection/StompMethods';
 import KeyboardToServerCommunicationInterface from './stomp_connection/KeyboardToServerInterface';
 import { ChordPool, KeySigNote, KeySigMode, WhichHands } from './game/Enum';
-import GameSceneContext from './ui/scenes/GameSceneContext';
-import WelcomeScene from './ui/scenes/welcome/WelcomeScene'
-import SettingsScene from './ui/scenes/settings/SettingsScene';
+import WelcomeScene from './phaser/scenes/welcome/WelcomeScene'
+import SettingsScene from './phaser/scenes/settings/SettingsScene';
 
 /*
 // setup dumy game settings
@@ -90,7 +89,7 @@ class GameFlow {
 
         this.game = new Phaser.Game(
             Object.assign(config, {
-                scene: [WelcomeScene, SettingsScene, GameScene]
+                scene: [WelcomeScene, SettingsScene, PlayScene]
             })
         );
 

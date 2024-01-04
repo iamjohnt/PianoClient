@@ -1,6 +1,4 @@
-import { GameSettings } from "../../../game/GameSettings";
-import GameSceneContext from "../GameSceneContext";
-import ObjectPositions from "../ObjectPositions";
+import ObjectPositions from "../../ObjectPositions";
 
 export default class GameScene extends Phaser.Scene{
 

@@ -2,8 +2,8 @@ import { ChordPool, KeySigMode, WhichHands } from "../../../game/Enum";
 import { GameSettings } from "../../../game/GameSettings";
 import KeyboardConnection from "../../../keyboard_connection/KeyboardConnection";
 import { KeySigNote } from "../../../music_model/Enums";
-import GameSceneContext from "../GameSceneContext";
-import ObjectPositions from "../ObjectPositions";
+import PlaySceneContext from "../play/PlaySceneContext";
+import ObjectPositions from "../../ObjectPositions";
 
 export default class SettingsScene extends Phaser.Scene{
 
@@ -55,7 +55,7 @@ export default class SettingsScene extends Phaser.Scene{
         const right_hand = this.createHandButton(0, 900, 'Right Hand', WhichHands.RIGHT)
 
         const submit = this.createButton(0, 1000, 'Submit Settings').on('pointerdown', () => {
-            let gameSceneContext = new GameSceneContext(this.settings)
+            let gameSceneContext = new PlaySceneContext(this.settings)
             this.keyboard.addNoteObserver(gameSceneContext) 
             this.scene.start('game', gameSceneContext)
         })

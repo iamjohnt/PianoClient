@@ -1,14 +1,14 @@
-import Queue from "../../data_structure/Queue";
-import { GameSettings } from "../../game/GameSettings";
-import MidiMessage from "../../keyboard_connection/MidiMessage";
-import MidiObservable from "../../keyboard_connection/MidiObservable";
-import MidiToSheetNote from "../../music_model/MidiToSheetNote";
-import SheetChord from "../../music_model/SheetChord";
-import SheetNote from "../../music_model/SheetNote";
-import ChordSequenceHandler from "../../stomp_connection/ChordSequenceHandler";
-import StartGameResponse from "../../stomp_connection/response_objects/StartGameResponse";
+import Queue from "../../../data_structure/Queue";
+import { GameSettings } from "../../../game/GameSettings";
+import MidiMessage from "../../../keyboard_connection/MidiMessage";
+import MidiObservable from "../../../keyboard_connection/MidiObservable";
+import MidiToSheetNote from "../../../music_model/MidiToSheetNote";
+import SheetChord from "../../../music_model/SheetChord";
+import SheetNote from "../../../music_model/SheetNote";
+import ChordSequenceHandler from "../../../stomp_connection/ChordSequenceHandler";
+import StartGameResponse from "../../../stomp_connection/response_objects/StartGameResponse";
 
-export default class GameSceneContext implements MidiObservable, ChordSequenceHandler{
+export default class PlaySceneContext implements MidiObservable, ChordSequenceHandler{
     
     public settings: GameSettings;
     public noteEventQ: Queue<SheetNote>;

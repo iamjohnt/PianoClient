@@ -1,7 +1,7 @@
 import { GameObjects } from "phaser";
-import SheetNote from "../../music_model/SheetNote";
-import { NoteOnOff } from "../../music_model/Enums";
-import PlayerNote from "../sprite/PlayerNote";
+import SheetNote from "../../../music_model/SheetNote";
+import { NoteOnOff } from "../../../music_model/Enums";
+import PlayerNote from "./PlayerNote";
 
 export default class PlayerChordsManager {
 

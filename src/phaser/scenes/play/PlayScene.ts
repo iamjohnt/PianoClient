@@ -1,19 +1,19 @@
-import { WhichHands } from "../../game/Enum";
-import SheetNote from "../../music_model/SheetNote";
-import GameSceneContext from "./GameSceneContext";
+import { WhichHands } from "../../../game/Enum";
+import SheetNote from "../../../music_model/SheetNote";
+import PlaySceneContext from "./PlaySceneContext";
 import PlayerChordsManager from "./PlayerChordsManager";
-import TestContainer from "../containers/TestContainer"
+import TestContainer from "./TestContainer"
 
-export default class GameScene extends Phaser.Scene{
+export default class PlayScene extends Phaser.Scene{
 
-    private context: GameSceneContext;
+    private context: PlaySceneContext;
     private playerChordsManager: PlayerChordsManager;
 
     constructor() {
         super({ key: 'game' });
     }
 
-    public init = (context: GameSceneContext) => {
+    public init = (context: PlaySceneContext) => {
         this.context = context;
     }
 
