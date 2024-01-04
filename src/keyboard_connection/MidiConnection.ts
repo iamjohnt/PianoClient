@@ -4,28 +4,37 @@ import MidiConnectionRelay from "./MidiMessageRelay";
 export default class MidiConnection {
 
     private relay: MidiConnectionRelay | undefined;
-    private onConnectSuccess = () => console.log("default onConnectSuccess2");
-    private onConnectFailure = () => console.log("default onConnectFailure");
+    private onConnectSuccess: (inputDevices: Array<MIDIInput>) => void
+    private onConnectFailure: (error: any) => void
 
     constructor(relay?: MidiConnectionRelay){
         this.relay = relay;
+        this.onConnectSuccess = (inputDevices: Array<MIDIInput>) => console.log(inputDevices);
+        this.onConnectFailure = (error) => console.log(error);
     }
 
-    private onConnectSuccessPrimary = (midi: any) => {
-        console.info("connected");
-        var inputs = midi.inputs.values();
-        for (var input = inputs.next(); input && !input.done; input = inputs.next()) {
-            input.value.onmidimessage = this.onMIDIMessageHandler;
-        }
-        this.onConnectSuccess();
-    }
-    
-    
-    public connectMidiDevice = () => {
-        console.info("connecting...")
-        if (navigator.requestMIDIAccess) {
-            navigator.requestMIDIAccess()
-                .then(this.onConnectSuccessPrimary, this.onConnectFailure);
+    public connectMidiDevice = async () => {
+        try {
+            // get connected midi devices
+            const midiAccess: MIDIAccess = await navigator.requestMIDIAccess();
+            const inputs: IterableIterator<MIDIInput> = midiAccess.inputs.values();
+            const inputDevices: Array<MIDIInput> = Array.from(inputs);
+        
+            // fail if none detected, otherwise listen for midi messages
+            if (inputDevices.length === 0) {
+                this.onConnectFailure('No connected midi devices');
+            } else {
+                inputDevices.forEach((device) => {
+                    if (device.name && device.manufacturer) {
+                        console.log(device.name + " " + device.manufacturer);
+                    }
+                    device.onmidimessage = this.onMIDIMessageHandler
+                })
+                this.onConnectSuccess(inputDevices)
+            }
+        } catch (error) {
+            console.error('Error accessing MIDI:', error);
+            this.onConnectFailure(error);
         }
     }
 
@@ -33,11 +42,11 @@ export default class MidiConnection {
         this.relay = relay;
     }
 
-    public setOnConnectSuccess = (newHandler: any) => {
+    public setOnConnectSuccess = (newHandler: (inputDevices: Array<MIDIInput>) => void) => {
         this.onConnectSuccess = newHandler;
     } 
 
-    public setOnConnectFailure = (newHandler: any) => {
+    public setOnConnectFailure = (newHandler: (error: any) => void) => {
         this.onConnectSuccess = newHandler;
     } 
 
