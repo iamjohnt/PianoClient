@@ -3,6 +3,7 @@ import KeyboardConnection from "../keyboard_connection/KeyboardConnection";
 import StompService from "../stomp_connection/StompService";
 import ObjectPositions from "./ObjectPositions";
 import PlaySceneContext from "./scenes/play/PlaySceneContext";
+import { KeyboardType } from "../game/Enum";
 
 export default class GameContext {
 
@@ -11,5 +12,6 @@ export default class GameContext {
     public keyboardConnection: KeyboardConnection | null = null;
     public gameSettings: GameSettings | null = null;
     public gameState: PlaySceneContext | null = null;
+    public keyboardType: KeyboardType | null = null;
 
 }

@@ -38,3 +38,9 @@ export enum WhichHands {
     RIGHT,
     BOTH
 }
+
+export enum KeyboardType {
+    VIRTUAL,
+    CONNECTED,
+    COMPUTER
+}

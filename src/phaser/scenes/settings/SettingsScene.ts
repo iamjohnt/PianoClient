@@ -1,4 +1,4 @@
-import { ChordPool, KeySigMode, WhichHands } from "../../../game/Enum";
+import { ChordPool, KeySigMode, KeyboardType, WhichHands } from "../../../game/Enum";
 import { GameSettings } from "../../../game/GameSettings";
 import { KeySigNote } from "../../../music_model/Enums";
 import SettingsResponse from "../../../stomp_connection/response_objects/SettingsResponse";
@@ -12,7 +12,6 @@ export default class SettingsScene extends Phaser.Scene{
 
     constructor() {
         super({ key: 'settings' });
-
         this.settings = new GameSettings()
             .setKeySigNote(KeySigNote.C)
             .setKeySigMode(KeySigMode.MAJOR)
@@ -28,9 +27,6 @@ export default class SettingsScene extends Phaser.Scene{
         console.log('settings scene init')
         console.log(this.context)
         this.context = context;
-        this.context.stompService?.stompIn.subscribeSettingsResponse((response: SettingsResponse) => {
-            console.log(response);
-        }) 
     }
 
     public preload = () => {
@@ -50,10 +46,18 @@ export default class SettingsScene extends Phaser.Scene{
         const left_hand = this.createButton(0, 800, 'Left Hand', () => this.settings.setWhichHands(WhichHands.LEFT))
         const right_hand = this.createButton(0, 900, 'Right Hand', () => this.settings.setWhichHands(WhichHands.RIGHT))
 
+        const visual_keyboard = this.createButton(1200, 200, 'Visual Keyboard', () => this.context.keyboardType = KeyboardType.VIRTUAL)
+        const connected_keyboard = this.createButton(1200, 600, 'Connected Keyboard', () => this.context.keyboardType = KeyboardType.CONNECTED)
+
         const submit = this.createButton(0, 1000, 'Submit Settings', () => {
             console.log(this.settings)
+            this.context.gameSettings = this.settings;
+
+            this.context.stompService?.stompIn.subscribeSettingsResponse((settings: SettingsResponse) => {
+                console.log(settings)
+                this.scene.start('game', this.settings)
+            })
             this.context.stompService?.stompOut.sendGameSettings(this.settings);
-            // this.scene.start('game', this.settings)
         })
     };
 
