@@ -4,6 +4,8 @@ import KeyboardConnection from "../../../keyboard_connection/KeyboardConnection"
 import { KeySigNote } from "../../../music_model/Enums";
 import PlaySceneContext from "../play/PlaySceneContext";
 import ObjectPositions from "../../ObjectPositions";
+import StompConnection from "../../../stomp_connection/StompConnection";
+import StompService from "../../../stomp_connection/StompService";
 
 export default class SettingsScene extends Phaser.Scene{
 
@@ -11,6 +13,7 @@ export default class SettingsScene extends Phaser.Scene{
     private pos: ObjectPositions;
     private settings: GameSettings;
     private keyboard: KeyboardConnection;
+    private stompService: StompService;
 
     constructor() {
         super({ key: 'settings' });
@@ -38,10 +41,8 @@ export default class SettingsScene extends Phaser.Scene{
         this.keyboard = this.registry.get('keyboard');
         this.keyboard.setOnConnectMidiFailure(() => console.log('no midi'))
         this.keyboard.setOnConnectMidiSuccess(() => console.log('yay midi!'))
-
-        const connect_midi = this.createButton(1000, 500, 'connect midi').on('pointerdown', () => {
-            this.keyboard.connectMidi();
-        })
+        this.keyboard.connectMidi();
+        this.stompService = this.connectStomp();
 
         const level_1 = this.createLevelButton(0, 100, 'Level 1 - NOTE', ChordPool.NOTE)
         const level_2 = this.createLevelButton(0, 200, 'Level 1 - INTERVAL', ChordPool.INTERVAL)
@@ -55,8 +56,12 @@ export default class SettingsScene extends Phaser.Scene{
         const right_hand = this.createHandButton(0, 900, 'Right Hand', WhichHands.RIGHT)
 
         const submit = this.createButton(0, 1000, 'Submit Settings').on('pointerdown', () => {
+
+            // pass object to thing
             let gameSceneContext = new PlaySceneContext(this.settings)
             this.keyboard.addNoteObserver(gameSceneContext) 
+
+            this.stompService.stompOut.startGameSession("anything")
             this.scene.start('game', gameSceneContext)
         })
 
@@ -65,6 +70,22 @@ export default class SettingsScene extends Phaser.Scene{
 
     public update = () => {
 
+    }
+
+    private connectStomp = (): StompService => {
+            // setup
+            let connection: StompConnection = this.registry.get('stomp');
+
+            connection.setOnStompError((error) => {console.log(error)})
+            connection.setOnWebSocketError((error) => {console.log(error)})
+
+            // stomp observe for chords
+            let stompService = new StompService(connection);
+            this.keyboard.addChordObserver(stompService);
+
+            // connect
+            connection.connectStomp();
+            return new StompService(connection)
     }
 
 

@@ -16,7 +16,7 @@ export default class KeyboardConnection {
         let onChordPrintIt = (chord: Set<number>): void => {
             this.chordObservers.forEach(
                 (observer) => {
-                    observer.onUpdate(chord);
+                    observer.onKeyboardChord(chord);
                 }
             )
         } 
@@ -43,7 +43,7 @@ export default class KeyboardConnection {
         this.midiConnection.setOnConnectFailure(newHandler);
     }
 
-    public addObserver = (newObserver: ChordObservable) => {
+    public addChordObserver = (newObserver: ChordObservable) => {
         this.chordObservers.push(newObserver);
     }
 
@@ -57,7 +57,7 @@ export default class KeyboardConnection {
     private notifyObservers = (chord: Set<number>) => {
         this.chordObservers.forEach(
             (observer) => {
-                observer.onUpdate(chord);
+                observer.onKeyboardChord(chord);
             }
         )
     }

@@ -1,3 +1,3 @@
 export default interface MidiObservable {
-    onUpdate(chord: Set<number>): void;
+    onKeyboardChord(chord: Set<number>): void;
 }
