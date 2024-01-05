@@ -8,16 +8,18 @@ import SheetNote from "../../../music_model/SheetNote";
 import ChordSequenceHandler from "../../../stomp_connection/ChordSequenceHandler";
 import StartGameResponse from "../../../stomp_connection/response_objects/StartGameResponse";
 
-export default class PlaySceneContext implements MidiObservable, ChordSequenceHandler{
+export default class GameState implements MidiObservable, ChordSequenceHandler{
     
-    public settings: GameSettings;
     public noteEventQ: Queue<SheetNote>;
-    private converter: MidiToSheetNote;
-    private lesson: Queue<SheetChord>;
+    public lessonChordQ: Queue<SheetChord>;
 
-    constructor(settings: GameSettings) {
-        this.settings = settings;
+    private converter: MidiToSheetNote;
+
+    constructor() {
         this.noteEventQ = new Queue<SheetNote>(200);
+    }
+
+    public setSettings = (settings: GameSettings) => {
         this.converter = new MidiToSheetNote(
             settings.getKeySigNote(), 
             settings.getKeySigMode(), 
@@ -34,7 +36,7 @@ export default class PlaySceneContext implements MidiObservable, ChordSequenceHa
 
         // init lesson
         let lessonLength = startGameResponse.chordSequence.length;
-        this.lesson = new Queue<SheetChord>(lessonLength);
+        this.lessonChordQ = new Queue<SheetChord>(lessonLength);
 
         // convert every chord to SheetChord, and add it to lesson
         startGameResponse.chordSequence.forEach(chordObj => {
@@ -44,9 +46,9 @@ export default class PlaySceneContext implements MidiObservable, ChordSequenceHa
                 let sheetNote: SheetNote = this.converter.getSheetNote(midiNote);
                 sheetChord.addNote(sheetNote);
             });
-            this.lesson.enqueue(sheetChord);
+            this.lessonChordQ.enqueue(sheetChord);
         })
-        console.log(this.lesson)
+        console.log(this.lessonChordQ)
     }
     
 }

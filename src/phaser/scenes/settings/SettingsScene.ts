@@ -1,9 +1,11 @@
 import { ChordPool, KeySigMode, KeyboardType, WhichHands } from "../../../game/Enum";
 import { GameSettings } from "../../../game/GameSettings";
+import KeyboardConnection from "../../../keyboard_connection/KeyboardConnection";
 import { KeySigNote } from "../../../music_model/Enums";
 import SettingsResponse from "../../../stomp_connection/response_objects/SettingsResponse";
 import GameContext from "../../GameContext";
 import ObjectPositions from "../../ObjectPositions";
+import GameState from "../play/GameState";
 
 export default class SettingsScene extends Phaser.Scene{
 
@@ -20,13 +22,13 @@ export default class SettingsScene extends Phaser.Scene{
             .setRightMin(50)
             .setRightMax(72)
             .setLength(30)
-        
     }
 
     public init = (context: GameContext) => {
         console.log('settings scene init')
         console.log(this.context)
         this.context = context;
+        this.context.gameState = new GameState();
     }
 
     public preload = () => {
@@ -46,18 +48,24 @@ export default class SettingsScene extends Phaser.Scene{
         const left_hand = this.createButton(0, 800, 'Left Hand', () => this.settings.setWhichHands(WhichHands.LEFT))
         const right_hand = this.createButton(0, 900, 'Right Hand', () => this.settings.setWhichHands(WhichHands.RIGHT))
 
-        const visual_keyboard = this.createButton(1200, 200, 'Visual Keyboard', () => this.context.keyboardType = KeyboardType.VIRTUAL)
-        const connected_keyboard = this.createButton(1200, 600, 'Connected Keyboard', () => this.context.keyboardType = KeyboardType.CONNECTED)
+        const visual_keyboard = this.createButton(1200, 200, 'Visual Keyboard', () => {
+            this.context.keyboardType = KeyboardType.VIRTUAL
+        })
+        
+        const connected_keyboard = this.createButton(1200, 600, 'Connected Keyboard', () => {
+            this.context.keyboardType = KeyboardType.CONNECTED;
+            let keyboard = new KeyboardConnection();
+            keyboard.setOnConnectMidiSuccess(() => {
+                if (this.context.gameState != null) {
+                    this.context.gameState.setSettings(this.settings)
+                    keyboard.addNoteObserver(this.context.gameState)
+                }
+            })
+            keyboard.connectMidi();
+        })
 
         const submit = this.createButton(0, 1000, 'Submit Settings', () => {
-            console.log(this.settings)
-            this.context.gameSettings = this.settings;
-
-            this.context.stompService?.stompIn.subscribeSettingsResponse((settings: SettingsResponse) => {
-                console.log(settings)
-                this.scene.start('game', this.settings)
-            })
-            this.context.stompService?.stompOut.sendGameSettings(this.settings);
+            this.sendSettingsToServerGoNextScene();
         })
     };
 
@@ -71,7 +79,18 @@ export default class SettingsScene extends Phaser.Scene{
             .setColor('black')
             .setInteractive()
             .on('pointerdown', callback)
-        }
+    }
+    
+    private sendSettingsToServerGoNextScene = () => {
+        console.log(this.settings)
+        this.context.settings = this.settings;
+
+        this.context.stompService?.stompIn.subscribeSettingsResponse((settings: SettingsResponse) => {
+            console.log(settings)
+            this.scene.start('game', this.context)
+        })
+        this.context.stompService?.stompOut.sendGameSettings(this.settings);
+    }
 
 
 }

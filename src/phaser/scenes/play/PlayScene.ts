@@ -1,19 +1,20 @@
 import { WhichHands } from "../../../game/Enum";
 import SheetNote from "../../../music_model/SheetNote";
-import PlaySceneContext from "./PlaySceneContext";
+import GameContext from "../../GameContext";
+import GameState from "./GameState";
 import PlayerChordsManager from "./PlayerChordsManager";
 import TestContainer from "./TestContainer"
 
 export default class PlayScene extends Phaser.Scene{
 
-    private context: PlaySceneContext;
+    private context: GameContext;
     private playerChordsManager: PlayerChordsManager;
 
     constructor() {
         super({ key: 'game' });
     }
 
-    public init = (context: PlaySceneContext) => {
+    public init = (context: GameContext) => {
         this.context = context;
     }
 
@@ -23,7 +24,7 @@ export default class PlayScene extends Phaser.Scene{
         this.load.image('line', 'assets/line.png')
 
 
-        if (this.context.settings.getWhichHands() == WhichHands.LEFT) {
+        if (this.context.settings?.getWhichHands() == WhichHands.LEFT) {
             this.load.image('clef', 'assets/bass.png')
         } else {
             this.load.image('clef', 'assets/treble.png')
@@ -34,13 +35,15 @@ export default class PlayScene extends Phaser.Scene{
         this.add.image(0, 0, 'staff').setOrigin(0,0);
         this.add.image(0, 0, 'clef').setOrigin(0,0);
         this.playerChordsManager = new PlayerChordsManager(this);
-        let gameTester: TestContainer = new TestContainer(this, 0, 0);
     };
 
     public update = () => {
-        if (!this.context.noteEventQ.isEmpty()) {
-            let noteEvent: SheetNote = this.context.noteEventQ.dequeue();
-            this.playerChordsManager.handleNoteOnOrOff(noteEvent);
+        if (!this.context.gameState?.noteEventQ.isEmpty()) {
+            let noteEvent: SheetNote;
+            if (this.context.gameState != null) {
+                noteEvent = this.context.gameState?.noteEventQ.dequeue();
+                this.playerChordsManager.handleNoteOnOrOff(noteEvent);
+            }
         };
     }
 
