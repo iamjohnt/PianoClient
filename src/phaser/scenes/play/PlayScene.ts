@@ -1,5 +1,7 @@
 import { WhichHands } from "../../../game/Enum";
+import KeyboardConnection from "../../../keyboard_connection/KeyboardConnection";
 import SheetNote from "../../../music_model/SheetNote";
+import StompService from "../../../stomp_connection/StompService";
 import GameContext from "../../GameContext";
 import GameState from "./GameState";
 import PlayerChordsManager from "./PlayerChordsManager";
@@ -8,6 +10,9 @@ import TestContainer from "./TestContainer"
 export default class PlayScene extends Phaser.Scene{
 
     private context: GameContext;
+    private stomp: StompService;
+    private keyboard: KeyboardConnection; 
+    private state: GameState;
     private playerChordsManager: PlayerChordsManager;
 
     constructor() {
@@ -16,6 +21,16 @@ export default class PlayScene extends Phaser.Scene{
 
     public init = (context: GameContext) => {
         this.context = context;
+
+        if (context.stompService != null) {
+            this.stomp = context.stompService;
+        }
+        if (context.keyboardConnection != null) {
+            this.keyboard = context.keyboardConnection;
+        }
+        if (context.gameState != null) {
+            this.state = context.gameState;
+        }
     }
 
     public preload = () => {
