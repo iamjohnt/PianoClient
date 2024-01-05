@@ -1,23 +1,17 @@
 import { ChordPool, KeySigMode, WhichHands } from "../../../game/Enum";
 import { GameSettings } from "../../../game/GameSettings";
-import KeyboardConnection from "../../../keyboard_connection/KeyboardConnection";
 import { KeySigNote } from "../../../music_model/Enums";
-import PlaySceneContext from "../play/PlaySceneContext";
+import SettingsResponse from "../../../stomp_connection/response_objects/SettingsResponse";
+import GameContext from "../../GameContext";
 import ObjectPositions from "../../ObjectPositions";
-import StompConnection from "../../../stomp_connection/StompConnection";
-import StompService from "../../../stomp_connection/StompService";
 
 export default class SettingsScene extends Phaser.Scene{
 
-
-    private pos: ObjectPositions;
+    private context: GameContext;
     private settings: GameSettings;
-    private keyboard: KeyboardConnection;
-    private stompService: StompService;
 
     constructor() {
         super({ key: 'settings' });
-        this.pos = new ObjectPositions();
 
         this.settings = new GameSettings()
             .setKeySigNote(KeySigNote.C)
@@ -30,7 +24,14 @@ export default class SettingsScene extends Phaser.Scene{
         
     }
 
-    // public init = () => {}
+    public init = (context: GameContext) => {
+        console.log('settings scene init')
+        console.log(this.context)
+        this.context = context;
+        this.context.stompService?.stompIn.subscribeSettingsResponse((response: SettingsResponse) => {
+            console.log(response);
+        }) 
+    }
 
     public preload = () => {
 
@@ -38,78 +39,35 @@ export default class SettingsScene extends Phaser.Scene{
     
     public create = () => {
 
-        this.keyboard = this.registry.get('keyboard');
-        this.keyboard.setOnConnectMidiFailure(() => console.log('no midi'))
-        this.keyboard.setOnConnectMidiSuccess(() => console.log('yay midi!'))
-        this.keyboard.connectMidi();
-        this.stompService = this.connectStomp();
+        const level_1 = this.createButton(0, 100, 'Level 1 - NOTE', () => {this.settings.setChordPool(ChordPool.NOTE)});
+        const level_2 = this.createButton(0, 200, 'Level 2 - INTERVAL', () => {this.settings.setChordPool(ChordPool.INTERVAL)});
+        const level_3 = this.createButton(0, 300, 'Level 3 - TRIAD', () => {this.settings.setChordPool(ChordPool.TRIAD)});
+        const level_4 = this.createButton(0, 400, 'Level 4 - TETRAD', () => {this.settings.setChordPool(ChordPool.TETRAD)});
+        const level_5 = this.createButton(0, 500, 'Level 5 - NOTE_INTERVAL', () => {this.settings.setChordPool(ChordPool.NOTE_INTERVAL)});
+        const level_6 = this.createButton(0, 600, 'Level 6 - NOTE_INTERVAL_TRIAD', () => {this.settings.setChordPool(ChordPool.NOTE_INTERVAL_TRIAD)});
+        const level_7 = this.createButton(0, 700, 'Level 7 - NOTE_INTERVAL_TRIAD_TETRAD', () => {this.settings.setChordPool(ChordPool.NOTE_INTERVAL_TRIAD_TETRAD)});
 
-        const level_1 = this.createLevelButton(0, 100, 'Level 1 - NOTE', ChordPool.NOTE)
-        const level_2 = this.createLevelButton(0, 200, 'Level 1 - INTERVAL', ChordPool.INTERVAL)
-        const level_3 = this.createLevelButton(0, 300, 'Level 1 - TRIAD', ChordPool.TRIAD)
-        const level_4 = this.createLevelButton(0, 400, 'Level 1 - TETRAD', ChordPool.TETRAD)
-        const level_5 = this.createLevelButton(0, 500, 'Level 1 - NOTE_INTERVAL', ChordPool.NOTE_INTERVAL)
-        const level_6 = this.createLevelButton(0, 600, 'Level 1 - NOTE_INTERVAL_TRIAD', ChordPool.NOTE_INTERVAL_TRIAD)
-        const level_7 = this.createLevelButton(0, 700, 'Level 1 - NOTE_INTERVAL_TRIAD_TETRAD', ChordPool.NOTE_INTERVAL_TRIAD_TETRAD)
+        const left_hand = this.createButton(0, 800, 'Left Hand', () => this.settings.setWhichHands(WhichHands.LEFT))
+        const right_hand = this.createButton(0, 900, 'Right Hand', () => this.settings.setWhichHands(WhichHands.RIGHT))
 
-        const left_hand = this.createHandButton(0, 800, 'Left Hand', WhichHands.LEFT)
-        const right_hand = this.createHandButton(0, 900, 'Right Hand', WhichHands.RIGHT)
-
-        const submit = this.createButton(0, 1000, 'Submit Settings').on('pointerdown', () => {
-
-            // pass object to thing
-            let gameSceneContext = new PlaySceneContext(this.settings)
-            this.keyboard.addNoteObserver(gameSceneContext) 
-
-            this.stompService.stompOut.startGameSession("anything")
-            this.scene.start('game', gameSceneContext)
+        const submit = this.createButton(0, 1000, 'Submit Settings', () => {
+            console.log(this.settings)
+            this.context.stompService?.stompOut.sendGameSettings(this.settings);
+            // this.scene.start('game', this.settings)
         })
-
-
     };
 
     public update = () => {
 
     }
 
-    private connectStomp = (): StompService => {
-            // setup
-            let connection: StompConnection = this.registry.get('stomp');
-
-            connection.setOnStompError((error) => {console.log(error)})
-            connection.setOnWebSocketError((error) => {console.log(error)})
-
-            // stomp observe for chords
-            let stompService = new StompService(connection);
-            this.keyboard.addChordObserver(stompService);
-
-            // connect
-            connection.connectStomp();
-            return new StompService(connection)
-    }
-
-
-    private createLevelButton = (x: number, y: number, text: string, chordPool: ChordPool): Phaser.GameObjects.Text => {
+    private createButton = (x: number, y: number, text: string, callback: Function): Phaser.GameObjects.Text => {
         return this.add.text(x, y, text)
             .setFontSize(72)
             .setColor('black')
             .setInteractive()
-            .on('pointerdown', () => {this.settings.setChordPool(chordPool); console.log(this.settings)});
-    }
-
-    private createHandButton = (x: number, y: number, text: string, hand: WhichHands): Phaser.GameObjects.Text => {
-        return this.add.text(x, y, text)
-            .setFontSize(72)
-            .setColor('black')
-            .setInteractive()
-            .on('pointerdown', () => {this.settings.setWhichHands(hand); console.log(this.settings)});
-    }
-
-    private createButton = (x: number, y: number, text: string): Phaser.GameObjects.Text => {
-        return this.add.text(x, y, text)
-            .setFontSize(72)
-            .setColor('black')
-            .setInteractive()
+            .on('pointerdown', callback)
         }
+
 
 }

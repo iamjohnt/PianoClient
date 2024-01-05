@@ -1,14 +1,16 @@
+import StompService from "../../../stomp_connection/StompService";
+import GameContext from "../../GameContext";
 import ObjectPositions from "../../ObjectPositions";
 
 export default class GameScene extends Phaser.Scene{
 
-
+    private context: GameContext;
     private pos: ObjectPositions;
-
 
     constructor() {
         super({ key: 'welcome' });
-        this.pos = new ObjectPositions();
+        this.context = new GameContext();
+        this.pos = this.context.objectPos;
     }
 
     // public init = () => {}
@@ -33,14 +35,16 @@ export default class GameScene extends Phaser.Scene{
             .setAlpha(0.1)
             .setInteractive()
             .on('pointerdown', () => {
-                console.log('clicked')
-                this.scene.start('settings')
+                let stompService = new StompService('ws://localhost:8081/ws');
+                this.context.stompService = stompService;
+                stompService.setOnConnect(frame => {
+                    console.log(frame)
+                    this.scene.start('settings', this.context)
+                })
+                stompService.connectStomp();
         });
 
     };
 
-    public update = () => {
-
-    } 
 
 }
