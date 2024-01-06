@@ -61,6 +61,7 @@ export default class SettingsScene extends Phaser.Scene{
                     keyboard.addNoteObserver(this.context.gameState)
                 }
             })
+            this.context.keyboardConnection = keyboard;
             keyboard.connectMidi();
         })
 
