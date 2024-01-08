@@ -4,22 +4,19 @@ import ObjectPositions from "../../ObjectPositions";
 
 export default class C_LessonChord extends Phaser.GameObjects.Container {
 
-    private note_collide_offset: number;
     private notes: Map<number, GameObjects.Sprite>;
 
-    constructor(scene: Phaser.Scene, x: number, y: number, sheetChord: SheetChord, note_collide_offset: number) {
+    constructor(scene: Phaser.Scene, x: number, y: number, sheetChord: SheetChord) {
         super(scene, x, y)
-        this.note_collide_offset = note_collide_offset;
         this.notes = new Map<number, GameObjects.Sprite>;
         this.spawnNotes(sheetChord);
-        let asdf: ObjectPositions = new ObjectPositions();
     }
 
     public spawnNotes = (sheetChord: SheetChord) => {
         sheetChord.getSheetNotes().forEach( note => {
             let noteSprite: GameObjects.Sprite;
             if (this.isNoteWouldCollide(note.getSheetNote())) {
-                noteSprite = this.scene.add.sprite(0 - this.note_collide_offset, 0, 'note')
+                noteSprite = this.scene.add.sprite(0 - ObjectPositions.NOTE_COLLIDE_OFFSET(), 0, 'note')
                 this.notes.set(note.getSheetNote(), noteSprite)
                 this.add(noteSprite);
             } else {
