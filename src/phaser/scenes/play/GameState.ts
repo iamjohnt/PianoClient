@@ -12,8 +12,7 @@ export default class GameState implements MidiObservable, ChordSequenceHandler{
     
     public noteEventQ: Queue<SheetNote>;
     public lessonChordQ: Queue<SheetChord>;
-
-    private converter: MidiToSheetNote;
+    public converter: MidiToSheetNote;
 
     constructor() {
         this.noteEventQ = new Queue<SheetNote>(200);
