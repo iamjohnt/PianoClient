@@ -24,5 +24,7 @@ export default class ObjectPositions{
     public static STAFF_TOPLEFT_X = () => this.UNIT() * 4;
     public static STAFF_TOPLEFT_Y = () => this.H * (1/3);
 
+    public static GAP_TWEEN_LESSON_CHORDS = () => this.UNIT() * 4;
+
 
 }
