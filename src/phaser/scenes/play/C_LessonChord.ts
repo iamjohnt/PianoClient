@@ -18,7 +18,6 @@ export default class C_LessonChord extends Phaser.GameObjects.Container {
     }
 
     public spawnNotes = (sheetChord: SheetChord) => {
-        this.scene.add.sprite(200, 200, 'note');
         sheetChord.getSheetNotes().forEach( note => {
             let noteSprite: GameObjects.Sprite;
             let noteY = this.sheetNoteYPositions.getYPosition(note);
@@ -48,6 +47,6 @@ export default class C_LessonChord extends Phaser.GameObjects.Container {
     }
 
     private isOnRight = (noteSprite: GameObjects.Sprite) => {
-        return noteSprite.x == this.x;
+        return noteSprite.x + this.x == this.x;
     }
 }
