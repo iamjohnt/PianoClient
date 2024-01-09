@@ -66,6 +66,7 @@ export default class SettingsScene extends Phaser.Scene{
         })
 
         const submit = this.createButton(0, 1000, 'Submit Settings', () => {
+            this.context.gameState?.setSettings(this.settings)
             this.sendSettingsToServerGoNextScene();
         })
     };

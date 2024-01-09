@@ -1,3 +1,4 @@
+import { GameObjects } from "phaser";
 import Queue from "../../../data_structure/Queue";
 import { WhichHands } from "../../../game/Enum";
 import KeyboardConnection from "../../../keyboard_connection/KeyboardConnection";
@@ -10,6 +11,7 @@ import ChordResponse from "../../../stomp_connection/response_objects/ChordRespo
 import CreateSessionResponse from "../../../stomp_connection/response_objects/CreateSessionResponse";
 import StartGameResponse from "../../../stomp_connection/response_objects/StartGameResponse";
 import GameContext from "../../GameContext";
+import ObjectPositions from "../../ObjectPositions";
 import C_LessonChord from "./C_LessonChord";
 import C_LessonChordSequence from "./C_LessonChordSequence";
 import GameState from "./GameState";
@@ -22,7 +24,7 @@ export default class PlayScene extends Phaser.Scene{
     private keyboard: KeyboardConnection; 
     private state: GameState;
     private playerChordsManager: PlayerChordsManager;
-    private c_chordSequence: C_LessonChordSequence;
+    private c_chordSequence: GameObjects.Container;
 
     constructor() {
         super({ key: 'game' });
@@ -95,28 +97,40 @@ export default class PlayScene extends Phaser.Scene{
     }
 
     private handleChordSequenceResponse = (startGameResponse: StartGameResponse) => {
+
+        this.c_chordSequence = this.add.container(800, 0)
+
+        // let dummySheet = new SheetChord();
+        // dummySheet.addNote(new SheetNote(0, Accidental.NATURAL, NoteOnOff.ON))
+        // dummySheet.addNote(new SheetNote(1, Accidental.NATURAL, NoteOnOff.ON))
+        // dummySheet.addNote(new SheetNote(2, Accidental.NATURAL, NoteOnOff.ON))
+        // let asdf = new C_LessonChord(this, 0, 0, dummySheet)
         
-        console.log(startGameResponse);
         // init lesson
         let len = startGameResponse.chordSequence.length;
         let q = new Queue<SheetChord>(len);
+        let chordX = 0;
 
-        // convert every chord to SheetChord, and add it to lesson
+        // for every chord
         startGameResponse.chordSequence.forEach(chordObj => {
+
+            // build a sheet chord
             let sheetChord: SheetChord = new SheetChord();
             chordObj.chord.forEach(note => {
                 let midiNote: MidiMessage = new MidiMessage(144, note, 100);
                 let sheetNote: SheetNote = this.state.converter.getSheetNote(midiNote);
                 sheetChord.addNote(sheetNote);
             });
+
+            // create lesson container / sprite from sheetchord
+            this.c_chordSequence.add(new C_LessonChord(this, chordX, 0, sheetChord))
             q.enqueue(sheetChord);
+            chordX += ObjectPositions.GAP_TWEEN_LESSON_CHORDS();
         })
         
         // set q state
         this.state.lessonChordQ = q;
 
-        // spawn chord sequence
-        this.c_chordSequence = new C_LessonChordSequence(this, 0, 0, q);
     }
 
 }
