@@ -1,6 +1,7 @@
 export default class PlayerNote extends Phaser.GameObjects.Sprite{
 
     private isActive: boolean = false;
+    public isOffset: boolean;
 
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
         super(scene, x, y, texture);
