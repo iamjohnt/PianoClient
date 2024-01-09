@@ -12,7 +12,7 @@ export default class SheetNoteYPositions {
     constructor() {
         let key = 0 - ((this.NOTE_COUNT - 1) / 2) // center of 17 is 9. zero out the 9, and you get range of -8 to +8
 
-        for (let i = key; i < 8; i++) {
+        for (let i = key; i <= 8; i++) {
             let y = this.STAFF_CENTER_Y - (i * this.INTERVAL_DIST);
             this.yPositions.set(i, y)
         }
