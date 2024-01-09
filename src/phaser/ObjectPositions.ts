@@ -1,65 +1,30 @@
-export default class {
+export default class ObjectPositions{
+
+    // base values, from which all else is derived
+    private static H: number = 1200;
+    private static W: number = 2600;
 
     // global
-    public readonly HEIGHT: number;
-    public readonly WIDTH: number;
-    public readonly UNIT: number;
+    public static HEIGHT = () => this.H
+    public static WIDTH = () => this.W
+    public static UNIT = () => this.H / 12
 
     // welcome
-    public readonly LOGO_CENTER_X;
-    public readonly LOGO_CENTER_Y;
-    public readonly WELCOME_MSG_CENTER_X;
-    public readonly WELCOME_MSG_CENTER_Y;
+    public static LOGO_CENTER_X = () => this.W / 2
+    public static LOGO_CENTER_Y = () => this.H / 2
+    public static WELCOME_MSG_CENTER_X = () => this.W / 2
+    public static WELCOME_MSG_CENTER_Y = () => this.H * (3/4)
 
     // settings
 
     // game
-    public readonly PLAYER_NOTE_CENTER_X;
-    public readonly PLAYER_NOTE_CENTER_SHIFTED_X;
+    public static PLAYER_NOTE_CENTER_X = () => this.UNIT() * 8;
+    public static NOTE_COLLIDE_OFFSET = () => this.UNIT() * .75
 
-    public readonly STAFF_TOPLEFT_X;
-    public readonly STAFF_TOPLEFT_Y;
+    public static STAFF_TOPLEFT_X = () => this.UNIT() * 4;
+    public static STAFF_TOPLEFT_Y = () => this.H * (1/3);
+    public static STAFF_CENTER_Y = () => 700;
 
-    // public readonly TREBLE_TOPLEFT_X;
-    // public readonly TREBLE_TOPLEFT_Y;
-    // public readonly BASS_TOPLEFT_X;
-    // public readonly BASS_TOPLEFT_Y;
+    public static GAP_TWEEN_LESSON_CHORDS = () => this.UNIT() * 3;
 
-    // public readonly MUSIC_SHEET_CENTER_X;
-    // public readonly MUSIC_SHEET_CENTER_Y;
-
-    // public readonly VISUAL_PIANO_TOPLEFT_X;
-    // public readonly VISUAL_PIANO_TOPLEFT_Y;
-
-
-
-
-
-    constructor() {
-
-        // global
-        this.HEIGHT = 1200;
-        this.WIDTH = 2600;
-        this.UNIT = this.HEIGHT / 12; // if height == 1200, unit is 100 pixels
-
-        // welcome
-        this.LOGO_CENTER_X = this.WIDTH / 2
-        this.LOGO_CENTER_Y = this.HEIGHT / 2
-        this.WELCOME_MSG_CENTER_X = this.WIDTH / 2
-        this.WELCOME_MSG_CENTER_Y = this.HEIGHT * (3/4)
-
-        // settings
-
-        // game
-        this.PLAYER_NOTE_CENTER_X = this.UNIT * 8;
-        this.PLAYER_NOTE_CENTER_SHIFTED_X = this.PLAYER_NOTE_CENTER_X - (this.UNIT * 0.75)
-
-        this.STAFF_TOPLEFT_X = this.UNIT * 4;
-        this.STAFF_TOPLEFT_Y = this.HEIGHT * (1/3);
-
-        
-
-
-
-    }
 }

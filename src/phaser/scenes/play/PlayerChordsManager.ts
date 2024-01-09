@@ -26,30 +26,41 @@ export default class PlayerChordsManager {
             let spriteAbove: PlayerNote | undefined = this.possiblePlayerSprites.get(noteAbove);
             let spriteBelow: PlayerNote | undefined = this.possiblePlayerSprites.get(noteBelow);
 
-            if (spriteAbove?.getIsActive() == false && spriteBelow?.getIsActive() == false) {
+            if ((!spriteAbove || spriteAbove?.getIsActive() == false) && (!spriteBelow || spriteBelow?.getIsActive() == false)) {
                 // no collision
-                sprite?.setIsActive(true);
-                sprite?.fadeIn()
-            } else if (spriteBelow?.x == 725 || spriteAbove?.x == 725) {
+                if (sprite) {
+                    sprite.setIsActive(true);
+                    sprite.isOffset = false;
+                    sprite.fadeIn()
+                }
+            } else if (spriteBelow?.isOffset || spriteAbove?.isOffset) {
                 // collision on left, so place right
-                sprite?.setIsActive(true);
-                sprite?.goRight()
-                sprite?.fadeIn()
+                if (sprite) {
+                    sprite.setIsActive(true);
+                    sprite.isOffset = false;
+                    sprite.fadeIn()
+                }
             } else {
                 // collision on right, so place left
-                sprite?.setIsActive(true);
-                sprite?.goLeft()
-                sprite?.fadeIn()
+                if (sprite) {
+                    sprite.setIsActive(true);
+                    sprite.isOffset = true;
+                    sprite.goLeft()
+                    sprite.fadeIn()
+                }
             }
         } else {
             // taking note off, so maybe all collided notes can reset? need to confirm, possible bug
             let sprite: PlayerNote | undefined = this.possiblePlayerSprites.get(note);
+            if (sprite) {
+                sprite.setIsActive(false)
+                sprite.isOffset = false;
+                sprite.goRight(() => sprite?.setIsActive(false))
+                sprite.fadeOut();
+            }
+
             let spriteAbove: PlayerNote | undefined = this.possiblePlayerSprites.get(noteAbove);
             let spriteBelow: PlayerNote | undefined = this.possiblePlayerSprites.get(noteBelow);
-
-            sprite?.setIsActive(false);
-            sprite?.goRight()
-            sprite?.fadeOut();
             
             spriteBelow?.goRight()
             spriteAbove?.goRight()
@@ -67,7 +78,7 @@ export default class PlayerChordsManager {
         let noteCount = 17;
         let key = -8; // center of 17 is 9. zero out the 9, and you get range of -8 to +8
 
-        for (let i = key; i < 8; i++) {
+        for (let i = key; i <= 8; i++) {
             let y = staffCenterPos - (i * intervalDist);
             let curSprite: PlayerNote = new PlayerNote(this.scene, 800, y, 'note');
             sprites.set(i, curSprite)

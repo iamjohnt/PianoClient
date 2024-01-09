@@ -41,4 +41,22 @@ export default class Queue<T> {
       this.size--;
       return item;
     }
+
+    public copy = (): Queue<T> => {
+        const newQueue = new Queue<T>(this.capacity);
+        newQueue.size = this.size;
+        newQueue.writeIndex = this.writeIndex;
+        newQueue.readIndex = this.readIndex;
+
+        // Deep copy of the buffer array
+        for (let i = 0; i < this.capacity; i++) {
+            newQueue.buffer[i] = this.buffer[i];
+        }
+        return newQueue;
+    }
+
+    public getSize = (): number => {
+        return this.size;
+    }
+
   }
