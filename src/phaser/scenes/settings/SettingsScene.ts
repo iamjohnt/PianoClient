@@ -17,10 +17,10 @@ export default class SettingsScene extends Phaser.Scene{
         this.settings = new GameSettings()
             .setKeySigNote(KeySigNote.C)
             .setKeySigMode(KeySigMode.MAJOR)
-            .setLeftMin(30)
-            .setLeftMax(48)
-            .setRightMin(50)
-            .setRightMax(72)
+            .setLeftMin(36) // c2
+            .setLeftMax(64) // e4
+            .setRightMin(57) // a4
+            .setRightMax(84) // c6
             .setLength(30)
     }
 
