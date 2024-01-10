@@ -20,7 +20,6 @@ export default class PlayScene extends Phaser.Scene{
     private context: GameContext;
     private stomp: StompService;
     private keyboard: KeyboardConnection; 
-    private state: GameState;
     private playerChordsManager: PlayerChordsManager;
     private c_chordSequence: GameObjects.Container;
 
@@ -36,9 +35,6 @@ export default class PlayScene extends Phaser.Scene{
         }
         if (context.keyboardConnection != null) {
             this.keyboard = context.keyboardConnection;
-        }
-        if (context.gameState != null) {
-            this.state = context.gameState;
         }
 
         // keyboard chords has stomp observer - (on observe, sends chord)
@@ -85,12 +81,10 @@ export default class PlayScene extends Phaser.Scene{
     };
 
     public update = () => {
-        if (!this.context.gameState?.noteEventQ.isEmpty()) {
+        if (!this.context.noteEventQ.isEmpty()) {
             let noteEvent: SheetNote;
-            if (this.context.gameState != null) {
-                noteEvent = this.context.gameState?.noteEventQ.dequeue();
-                this.playerChordsManager.handleNoteOnOrOff(noteEvent);
-            }
+            noteEvent = this.context.noteEventQ.dequeue();
+            this.playerChordsManager.handleNoteOnOrOff(noteEvent);
         };
     }
 
@@ -110,7 +104,7 @@ export default class PlayScene extends Phaser.Scene{
             let sheetChord: SheetChord = new SheetChord();
             chordObj.chord.forEach(note => {
                 let midiNote: MidiMessage = new MidiMessage(144, note, 100);
-                let sheetNote: SheetNote = this.state.converter.getSheetNote(midiNote);
+                let sheetNote: SheetNote = this.context.converter.getSheetNote(midiNote);
                 sheetChord.addNote(sheetNote);
             });
 
@@ -121,7 +115,7 @@ export default class PlayScene extends Phaser.Scene{
         })
         
         // set q state
-        this.state.lessonChordQ = q;
+        this.context.lessonChordQ = q;
 
     }
 
