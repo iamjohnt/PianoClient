@@ -28,7 +28,7 @@ export default class SettingsScene extends Phaser.Scene{
         console.log('settings scene init')
         console.log(this.context)
         this.context = context;
-        this.context.gameState = new GameState();
+        this.context.gameState = new GameState(this.context.stompService);
     }
 
     public preload = () => {

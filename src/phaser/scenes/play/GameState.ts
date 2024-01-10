@@ -6,6 +6,7 @@ import MidiToSheetNote from "../../../music_model/MidiToSheetNote";
 import SheetChord from "../../../music_model/SheetChord";
 import SheetNote from "../../../music_model/SheetNote";
 import ChordSequenceHandler from "../../../stomp_connection/ChordSequenceHandler";
+import StompService from "../../../stomp_connection/StompService";
 import StartGameResponse from "../../../stomp_connection/response_objects/StartGameResponse";
 
 export default class GameState implements MidiObservable, ChordSequenceHandler{
@@ -13,9 +14,11 @@ export default class GameState implements MidiObservable, ChordSequenceHandler{
     public noteEventQ: Queue<SheetNote>;
     public lessonChordQ: Queue<SheetChord>;
     public converter: MidiToSheetNote;
+    public stompService: StompService;
 
-    constructor() {
+    constructor(stompService: StompService) {
         this.noteEventQ = new Queue<SheetNote>(200);
+        this.stompService = stompService;
     }
 
     public setSettings = (settings: GameSettings) => {
