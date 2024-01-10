@@ -15,6 +15,7 @@ export default defineConfig({
           'typeof FEATURE_SOUND': "'true'"
         })
       ]
-    }
+    },
+    sourcemap: true
   }
 });
