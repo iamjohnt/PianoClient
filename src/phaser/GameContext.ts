@@ -62,12 +62,6 @@ export default class GameContext implements MidiObservable, ChordSequenceHandler
         // keyboard chords has stomp observer - (on observe, sends chord)
         this.keyboardConnection?.addChordObserver(this.stompService);
 
-        // subscribe start game response
-        this.stompService?.stompIn.subscribeCreateSessionResponse((createSessionResponse: CreateSessionResponse) => {
-            console.log(createSessionResponse.message)
-            this.stompService.stompOut.startGame("dummytext");
-        })
-
         // subscribe for game start
         this.stompService?.stompIn.subscribeStartGameResponse((chordSeq: StartGameResponse) => {
             this.handleChordSequence(chordSeq);

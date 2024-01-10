@@ -12,7 +12,6 @@ import StartGameResponse from "../../../stomp_connection/response_objects/StartG
 import GameContext from "../../GameContext";
 import ObjectPositions from "../../ObjectPositions";
 import C_LessonChord from "./C_LessonChord";
-import GameState from "./GameState";
 import PlayerChordsManager from "./PlayerChordsManager";
 
 export default class PlayScene extends Phaser.Scene{
@@ -39,12 +38,6 @@ export default class PlayScene extends Phaser.Scene{
 
         // keyboard chords has stomp observer - (on observe, sends chord)
         this.keyboard.addChordObserver(this.stomp);
-
-        // subscribe start game response
-        this.stomp.stompIn.subscribeCreateSessionResponse((createSessionResponse: CreateSessionResponse) => {
-            console.log(createSessionResponse.message)
-            this.stomp.stompOut.startGame("dummytext");
-        })
 
         // subscribe for game start
         this.stomp.stompIn.subscribeStartGameResponse((chordSeq: StartGameResponse) => {
@@ -77,7 +70,7 @@ export default class PlayScene extends Phaser.Scene{
         this.add.image(0, 0, 'clef').setOrigin(0,0);
         this.playerChordsManager = new PlayerChordsManager(this);
 
-        this.stomp.stompOut.startGameSession("dummytext");
+        this.stomp.stompOut.startGame("dummytext");
     };
 
     public update = () => {
