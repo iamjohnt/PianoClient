@@ -8,10 +8,10 @@ import { KeyboardType } from "../game/Enum";
 export default class GameContext {
 
     public objectPos: ObjectPositions = new ObjectPositions();
-    public stompService: StompService | null = null;
-    public keyboardConnection: KeyboardConnection | null = null;
-    public settings: GameSettings | null = null;
-    public gameState: GameState | null = null;
-    public keyboardType: KeyboardType | null = null;
+    public stompService: StompService;
+    public keyboardConnection: KeyboardConnection;
+    public settings: GameSettings;
+    public gameState: GameState;
+    public keyboardType: KeyboardType;
 
 }
