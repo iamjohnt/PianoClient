@@ -3,7 +3,6 @@ import Queue from "../../../data_structure/Queue";
 import { WhichHands } from "../../../game/Enum";
 import KeyboardConnection from "../../../keyboard_connection/KeyboardConnection";
 import MidiMessage from "../../../keyboard_connection/MidiMessage";
-import { Accidental, NoteOnOff } from "../../../music_model/Enums";
 import SheetChord from "../../../music_model/SheetChord";
 import SheetNote from "../../../music_model/SheetNote";
 import StompService from "../../../stomp_connection/StompService";
@@ -13,7 +12,6 @@ import StartGameResponse from "../../../stomp_connection/response_objects/StartG
 import GameContext from "../../GameContext";
 import ObjectPositions from "../../ObjectPositions";
 import C_LessonChord from "./C_LessonChord";
-import C_LessonChordSequence from "./C_LessonChordSequence";
 import GameState from "./GameState";
 import PlayerChordsManager from "./PlayerChordsManager";
 
@@ -99,12 +97,6 @@ export default class PlayScene extends Phaser.Scene{
     private handleChordSequenceResponse = (startGameResponse: StartGameResponse) => {
 
         this.c_chordSequence = this.add.container(800, 0)
-
-        // let dummySheet = new SheetChord();
-        // dummySheet.addNote(new SheetNote(0, Accidental.NATURAL, NoteOnOff.ON))
-        // dummySheet.addNote(new SheetNote(1, Accidental.NATURAL, NoteOnOff.ON))
-        // dummySheet.addNote(new SheetNote(2, Accidental.NATURAL, NoteOnOff.ON))
-        // let asdf = new C_LessonChord(this, 0, 0, dummySheet)
         
         // init lesson
         let len = startGameResponse.chordSequence.length;
