@@ -1,13 +1,9 @@
 import { GameObjects } from "phaser";
 import Queue from "../../../data_structure/Queue";
 import { WhichHands } from "../../../game/Enum";
-import KeyboardConnection from "../../../keyboard_connection/KeyboardConnection";
 import MidiMessage from "../../../keyboard_connection/MidiMessage";
 import SheetChord from "../../../music_model/SheetChord";
 import SheetNote from "../../../music_model/SheetNote";
-import StompService from "../../../stomp_connection/StompService";
-import ChordResponse from "../../../stomp_connection/response_objects/ChordResponse";
-import CreateSessionResponse from "../../../stomp_connection/response_objects/CreateSessionResponse";
 import StartGameResponse from "../../../stomp_connection/response_objects/StartGameResponse";
 import GameContext from "../../GameContext";
 import ObjectPositions from "../../ObjectPositions";
@@ -17,8 +13,6 @@ import PlayerChordsManager from "./PlayerChordsManager";
 export default class PlayScene extends Phaser.Scene{
 
     private context: GameContext;
-    private stomp: StompService;
-    private keyboard: KeyboardConnection; 
     private playerChordsManager: PlayerChordsManager;
     private c_chordSequence: GameObjects.Container;
 
@@ -28,34 +22,8 @@ export default class PlayScene extends Phaser.Scene{
 
     public init = (context: GameContext) => {
         this.context = context;
-
-        if (context.stompService != null) {
-            this.stomp = context.stompService;
-        }
-        if (context.keyboardConnection != null) {
-            this.keyboard = context.keyboardConnection;
-        }
-
-        // keyboard chords has stomp observer - (on observe, sends chord)
-        this.keyboard.addChordObserver(this.stomp);
-
-        // subscribe start game response
-        this.stomp.stompIn.subscribeCreateSessionResponse((createSessionResponse: CreateSessionResponse) => {
-            console.log(createSessionResponse.message)
-            this.stomp.stompOut.startGame("dummytext");
-        })
-
-        // subscribe for game start
-        this.stomp.stompIn.subscribeStartGameResponse((chordSeq: StartGameResponse) => {
-            this.handleChordSequenceResponse(chordSeq);
-        })
-
-        // subscribe for chords response
-        this.stomp.stompIn.subscribeChordResponse((chordResponse: ChordResponse) => {
-            console.log(chordResponse);
-        });
-        
-
+        this.context.handleChordSequence = this.handleChordSequenceResponse;
+        this.context.connectGameToServer();
     }
 
     public preload = () => {
@@ -76,7 +44,7 @@ export default class PlayScene extends Phaser.Scene{
         this.add.image(0, 0, 'clef').setOrigin(0,0);
         this.playerChordsManager = new PlayerChordsManager(this);
 
-        this.stomp.stompOut.startGameSession("dummytext");
+        this.context.stompService.stompOut.startGame("dummytext");
     };
 
     public update = () => {
@@ -88,6 +56,8 @@ export default class PlayScene extends Phaser.Scene{
     }
 
     private handleChordSequenceResponse = (startGameResponse: StartGameResponse) => {
+
+        console.log('hello')
 
         this.c_chordSequence = this.add.container(800, 0)
         
@@ -117,5 +87,15 @@ export default class PlayScene extends Phaser.Scene{
         this.context.lessonChordQ = q;
 
     }
+
+    // private moveAllChordsLeft = () => {
+    //     let tween = this.tweens.add({
+    //         targets: this.c_chordSequence,
+    //         x: this.c_chordSequence.x - ObjectPositions.GAP_TWEEN_LESSON_CHORDS(),
+    //         duration: 100,
+    //         ease: 'Linear'
+    //     });    
+    // }
+
 
 }

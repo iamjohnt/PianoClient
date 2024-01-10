@@ -26,7 +26,7 @@ export default class GameContext implements MidiObservable, ChordSequenceHandler
     public converter: MidiToSheetNote;
     public noteEventQ: Queue<SheetNote> = new Queue<SheetNote>(200);
     public lessonChordQ: Queue<SheetChord>;
-
+    public handleChordSequence: (startGameResponse: StartGameResponse) => void;
 
     constructor() {
 
@@ -37,44 +37,17 @@ export default class GameContext implements MidiObservable, ChordSequenceHandler
         this.noteEventQ.enqueue(sheetNote);
     }
 
-
-    public handleChordSequence = (startGameResponse: StartGameResponse) => {
-
-        // init lesson
-        let lessonLength = startGameResponse.chordSequence.length;
-        this.lessonChordQ = new Queue<SheetChord>(lessonLength);
-
-        // convert every chord to SheetChord, and add it to lesson
-        startGameResponse.chordSequence.forEach(chordObj => {
-            let sheetChord: SheetChord = new SheetChord();
-            chordObj.chord.forEach(note => {
-                let midiNote: MidiMessage = new MidiMessage(144, note, 100);
-                let sheetNote: SheetNote = this.converter.getSheetNote(midiNote);
-                sheetChord.addNote(sheetNote);
-            });
-            this.lessonChordQ.enqueue(sheetChord);
-        })
-        console.log(this.lessonChordQ)
-    }
-
-
     public connectGameToServer = () => {
         // keyboard chords has stomp observer - (on observe, sends chord)
-        this.keyboardConnection?.addChordObserver(this.stompService);
-
-        // subscribe start game response
-        this.stompService?.stompIn.subscribeCreateSessionResponse((createSessionResponse: CreateSessionResponse) => {
-            console.log(createSessionResponse.message)
-            this.stompService.stompOut.startGame("dummytext");
-        })
+        this.keyboardConnection.addChordObserver(this.stompService);
 
         // subscribe for game start
-        this.stompService?.stompIn.subscribeStartGameResponse((chordSeq: StartGameResponse) => {
+        this.stompService.stompIn.subscribeStartGameResponse((chordSeq: StartGameResponse) => {
             this.handleChordSequence(chordSeq);
         })
 
         // subscribe for chords response
-        this.stompService?.stompIn.subscribeChordResponse((chordResponse: ChordResponse) => {
+        this.stompService.stompIn.subscribeChordResponse((chordResponse: ChordResponse) => {
             console.log(chordResponse);
         });
     }
