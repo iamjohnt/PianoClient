@@ -23,35 +23,6 @@ export default class StompInbound {
         this.stompClient = stompClient;
     }
 
-    public onWebsocketError = (frame: any) => {
-        console.log(frame)
-    }
-
-    public onStompError = (frame: any) => {
-        console.log(frame)
-    }
-
-    public onDisconnect = (iframe: any) => {
-        console.log(iframe);
-    }
-
-    public onHelloResponseHandler = (helloResponse: HelloResponse) => {
-        console.log(helloResponse);
-    }
-
-    public onChordResponseHandler = (chordResponse: ChordResponse) => {
-        console.log(chordResponse);
-    }
-
-    public onSettingsResponseHandler = (settingsResponse: SettingsResponse) => {
-        console.log(settingsResponse);
-    }
-
-    public onStartGameResponseHandler = (chordSequence: StartGameResponse) => {
-        console.log(chordSequence);
-    }
-
-
     // subscription logic
     public subscribeHellResponse = (callback: (helloResponse: HelloResponse) => void) => {
         if (this.helloResponseSub) {
