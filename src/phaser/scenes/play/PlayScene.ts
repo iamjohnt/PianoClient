@@ -1,5 +1,4 @@
 import { WhichHands } from "../../../game/Enum";
-import SheetNote from "../../../music_model/SheetNote";
 import GameContext from "../../GameContext";
 import PlayerChordsManager from "./PlayerChordsManager";
 import LessonChordsManager from "./LessonChordsManager";
@@ -16,8 +15,6 @@ export default class PlayScene extends Phaser.Scene{
 
     public init = (context: GameContext) => {
         this.context = context;
-        this.lessonChordsManager = new LessonChordsManager(this);
-        this.context.handleChordSequence = this.lessonChordsManager.spawnLessonChords;
         this.context.connectGameToServer();
     }
 
@@ -37,17 +34,25 @@ export default class PlayScene extends Phaser.Scene{
     public create = () => {
         this.add.image(0, 0, 'staff').setOrigin(0,0);
         this.add.image(0, 0, 'clef').setOrigin(0,0);
-        this.playerChordsManager = new PlayerChordsManager(this);
+
+        this.uiAwaitsNotesFromKeyboard();
+        this.uiAwaitsLessonFromServer();
 
         this.context.stompService.stompOut.startGame("dummytext");
     };
 
     public update = () => {
-        if (!this.context.noteEventQ.isEmpty()) {
-            let noteEvent: SheetNote;
-            noteEvent = this.context.noteEventQ.dequeue();
-            this.playerChordsManager.handleNoteOnOrOff(noteEvent);
-        };
+
+    }
+
+    private uiAwaitsNotesFromKeyboard = () => {
+        this.playerChordsManager = new PlayerChordsManager(this);
+        this.context.keyboardConnection.addNoteObserver(this.playerChordsManager);
+    }
+
+    private uiAwaitsLessonFromServer = () => {
+        this.lessonChordsManager = new LessonChordsManager(this);
+        this.context.handleChordSequence = this.lessonChordsManager.spawnLessonChords;
     }
 
 }

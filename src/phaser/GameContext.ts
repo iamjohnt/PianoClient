@@ -3,18 +3,14 @@ import KeyboardConnection from "../keyboard_connection/KeyboardConnection";
 import StompService from "../stomp_connection/StompService";
 import { KeyboardType } from "../game/Enum";
 import MidiToSheetNote from "../music_model/MidiToSheetNote";
-import SheetNote from "../music_model/SheetNote";
 import Queue from "../data_structure/Queue";
 import SheetChord from "../music_model/SheetChord";
-import MidiMessage from "../keyboard_connection/MidiMessage";
 import StartGameResponse from "../stomp_connection/response_objects/StartGameResponse";
-import MidiObservable from "../keyboard_connection/MidiObservable";
 import ChordSequenceHandler from "../stomp_connection/ChordSequenceHandler";
-import CreateSessionResponse from "../stomp_connection/response_objects/CreateSessionResponse";
 import ChordResponse from "../stomp_connection/response_objects/ChordResponse";
 
 
-export default class GameContext implements MidiObservable, ChordSequenceHandler {
+export default class GameContext implements ChordSequenceHandler {
 
     // general fields
     public stompService: StompService;
@@ -24,17 +20,12 @@ export default class GameContext implements MidiObservable, ChordSequenceHandler
 
     // gameplay specific fields
     public converter: MidiToSheetNote;
-    public noteEventQ: Queue<SheetNote> = new Queue<SheetNote>(200);
     public lessonChordQ: Queue<SheetChord>;
     public handleChordSequence: (startGameResponse: StartGameResponse) => void;
+    public handleNoteFromKeyboard: () => void;
 
     constructor() {
 
-    }
-
-    public onUpdate = (midiMessage: MidiMessage): void => {
-        let sheetNote: SheetNote = this.converter.getSheetNote(midiMessage);
-        this.noteEventQ.enqueue(sheetNote);
     }
 
     public connectGameToServer = () => {

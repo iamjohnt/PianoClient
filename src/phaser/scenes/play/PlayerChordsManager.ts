@@ -1,23 +1,26 @@
-import { GameObjects } from "phaser";
 import SheetNote from "../../../music_model/SheetNote";
 import { NoteOnOff } from "../../../music_model/Enums";
 import PlayerNote from "./PlayerNote";
+import MidiObservable from "../../../keyboard_connection/MidiObservable";
+import MidiMessage from "../../../keyboard_connection/MidiMessage";
+import PlayScene from "./PlayScene";
 
-export default class PlayerChordsManager {
+export default class PlayerChordsManager implements MidiObservable {
 
-    private scene: Phaser.Scene;
+    private scene: PlayScene;
     private possiblePlayerSprites: Map<number, PlayerNote>;
 
 
-    constructor(scene: Phaser.Scene) {
+    constructor(scene: PlayScene) {
         this.scene = scene;
         this.possiblePlayerSprites = this.populatePlayerNoteSprites();
     }
 
 
-    public handleNoteOnOrOff = (noteEvent: SheetNote) => {
-        let onOff = noteEvent.getOnOrOff();
-        let note = noteEvent.getSheetNote();
+    public onUpdate(midiMessage: MidiMessage): void {
+        let sheetNote: SheetNote = this.scene.context.converter.getSheetNote(midiMessage);
+        let onOff = sheetNote.getOnOrOff();
+        let note = sheetNote.getSheetNote();
         let noteAbove = note + 1;
         let noteBelow = note - 1;
 
@@ -64,10 +67,8 @@ export default class PlayerChordsManager {
             
             spriteBelow?.goRight()
             spriteAbove?.goRight()
-            
         }
     }
-
 
     private populatePlayerNoteSprites = (): Map<number, PlayerNote> => {
 
