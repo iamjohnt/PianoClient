@@ -1,15 +1,7 @@
-import { GameObjects } from "phaser";
-import Queue from "../../../data_structure/Queue";
 import { WhichHands } from "../../../game/Enum";
-import MidiMessage from "../../../keyboard_connection/MidiMessage";
-import SheetChord from "../../../music_model/SheetChord";
 import SheetNote from "../../../music_model/SheetNote";
-import StartGameResponse from "../../../stomp_connection/response_objects/StartGameResponse";
 import GameContext from "../../GameContext";
-import ObjectPositions from "../../ObjectPositions";
-import C_LessonChord from "./C_LessonChord";
 import PlayerChordsManager from "./PlayerChordsManager";
-import ChordResponse from "../../../stomp_connection/response_objects/ChordResponse";
 import LessonChordsManager from "./LessonChordsManager";
 
 export default class PlayScene extends Phaser.Scene{
@@ -57,15 +49,5 @@ export default class PlayScene extends Phaser.Scene{
             this.playerChordsManager.handleNoteOnOrOff(noteEvent);
         };
     }
-
-    // private moveAllChordsLeft = () => {
-    //     let tween = this.tweens.add({
-    //         targets: this.c_chordSequence,
-    //         x: this.c_chordSequence.x - ObjectPositions.GAP_TWEEN_LESSON_CHORDS(),
-    //         duration: 100,
-    //         ease: 'Linear'
-    //     });    
-    // }
-
 
 }
