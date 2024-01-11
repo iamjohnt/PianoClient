@@ -9,12 +9,14 @@ import GameContext from "../../GameContext";
 import ObjectPositions from "../../ObjectPositions";
 import C_LessonChord from "./C_LessonChord";
 import PlayerChordsManager from "./PlayerChordsManager";
+import ChordResponse from "../../../stomp_connection/response_objects/ChordResponse";
+import LessonChordsManager from "./LessonChordsManager";
 
 export default class PlayScene extends Phaser.Scene{
 
-    private context: GameContext;
+    public context: GameContext;
     private playerChordsManager: PlayerChordsManager;
-    private c_chordSequence: GameObjects.Container;
+    private lessonChordsManager: LessonChordsManager;
 
     constructor() {
         super({ key: 'game' });
@@ -22,7 +24,8 @@ export default class PlayScene extends Phaser.Scene{
 
     public init = (context: GameContext) => {
         this.context = context;
-        this.context.handleChordSequence = this.handleChordSequenceResponse;
+        this.lessonChordsManager = new LessonChordsManager(this);
+        this.context.handleChordSequence = this.lessonChordsManager.spawnLessonChords;
         this.context.connectGameToServer();
     }
 
@@ -53,39 +56,6 @@ export default class PlayScene extends Phaser.Scene{
             noteEvent = this.context.noteEventQ.dequeue();
             this.playerChordsManager.handleNoteOnOrOff(noteEvent);
         };
-    }
-
-    private handleChordSequenceResponse = (startGameResponse: StartGameResponse) => {
-
-        console.log('hello')
-
-        this.c_chordSequence = this.add.container(800, 0)
-        
-        // init lesson
-        let len = startGameResponse.chordSequence.length;
-        let q = new Queue<SheetChord>(len);
-        let chordX = 0;
-
-        // for every chord
-        startGameResponse.chordSequence.forEach(chordObj => {
-
-            // build a sheet chord
-            let sheetChord: SheetChord = new SheetChord();
-            chordObj.chord.forEach(note => {
-                let midiNote: MidiMessage = new MidiMessage(144, note, 100);
-                let sheetNote: SheetNote = this.context.converter.getSheetNote(midiNote);
-                sheetChord.addNote(sheetNote);
-            });
-
-            // create lesson container / sprite from sheetchord
-            this.c_chordSequence.add(new C_LessonChord(this, chordX, 0, sheetChord))
-            q.enqueue(sheetChord);
-            chordX += ObjectPositions.GAP_TWEEN_LESSON_CHORDS();
-        })
-        
-        // set q state
-        this.context.lessonChordQ = q;
-
     }
 
     // private moveAllChordsLeft = () => {
