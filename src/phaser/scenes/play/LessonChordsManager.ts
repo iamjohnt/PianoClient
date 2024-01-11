@@ -51,14 +51,20 @@ export default class LessonChordsManager {
         })
     }
 
-    // private moveAllChordsLeft = () => {
-    //     let tween = this.tweens.add({
-    //         targets: this.c_chordSequence,
-    //         x: this.c_chordSequence.x - ObjectPositions.GAP_TWEEN_LESSON_CHORDS(),
-    //         duration: 100,
-    //         ease: 'Linear'
-    //     });    
-    // }
+    public moveAllChordsLeft = () => {
+
+        let tween = this.scene.tweens.add({
+            targets: this.lessonChordContainer,
+            x: this.lessonChordContainer.x - ObjectPositions.GAP_TWEEN_LESSON_CHORDS(),
+            duration: 300,
+            ease: 'Quint.InOut',
+            onComplete: () => {
+                let leftMostChord: C_LessonChord = this.lessonChordQ.dequeue();
+                this.lessonChordContainer.remove(leftMostChord)
+                leftMostChord.destroy();
+            }
+        });    
+    }
 
 
 }
