@@ -85,15 +85,9 @@ export default class SettingsScene extends Phaser.Scene{
         })
         
         const connected_keyboard = this.createBasicButton(1200, 600, 'Connected Keyboard', () => {
-
             this.context.keyboardType = KeyboardType.CONNECTED;
-
-            let keyboard = new KeyboardConnection();
-            keyboard.setOnConnectMidiSuccess(() => {
-                keyboard.addNoteObserver(this.context)
-                this.context.keyboardConnection = keyboard;
-            })
-            keyboard.connectMidi();
+            this.context.keyboardConnection = new KeyboardConnection();
+            this.context.keyboardConnection.connectMidi();
         })
     }
 
