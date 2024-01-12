@@ -54,7 +54,8 @@ export default class LessonChordsManager {
 
 
     public handleChordResponse = (chordResponse: ChordResponse) => {
-        if (chordResponse.isCorrect) {
+        console.log(chordResponse.submissionCorrect)
+        if (chordResponse.submissionCorrect) {
             this.moveAllChordsLeft();
         }
     }
