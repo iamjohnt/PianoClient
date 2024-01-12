@@ -15,7 +15,6 @@ export default class PlayScene extends Phaser.Scene{
 
     public init = (context: GameContext) => {
         this.context = context;
-        this.context.connectGameToServer();
     }
 
     public preload = () => {
@@ -35,24 +34,24 @@ export default class PlayScene extends Phaser.Scene{
         this.add.image(0, 0, 'staff').setOrigin(0,0);
         this.add.image(0, 0, 'clef').setOrigin(0,0);
 
-        this.uiAwaitsNotesFromKeyboard();
-        this.uiAwaitsLessonFromServer();
+        // create managers
+        this.playerChordsManager = new PlayerChordsManager(this);
+        this.lessonChordsManager = new LessonChordsManager(this);
 
+        // attach
+        this.context.keyboardConnection.addNoteObserver(this.playerChordsManager);
+        this.context.handleChordSequence = this.lessonChordsManager.spawnLessonChords;
+        this.context.handleChordResponse = this.lessonChordsManager.handleChordResponse;
+
+        // connect to server
+        this.context.connectGameToServer();
+
+        // start the game
         this.context.stompService.stompOut.startGame("dummytext");
+
     };
 
     public update = () => {
 
     }
-
-    private uiAwaitsNotesFromKeyboard = () => {
-        this.playerChordsManager = new PlayerChordsManager(this);
-        this.context.keyboardConnection.addNoteObserver(this.playerChordsManager);
-    }
-
-    private uiAwaitsLessonFromServer = () => {
-        this.lessonChordsManager = new LessonChordsManager(this);
-        this.context.handleChordSequence = this.lessonChordsManager.spawnLessonChords;
-    }
-
 }

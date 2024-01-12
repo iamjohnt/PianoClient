@@ -22,6 +22,7 @@ export default class GameContext implements ChordSequenceHandler {
     public converter: MidiToSheetNote;
     public lessonChordQ: Queue<SheetChord>;
     public handleChordSequence: (startGameResponse: StartGameResponse) => void;
+    public handleChordResponse: (chordResponse: ChordResponse) => void;
     public handleNoteFromKeyboard: () => void;
 
     constructor() {
@@ -39,7 +40,7 @@ export default class GameContext implements ChordSequenceHandler {
 
         // subscribe for chords response
         this.stompService.stompIn.subscribeChordResponse((chordResponse: ChordResponse) => {
-            console.log(chordResponse);
+            this.handleChordResponse(chordResponse);
         });
     }
     

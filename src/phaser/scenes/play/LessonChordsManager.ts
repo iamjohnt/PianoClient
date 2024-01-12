@@ -7,6 +7,7 @@ import PlayScene from "./PlayScene";
 import SheetNote from "../../../music_model/SheetNote";
 import C_LessonChord from "./C_LessonChord";
 import ObjectPositions from "../../ObjectPositions";
+import ChordResponse from "../../../stomp_connection/response_objects/ChordResponse";
 
 export default class LessonChordsManager {
 
@@ -51,7 +52,16 @@ export default class LessonChordsManager {
         })
     }
 
-    public moveAllChordsLeft = () => {
+
+    public handleChordResponse = (chordResponse: ChordResponse) => {
+        if (chordResponse.isCorrect) {
+            this.moveAllChordsLeft();
+        }
+    }
+
+
+
+    private moveAllChordsLeft = () => {
 
         let tween = this.scene.tweens.add({
             targets: this.lessonChordContainer,
