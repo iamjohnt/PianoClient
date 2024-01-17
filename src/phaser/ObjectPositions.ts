@@ -20,6 +20,13 @@ export default class ObjectPositions{
 
     // settings
 
+    // chordpool
+    public static readonly SINGLE_TEXT_CENTER_X = () => this.W * (1/4)
+    public static readonly SINGLE_TEXT_CENTER_Y = () => this.H * (1/4)
+
+    public static readonly COMBO_TEXT_CENTER_X = () => this.W * (3/4)
+    public static readonly COMBO_TEXT_CENTER_Y = () => this.H * (1/4)
+
     // game
     public static readonly PLAYER_NOTE_CENTER_X = () => this.UNIT() * 8;
     public static readonly NOTE_COLLIDE_OFFSET = () => this.UNIT() * .75

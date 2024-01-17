@@ -5,6 +5,7 @@ import { KeySigNote } from "../../../music_model/Enums";
 import MidiToSheetNote from "../../../music_model/MidiToSheetNote";
 import SettingsResponse from "../../../stomp_connection/response_objects/SettingsResponse";
 import GameContext from "../../GameContext";
+import POS from "../../ObjectPositions";
 
 export default class SettingsScene extends Phaser.Scene{
 
@@ -30,82 +31,91 @@ export default class SettingsScene extends Phaser.Scene{
     }
 
     public preload = () => {
+    
+        let chordpool = 'assets/settings/chordpool/'
+        let hands = 'assets/settings/hands/'
+        
+        this.load.image('single_text', chordpool + 'single_text.png')
+        this.load.image('combo_text', chordpool + 'combo_text.png')
 
     };
     
     public create = () => {
 
-        // each group of buttons below adds a setting on click. settings must be chosen in the below order
-        this.createChordPoolButtons()
-        this.createWhichHandButtons()
-        this.createKeyboardTypeButtons()
+        this.add.image(POS.SINGLE_TEXT_CENTER_X(), POS.SINGLE_TEXT_CENTER_Y(), 'single_text')
+        this.add.image(POS.COMBO_TEXT_CENTER_X(), POS.COMBO_TEXT_CENTER_Y(), 'combo_text')
 
-        const submit = this.createBasicButton(0, 1000, 'Submit Settings', () => {
-            this.sendSettingsToServerGoNextScene();
-        })
+        // each group of buttons below adds a setting on click. settings must be chosen in the below order
+        // this.createChordPoolButtons()
+        // this.createWhichHandButtons()
+        // this.createKeyboardTypeButtons()
+
+        // const submit = this.createBasicButton(0, 1000, 'Submit Settings', () => {
+        //     this.sendSettingsToServerGoNextScene();
+        // })
     };
 
     public update = () => {
 
     }
 
-    private createChordPoolButtons = () => {
-        const level_1 = this.createBasicButton(0, 100, 'Level 1 - NOTE', () => {this.context.settings.setChordPool(ChordPool.NOTE)});
-        const level_2 = this.createBasicButton(0, 200, 'Level 2 - INTERVAL', () => {this.context.settings.setChordPool(ChordPool.INTERVAL)});
-        const level_3 = this.createBasicButton(0, 300, 'Level 3 - TRIAD', () => {this.context.settings.setChordPool(ChordPool.TRIAD)});
-        const level_4 = this.createBasicButton(0, 400, 'Level 4 - TETRAD', () => {this.context.settings.setChordPool(ChordPool.TETRAD)});
-        const level_5 = this.createBasicButton(0, 500, 'Level 5 - NOTE_INTERVAL', () => {this.context.settings.setChordPool(ChordPool.NOTE_INTERVAL)});
-        const level_6 = this.createBasicButton(0, 600, 'Level 6 - NOTE_INTERVAL_TRIAD', () => {this.context.settings.setChordPool(ChordPool.NOTE_INTERVAL_TRIAD)});
-        const level_7 = this.createBasicButton(0, 700, 'Level 7 - NOTE_INTERVAL_TRIAD_TETRAD', () => {this.context.settings.setChordPool(ChordPool.NOTE_INTERVAL_TRIAD_TETRAD)});
+    // private createChordPoolButtons = () => {
+    //     const level_1 = this.createBasicButton(0, 100, 'Level 1 - NOTE', () => {this.context.settings.setChordPool(ChordPool.NOTE)});
+    //     const level_2 = this.createBasicButton(0, 200, 'Level 2 - INTERVAL', () => {this.context.settings.setChordPool(ChordPool.INTERVAL)});
+    //     const level_3 = this.createBasicButton(0, 300, 'Level 3 - TRIAD', () => {this.context.settings.setChordPool(ChordPool.TRIAD)});
+    //     const level_4 = this.createBasicButton(0, 400, 'Level 4 - TETRAD', () => {this.context.settings.setChordPool(ChordPool.TETRAD)});
+    //     const level_5 = this.createBasicButton(0, 500, 'Level 5 - NOTE_INTERVAL', () => {this.context.settings.setChordPool(ChordPool.NOTE_INTERVAL)});
+    //     const level_6 = this.createBasicButton(0, 600, 'Level 6 - NOTE_INTERVAL_TRIAD', () => {this.context.settings.setChordPool(ChordPool.NOTE_INTERVAL_TRIAD)});
+    //     const level_7 = this.createBasicButton(0, 700, 'Level 7 - NOTE_INTERVAL_TRIAD_TETRAD', () => {this.context.settings.setChordPool(ChordPool.NOTE_INTERVAL_TRIAD_TETRAD)});
 
-    }
+    // }
 
-    private createWhichHandButtons = () => {
-        const left_hand = this.createBasicButton(0, 800, 'Left Hand', () => {
-            this.context.settings.setWhichHands(WhichHands.LEFT)
-            this.context.converter = new MidiToSheetNote(
-                this.context.settings.getKeySigNote(),
-                this.context.settings.getKeySigMode(),
-                this.context.settings.getWhichHands(),
-            )
-        })
-        const right_hand = this.createBasicButton(0, 900, 'Right Hand', () => {
-            this.context.settings.setWhichHands(WhichHands.RIGHT)
-            this.context.converter = new MidiToSheetNote(
-                this.context.settings.getKeySigNote(),
-                this.context.settings.getKeySigMode(),
-                this.context.settings.getWhichHands(),
-            )
-        })
-    }
+    // private createWhichHandButtons = () => {
+    //     const left_hand = this.createBasicButton(0, 800, 'Left Hand', () => {
+    //         this.context.settings.setWhichHands(WhichHands.LEFT)
+    //         this.context.converter = new MidiToSheetNote(
+    //             this.context.settings.getKeySigNote(),
+    //             this.context.settings.getKeySigMode(),
+    //             this.context.settings.getWhichHands(),
+    //         )
+    //     })
+    //     const right_hand = this.createBasicButton(0, 900, 'Right Hand', () => {
+    //         this.context.settings.setWhichHands(WhichHands.RIGHT)
+    //         this.context.converter = new MidiToSheetNote(
+    //             this.context.settings.getKeySigNote(),
+    //             this.context.settings.getKeySigMode(),
+    //             this.context.settings.getWhichHands(),
+    //         )
+    //     })
+    // }
 
-    private createKeyboardTypeButtons = () => {
-        const visual_keyboard = this.createBasicButton(1200, 200, 'Visual Keyboard', () => {
-            this.context.keyboardType = KeyboardType.VIRTUAL
-        })
+    // private createKeyboardTypeButtons = () => {
+    //     const visual_keyboard = this.createBasicButton(1200, 200, 'Visual Keyboard', () => {
+    //         this.context.keyboardType = KeyboardType.VIRTUAL
+    //     })
         
-        const connected_keyboard = this.createBasicButton(1200, 600, 'Connected Keyboard', () => {
-            this.context.keyboardType = KeyboardType.CONNECTED;
-            this.context.keyboardConnection = new KeyboardConnection();
-            this.context.keyboardConnection.connectMidi();
-        })
-    }
+    //     const connected_keyboard = this.createBasicButton(1200, 600, 'Connected Keyboard', () => {
+    //         this.context.keyboardType = KeyboardType.CONNECTED;
+    //         this.context.keyboardConnection = new KeyboardConnection();
+    //         this.context.keyboardConnection.connectMidi();
+    //     })
+    // }
 
-    private createBasicButton = (x: number, y: number, text: string, callback: Function): Phaser.GameObjects.Text => {
-        return this.add.text(x, y, text)
-            .setFontSize(72)
-            .setColor('black')
-            .setInteractive()
-            .on('pointerdown', callback)
-    }
+    // private createBasicButton = (x: number, y: number, text: string, callback: Function): Phaser.GameObjects.Text => {
+    //     return this.add.text(x, y, text)
+    //         .setFontSize(72)
+    //         .setColor('black')
+    //         .setInteractive()
+    //         .on('pointerdown', callback)
+    // }
     
-    private sendSettingsToServerGoNextScene = () => {
+    // private sendSettingsToServerGoNextScene = () => {
 
-        this.context.stompService.stompIn.subscribeSettingsResponse((settings: SettingsResponse) => {
-            this.scene.start('game', this.context)
-        })
-        this.context.stompService.stompOut.sendGameSettings(this.context.settings);
-    }
+    //     this.context.stompService.stompIn.subscribeSettingsResponse((settings: SettingsResponse) => {
+    //         this.scene.start('game', this.context)
+    //     })
+    //     this.context.stompService.stompOut.sendGameSettings(this.context.settings);
+    // }
 
 
 }
