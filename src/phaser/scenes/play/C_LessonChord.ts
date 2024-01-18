@@ -16,6 +16,7 @@ export default class C_LessonChord extends Phaser.GameObjects.Container {
         this.sheetNoteYPositions = new SheetNoteYPositions();
         this.noteSprites = new Map<number, GameObjects.Sprite>;
         this.spawnNotes(sheetChord);
+        this.createNoteExplodeAnimation();
     }
 
     private spawnNotes = (sheetChord: SheetChord) => {
@@ -40,7 +41,7 @@ export default class C_LessonChord extends Phaser.GameObjects.Container {
             noteY,
             'note_sprite'
         ).setOrigin(0, 0.5)
-        
+
         this.noteSprites.set(sheetNote.getSheetNote(), noteSprite)
         this.add(noteSprite);
     }
@@ -72,5 +73,26 @@ export default class C_LessonChord extends Phaser.GameObjects.Container {
 
     private isOnRight = (noteSprite: GameObjects.Sprite) => {
         return noteSprite.x + this.x == this.x;
+    }
+
+    private createNoteExplodeAnimation = () => {
+        this.noteSprites.forEach(sprite => {
+            sprite.anims.create({
+                key: 'explode',
+                frames: this.scene.anims.generateFrameNumbers('note_sprite', {start: 5, end: 13,}),
+                frameRate: 30,
+                repeat: 0
+            })
+    
+            sprite.on('animationcomplete', () => {
+                sprite.destroy()
+            })
+        })
+    }
+
+    public explode = () => {
+        this.noteSprites.forEach(sprite => {
+            sprite.play('explode');
+        })
     }
 }
