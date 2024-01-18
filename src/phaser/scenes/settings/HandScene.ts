@@ -1,3 +1,6 @@
+import { KeyboardType, WhichHands } from "../../../game/Enum";
+import MidiToSheetNote from "../../../music_model/MidiToSheetNote";
+import SettingsResponse from "../../../stomp_connection/response_objects/SettingsResponse";
 import GameContext from "../../GameContext";
 import P from "../../ObjectPositions";
 
@@ -26,10 +29,35 @@ export default class HandScene extends Phaser.Scene{
     }
 
     public create = () => {
-        this.add.image(P.CHOOSE_HAND_TEXT_PROMPT_CENTER_X(), P.CHOOSE_HAND_TEXT_PROMPT_CENTER_Y(), 'text')
-        this.add.image(P.CHOOSE_HAND_PIANO_LEFT_X(), P.CHOOSE_HAND_PIANO_TOP_Y(), 'piano').setOrigin(0, 0)
-        this.add.image(P.LEFT_HAND_CENTER_X(), P.LEFT_HAND_CENTER_Y(), 'left').setInteractive()
-        this.add.image(P.RIGHT_HAND_CENTER_X(), P.RIGHT_HAND_CENTER_Y(), 'right').setInteractive()
+
+        let piano = this.add.image(P.CHOOSE_HAND_PIANO_LEFT_X(), P.CHOOSE_HAND_PIANO_TOP_Y(), 'piano').setOrigin(0, 0)
+        let textPrompt = this.add.image(P.CHOOSE_HAND_TEXT_PROMPT_CENTER_X(), P.CHOOSE_HAND_TEXT_PROMPT_CENTER_Y(), 'text')
+
+        let leftHand = this.add.image(P.LEFT_HAND_CENTER_X(), P.LEFT_HAND_CENTER_Y(), 'left')
+            .setInteractive()
+            .on('pointerdown', () => {
+                this.context.settings.whichHands = WhichHands.LEFT;
+                this.context.keyboardType = KeyboardType.CONNECTED; // will have separate scene to decide this later
+                this.context.converter = new MidiToSheetNote(
+                    this.context.settings.getKeySigNote(),
+                    this.context.settings.getKeySigMode(),
+                    this.context.settings.getWhichHands(),
+                )
+                this.sendSettingsToServerGoNextScene()
+            })
+
+        let rightHand = this.add.image(P.RIGHT_HAND_CENTER_X(), P.RIGHT_HAND_CENTER_Y(), 'right')
+            .setInteractive()
+            .on('pointerdown', () => {
+                this.context.settings.whichHands = WhichHands.RIGHT;
+                this.context.converter = new MidiToSheetNote(
+                    this.context.settings.getKeySigNote(),
+                    this.context.settings.getKeySigMode(),
+                    this.context.settings.getWhichHands(),
+                )
+                this.context.keyboardType = KeyboardType.CONNECTED;
+                this.sendSettingsToServerGoNextScene()
+            })
     }
 
     public update = () => {
@@ -55,33 +83,13 @@ export default class HandScene extends Phaser.Scene{
     //         )
     //     })
     // }
-
-    // private createKeyboardTypeButtons = () => {
-    //     const visual_keyboard = this.createBasicButton(1200, 200, 'Visual Keyboard', () => {
-    //         this.context.keyboardType = KeyboardType.VIRTUAL
-    //     })
         
-    //     const connected_keyboard = this.createBasicButton(1200, 600, 'Connected Keyboard', () => {
-    //         this.context.keyboardType = KeyboardType.CONNECTED;
-    //         this.context.keyboardConnection = new KeyboardConnection();
-    //         this.context.keyboardConnection.connectMidi();
-    //     })
-    // }
-
-    // private createBasicButton = (x: number, y: number, text: string, callback: Function): Phaser.GameObjects.Text => {
-    //     return this.add.text(x, y, text)
-    //         .setFontSize(72)
-    //         .setColor('black')
-    //         .setInteractive()
-    //         .on('pointerdown', callback)
-    // }
     
-    // private sendSettingsToServerGoNextScene = () => {
-
-    //     this.context.stompService.stompIn.subscribeSettingsResponse((settings: SettingsResponse) => {
-    //         this.scene.start('game', this.context)
-    //     })
-    //     this.context.stompService.stompOut.sendGameSettings(this.context.settings);
-    // }
+    private sendSettingsToServerGoNextScene = () => {
+        this.context.stompService.stompIn.subscribeSettingsResponse((settings: SettingsResponse) => {
+            this.scene.start('game', this.context)
+        })
+        this.context.stompService.stompOut.sendGameSettings(this.context.settings);
+    }
 
 }
