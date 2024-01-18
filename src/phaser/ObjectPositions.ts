@@ -19,28 +19,40 @@ export default class ObjectPositions{
     public static readonly GLINT_CENTER_Y = () => this.H * (1/4) - this.HALF_UNIT()
 
     // settings
-
-    // chordpool
-    public static readonly SINGLE_TEXT_CENTER_X = () => this.W * (1/4)
-    public static readonly SINGLE_TEXT_CENTER_Y = () => this.H * (1/4)
-
-    public static readonly COMBO_TEXT_CENTER_X = () => this.W * (3/4)
-    public static readonly COMBO_TEXT_CENTER_Y = () => this.H * (1/4)
-
     public static readonly GAP_TWEEN_BUTTONS_X = () => this.UNIT() * 5
     public static readonly GAP_TWEEN_BUTTONS_Y = () => this.UNIT() * 4
 
-    public static readonly NOTE_BTN_X = () => this.W * (1/4)
-    public static readonly NOTE_BTN_Y = () => this.H * (2/4)
+    public static readonly ROW_1 = () => this.H * (4.75/10)
+    public static readonly ROW_2 = () => this.H * (8/10)
 
-    public static readonly INTERVAL_BTN_X = () => this.NOTE_BTN_X() + this.GAP_TWEEN_BUTTONS_X()
-    public static readonly INTERVAL_BTN_Y = () => this.NOTE_BTN_Y()
+    public static readonly COL_1 = () => this.W * (2/10)
+    public static readonly COL_2 = () => this.W * (4/10)
+    public static readonly COL_3 = () => this.W * (6/10)
+    public static readonly COL_4 = () => this.W * (8/10)
 
-    public static readonly TRIAD_BTN_X = () => this.NOTE_BTN_X()
-    public static readonly TRIAD_BTN_Y = () => this.NOTE_BTN_Y() + this.GAP_TWEEN_BUTTONS_Y()
 
-    public static readonly TETRAD_BTN_X = () => this.NOTE_BTN_X() + this.GAP_TWEEN_BUTTONS_X()
-    public static readonly TETRAD_BTN_Y = () => this.NOTE_BTN_Y() + this.GAP_TWEEN_BUTTONS_Y()
+    // settings chordpool single
+    public static readonly SINGLE_TEXT_CENTER_X = () => this.W * (1/4)
+    public static readonly SINGLE_TEXT_CENTER_Y = () => this.H * (1/4)
+
+    public static readonly NOTE_BTN_X = () => this.COL_1()
+    public static readonly NOTE_BTN_Y = () => this.ROW_1()
+
+    public static readonly INTERVAL_BTN_X = () => this.COL_2()
+    public static readonly INTERVAL_BTN_Y = () => this.ROW_1()
+
+    public static readonly TRIAD_BTN_X = () => this.COL_1()
+    public static readonly TRIAD_BTN_Y = () => this.ROW_2()
+
+    public static readonly TETRAD_BTN_X = () => this.COL_2()
+    public static readonly TETRAD_BTN_Y = () => this.ROW_2()
+
+    // settings chordpool combo
+    public static readonly COMBO_TEXT_CENTER_X = () => this.W * (3/4)
+    public static readonly COMBO_TEXT_CENTER_Y = () => this.H * (1/4)
+
+    public static readonly NOTE_INTERVAL_X = () => this.ROW_1()
+    public static readonly NOTE_INTERVAL_Y = () => this.COL_3()
 
 
 
