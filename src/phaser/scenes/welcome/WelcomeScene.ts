@@ -2,11 +2,14 @@ import { GameObjects } from "phaser";
 import StompService from "../../../stomp_connection/StompService";
 import GameContext from "../../GameContext";
 import Pos from "../../ObjectPositions";
+import KeyboardConnection from "../../../keyboard_connection/KeyboardConnection";
 
 export default class GameScene extends Phaser.Scene{
 
     private context: GameContext;
     private logo: GameObjects.Sprite;
+    private isIntroAnimationDone: boolean = false;
+    private basePath: string = 'assets/welcome/';
 
     constructor() {
         super({ key: 'welcome' });
@@ -26,21 +29,17 @@ export default class GameScene extends Phaser.Scene{
             frameWidth: 685,
             frameHeight: 600
         })
+        this.load.image('transparent', this.basePath + "transparent.png")
     };
     
     public create = () => {
-
+        this.spawnTransparentNextSceneButton();
         this.spawnBackground(500);
-
         this.spawnLogo(700)
         this.spawnGlint(700)
-
         this.animateLogoGlintOnce(1500)
-
         this.loopAnimateLogoGlint(4000)
-
         this.spawnWelcomeText(2500)
-
     };
 
 
@@ -123,28 +122,33 @@ export default class GameScene extends Phaser.Scene{
                 .setOrigin(0.5, 0.5)
                 .setAlpha(0)
 
+        let pulseText = () => {
+            this.isIntroAnimationDone = true;
+            this.tweens.add({
+                targets: text,
+                alpha: {
+                    value: 0.3,
+                    duration: 750,
+                    ease: 'Sine.easeInOut',
+                    yoyo: true,
+                    repeat: -1
+                }
+            })
+        }
+
+        let fadeInText = () => {
+            this.tweens.add({
+                targets: text,
+                alpha: 1,
+                onComplete: pulseText
+            })       
+        }
+
         this.time.addEvent({
             delay: spawnTime,
             callbackScope: this,
             loop: false,
-            callback: () => {
-                this.tweens.add({
-                    targets: text,
-                    alpha: 1,
-                    onComplete: () => {
-                        this.tweens.add({
-                            targets: text,
-                            alpha: {
-                                value: 0.3,
-                                duration: 750,
-                                ease: 'Sine.easeInOut',
-                                yoyo: true,
-                                repeat: -1
-                            }
-                        })
-                    }
-                })            
-            }
+            callback: fadeInText
         });
     }
 
@@ -166,6 +170,40 @@ export default class GameScene extends Phaser.Scene{
                 })            
             }
         });
+    }
+
+    private spawnTransparentNextSceneButton = () => {
+
+        let goNextScene = () => {
+            if (this.isIntroAnimationDone) {
+
+                // init stomp
+                let stompService = new StompService('ws://localhost:8081/ws');
+                this.context.stompService = stompService;
+                stompService.setOnConnect(frame => {
+                    console.log(frame)
+                    this.scene.start('settings', this.context)
+                })
+                stompService.connectStomp();
+
+                // init keyboard
+                let keyboard = new KeyboardConnection()
+                keyboard.connectMidi()
+                this.context.keyboardConnection = keyboard;
+
+                // stomp observers for keyboard chords
+                keyboard.addChordObserver(stompService);
+
+            } else {
+                console.info('Intro animation is not complete yet, so cannot go to next screen')
+            }
+        }
+
+        this.add.image(0, 0, 'transparent')
+            .setOrigin(0,0)
+            .setAlpha(0.1)
+            .setInteractive()
+            .on('pointerdown', goNextScene);
     }
 
 }
