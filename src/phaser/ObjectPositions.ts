@@ -81,7 +81,7 @@ export default class ObjectPositions{
     public static readonly STAFF_TOPLEFT_Y = () => this.H * (1/3);
     public static readonly STAFF_CENTER_Y = () => 700;
 
-    public static readonly GAP_TWEEN_LESSON_CHORDS = () => this.UNIT() * 5;
+    public static readonly GAP_TWEEN_LESSON_CHORDS = () => this.UNIT() * 3;
     public static readonly VERTICAL_GAP_TWEEN_NOTES = () => this.HALF_UNIT();
 
 }
