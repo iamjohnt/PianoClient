@@ -22,13 +22,13 @@ export default class ObjectPositions{
     public static readonly GAP_TWEEN_BUTTONS_X = () => this.UNIT() * 5
     public static readonly GAP_TWEEN_BUTTONS_Y = () => this.UNIT() * 4
 
-    public static readonly ROW_1 = () => this.H * (4.75/10)
-    public static readonly ROW_2 = () => this.H * (8/10)
+    public static readonly ROW_1 = () => this.H * (1/3)
+    public static readonly ROW_2 = () => this.H * (2/3)
 
-    public static readonly COL_1 = () => this.W * (2/10)
-    public static readonly COL_2 = () => this.W * (4/10)
-    public static readonly COL_3 = () => this.W * (6/10)
-    public static readonly COL_4 = () => this.W * (8/10)
+    public static readonly COL_1 = () => this.W * (1/10) + this.UNIT()
+    public static readonly COL_2 = () => this.W * (3/10) + this.UNIT()
+    public static readonly COL_3 = () => this.W * (5/10) + this.UNIT()
+    public static readonly COL_4 = () => this.W * (7/10) + this.UNIT()
 
 
     // settings chordpool single
@@ -51,8 +51,15 @@ export default class ObjectPositions{
     public static readonly COMBO_TEXT_CENTER_X = () => this.W * (3/4)
     public static readonly COMBO_TEXT_CENTER_Y = () => this.H * (1/4)
 
-    public static readonly NOTE_INTERVAL_X = () => this.ROW_1()
-    public static readonly NOTE_INTERVAL_Y = () => this.COL_3()
+    public static readonly NOTE_INTERVAL_X = () => this.COL_3()
+    public static readonly NOTE_INTERVAL_Y = () => this.ROW_1()
+
+    public static readonly NOTE_INTERVAL_TRIAD_X = () => this.COL_4()
+    public static readonly NOTE_INTERVAL_TRIAD_Y = () => this.ROW_1()
+
+    public static readonly NOTE_INTERVAL_TRIAD_TETRAD_X = () => this.COL_3()
+    public static readonly NOTE_INTERVAL_TRIAD_TETRAD_Y = () => this.ROW_2()
+
 
 
 

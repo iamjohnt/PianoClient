@@ -42,6 +42,9 @@ export default class SettingsScene extends Phaser.Scene{
         this.load.image('tetrad', chordpool + 'tetrad.png')
 
         this.load.image('combo_text', chordpool + 'combo_text.png')
+        this.load.image('note_interval', chordpool + 'note_interval.png')
+        this.load.image('note_interval_triad', chordpool + 'note_interval_triad.png')
+        this.load.image('note_interval_triad_tetrad', chordpool + 'note_interval_triad_tetrad.png')
 
 
 
@@ -51,14 +54,17 @@ export default class SettingsScene extends Phaser.Scene{
     public create = () => {
 
         this.add.image(POS.SINGLE_TEXT_CENTER_X(), POS.SINGLE_TEXT_CENTER_Y(), 'single_text')
-        this.add.image(POS.SINGLE_TEXT_CENTER_X(), POS.SINGLE_TEXT_CENTER_Y(), 'single_text')
-
-        this.add.sprite(POS.NOTE_BTN_X(), POS.NOTE_BTN_Y(), 'note')
-        this.add.sprite(POS.INTERVAL_BTN_X(), POS.INTERVAL_BTN_Y(), 'interval')
-        this.add.sprite(POS.TRIAD_BTN_X(), POS.TRIAD_BTN_Y(), 'triad')
-        this.add.sprite(POS.TETRAD_BTN_X(), POS.TETRAD_BTN_Y(), 'tetrad')
+        this.add.sprite(POS.NOTE_BTN_X(), POS.NOTE_BTN_Y(), 'note').setOrigin(0, 0)
+        this.add.sprite(POS.INTERVAL_BTN_X(), POS.INTERVAL_BTN_Y(), 'interval').setOrigin(0, 0)
+        this.add.sprite(POS.TRIAD_BTN_X(), POS.TRIAD_BTN_Y(), 'triad').setOrigin(0, 0)
+        this.add.sprite(POS.TETRAD_BTN_X(), POS.TETRAD_BTN_Y(), 'tetrad').setOrigin(0, 0)
 
         this.add.image(POS.COMBO_TEXT_CENTER_X(), POS.COMBO_TEXT_CENTER_Y(), 'combo_text')
+        this.add.sprite(POS.NOTE_INTERVAL_X(), POS.NOTE_INTERVAL_Y(), 'note_interval').setOrigin(0, 0)
+        this.add.sprite(POS.NOTE_INTERVAL_TRIAD_X(), POS.NOTE_INTERVAL_TRIAD_Y(), 'note_interval_triad').setOrigin(0, 0)
+        this.add.sprite(POS.NOTE_INTERVAL_TRIAD_TETRAD_X(), POS.NOTE_INTERVAL_TRIAD_TETRAD_Y(), 'note_interval_triad_tetrad').setOrigin(0, 0)
+
+
         
 
         // each group of buttons below adds a setting on click. settings must be chosen in the below order
