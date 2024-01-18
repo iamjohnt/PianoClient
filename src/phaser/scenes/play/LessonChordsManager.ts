@@ -58,6 +58,7 @@ export default class LessonChordsManager {
         if (chordResponse.submissionCorrect) {
             this.moveAllChordsLeft();
         }
+        this.scene.context.isReadyForChordInput = true;
     }
 
 
@@ -73,6 +74,7 @@ export default class LessonChordsManager {
                 let leftMostChord: C_LessonChord = this.lessonChordQ.dequeue();
                 this.lessonChordContainer.remove(leftMostChord)
                 leftMostChord.destroy();
+                this.scene.context.isReadyForChordInput = true;
             }
         });    
     }
