@@ -36,14 +36,30 @@ export default class SettingsScene extends Phaser.Scene{
         let hands = 'assets/settings/hands/'
         
         this.load.image('single_text', chordpool + 'single_text.png')
+        this.load.image('note', chordpool + 'note.png')
+        this.load.image('interval', chordpool + 'interval.png')
+        this.load.image('triad', chordpool + 'triad.png')
+        this.load.image('tetrad', chordpool + 'tetrad.png')
+
         this.load.image('combo_text', chordpool + 'combo_text.png')
+
+
+
 
     };
     
     public create = () => {
 
         this.add.image(POS.SINGLE_TEXT_CENTER_X(), POS.SINGLE_TEXT_CENTER_Y(), 'single_text')
+        this.add.image(POS.SINGLE_TEXT_CENTER_X(), POS.SINGLE_TEXT_CENTER_Y(), 'single_text')
+
+        this.add.sprite(POS.NOTE_BTN_X(), POS.NOTE_BTN_Y(), 'note')
+        this.add.sprite(POS.INTERVAL_BTN_X(), POS.INTERVAL_BTN_Y(), 'interval')
+        this.add.sprite(POS.TRIAD_BTN_X(), POS.TRIAD_BTN_Y(), 'triad')
+        this.add.sprite(POS.TETRAD_BTN_X(), POS.TETRAD_BTN_Y(), 'tetrad')
+
         this.add.image(POS.COMBO_TEXT_CENTER_X(), POS.COMBO_TEXT_CENTER_Y(), 'combo_text')
+        
 
         // each group of buttons below adds a setting on click. settings must be chosen in the below order
         // this.createChordPoolButtons()
