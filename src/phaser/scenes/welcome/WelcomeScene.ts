@@ -2,6 +2,7 @@ import { GameObjects } from "phaser";
 import StompService from "../../../stomp_connection/StompService";
 import GameContext from "../../GameContext";
 import Pos from "../../ObjectPositions";
+import KeyboardConnection from "../../../keyboard_connection/KeyboardConnection";
 
 export default class GameScene extends Phaser.Scene{
 
@@ -175,6 +176,8 @@ export default class GameScene extends Phaser.Scene{
 
         let goNextScene = () => {
             if (this.isIntroAnimationDone) {
+
+                // init stomp
                 let stompService = new StompService('ws://localhost:8081/ws');
                 this.context.stompService = stompService;
                 stompService.setOnConnect(frame => {
@@ -182,6 +185,15 @@ export default class GameScene extends Phaser.Scene{
                     this.scene.start('settings', this.context)
                 })
                 stompService.connectStomp();
+
+                // init keyboard
+                let keyboard = new KeyboardConnection()
+                keyboard.connectMidi()
+                this.context.keyboardConnection = keyboard;
+
+                // stomp observers for keyboard chords
+                keyboard.addChordObserver(stompService);
+
             } else {
                 console.info('Intro animation is not complete yet, so cannot go to next screen')
             }
