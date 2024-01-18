@@ -191,9 +191,6 @@ export default class GameScene extends Phaser.Scene{
                 keyboard.connectMidi()
                 this.context.keyboardConnection = keyboard;
 
-                // stomp observers for keyboard chords
-                keyboard.addChordObserver(stompService);
-
             } else {
                 console.info('Intro animation is not complete yet, so cannot go to next screen')
             }
