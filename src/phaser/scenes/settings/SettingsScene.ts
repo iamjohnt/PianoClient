@@ -1,3 +1,4 @@
+import { GameObjects } from "phaser";
 import { ChordPool, KeySigMode, KeyboardType, WhichHands } from "../../../game/Enum";
 import { GameSettings } from "../../../game/GameSettings";
 import KeyboardConnection from "../../../keyboard_connection/KeyboardConnection";
@@ -10,6 +11,9 @@ import POS from "../../ObjectPositions";
 export default class SettingsScene extends Phaser.Scene{
 
     private context: GameContext;
+
+    private singleContainer: GameObjects.Container;
+    private comboContainer: GameObjects.Container;
 
     constructor() {
         super({ key: 'settings' });
@@ -77,17 +81,26 @@ export default class SettingsScene extends Phaser.Scene{
         let triad = this.add.sprite(POS.TRIAD_BTN_X(), POS.TRIAD_BTN_Y(), 'triad').setOrigin(0, 0).setInteractive()
         let tetrad = this.add.sprite(POS.TETRAD_BTN_X(), POS.TETRAD_BTN_Y(), 'tetrad').setOrigin(0, 0).setInteractive()
 
-        note.on('pointerdown', () => {console.log('asdfasdfasdf')})
+        note.on('pointerdown', () => {this.context.settings.setChordPool(ChordPool.NOTE)})
         interval.on('pointerdown', () => {this.context.settings.setChordPool(ChordPool.INTERVAL)})
         triad.on('pointerdown', () => {this.context.settings.setChordPool(ChordPool.TRIAD)})
         tetrad.on('pointerdown', () => {this.context.settings.setChordPool(ChordPool.TETRAD)})
+
+        this.singleContainer = this.add.container(0, 0, [text, note, interval, triad, tetrad])
+
     }
 
     private createComboModeButtons = () => {
-        this.add.image(POS.COMBO_TEXT_CENTER_X(), POS.COMBO_TEXT_CENTER_Y(), 'combo_text').setOrigin(0, 0).setInteractive();
-        this.add.sprite(POS.NOTE_INTERVAL_X(), POS.NOTE_INTERVAL_Y(), 'note_interval').setOrigin(0, 0).setInteractive();
-        this.add.sprite(POS.NOTE_INTERVAL_TRIAD_X(), POS.NOTE_INTERVAL_TRIAD_Y(), 'note_interval_triad').setOrigin(0, 0).setInteractive();
-        this.add.sprite(POS.NOTE_INTERVAL_TRIAD_TETRAD_X(), POS.NOTE_INTERVAL_TRIAD_TETRAD_Y(), 'note_interval_triad_tetrad').setOrigin(0, 0).setInteractive();
+        let text = this.add.image(POS.COMBO_TEXT_CENTER_X(), POS.COMBO_TEXT_CENTER_Y(), 'combo_text').setOrigin(0, 0).setInteractive();
+        let note_interval = this.add.sprite(POS.NOTE_INTERVAL_X(), POS.NOTE_INTERVAL_Y(), 'note_interval').setOrigin(0, 0).setInteractive();
+        let note_interval_triad = this.add.sprite(POS.NOTE_INTERVAL_TRIAD_X(), POS.NOTE_INTERVAL_TRIAD_Y(), 'note_interval_triad').setOrigin(0, 0).setInteractive();
+        let note_interval_triad_tetrad = this.add.sprite(POS.NOTE_INTERVAL_TRIAD_TETRAD_X(), POS.NOTE_INTERVAL_TRIAD_TETRAD_Y(), 'note_interval_triad_tetrad').setOrigin(0, 0).setInteractive();
+    
+        note_interval.on('pointerdown', () => {this.context.settings.setChordPool(ChordPool.NOTE_INTERVAL)})
+        note_interval_triad.on('pointerdown', () => {this.context.settings.setChordPool(ChordPool.NOTE_INTERVAL_TRIAD)})
+        note_interval_triad_tetrad.on('pointerdown', () => {this.context.settings.setChordPool(ChordPool.NOTE_INTERVAL_TRIAD_TETRAD)}) 
+
+        this.comboContainer = this.add.container(0, 0, [text, note_interval, note_interval_triad, note_interval_triad_tetrad])
     }
 
     // private createChordPoolButtons = () => {
