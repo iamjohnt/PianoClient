@@ -3,7 +3,7 @@ import config from './phaser/config';
 import PlayScene from './phaser/scenes/play/PlayScene';
 import WelcomeScene from './phaser/scenes/welcome/WelcomeScene'
 import SettingsScene from './phaser/scenes/settings/SettingsScene';
-import HandScene from './phaser/scenes/settings/ChooseHandScene';
+import HandScene from './phaser/scenes/settings/HandScene';
 
 class EntryPoint {
 
