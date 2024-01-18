@@ -8,7 +8,7 @@ export default class GameScene extends Phaser.Scene{
 
     private context: GameContext;
     private logo: GameObjects.Sprite;
-    private isIntroAnimationDone: boolean = false;
+    private isIntroAnimationDone: boolean = true;
     private basePath: string = 'assets/welcome/';
 
     constructor() {

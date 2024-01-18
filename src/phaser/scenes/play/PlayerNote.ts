@@ -13,7 +13,7 @@ export default class PlayerNote extends Phaser.GameObjects.Sprite{
     public fadeIn = (onCompleteCallback?: Function) => {
         this.scene.tweens.add({
           targets: this,
-          alpha: 1,
+          alpha: .3,
           duration: 75,
           ease: 'Linear',
           onComplete: onCompleteCallback

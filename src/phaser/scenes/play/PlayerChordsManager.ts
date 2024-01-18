@@ -4,16 +4,19 @@ import PlayerNote from "./PlayerNote";
 import MidiObservable from "../../../keyboard_connection/MidiObservable";
 import MidiMessage from "../../../keyboard_connection/MidiMessage";
 import PlayScene from "./PlayScene";
+import ObjectPositions from "../../ObjectPositions";
 
 export default class PlayerChordsManager implements MidiObservable {
 
     private scene: PlayScene;
     private possiblePlayerSprites: Map<number, PlayerNote>;
+    private note_left_x: number = ObjectPositions.PLAYER_NOTE_LEFT_X();
 
 
     constructor(scene: PlayScene) {
         this.scene = scene;
         this.possiblePlayerSprites = this.populatePlayerNoteSprites();
+        this.spawnCursor();
     }
 
 
@@ -74,17 +77,30 @@ export default class PlayerChordsManager implements MidiObservable {
 
         let sprites: Map<number, PlayerNote> = new Map<number, PlayerNote>();
 
-        let staffCenterPos = 700;
-        let intervalDist = 50;
+        let staffCenterPos = ObjectPositions.STAFF_CENTER_Y();
+        let intervalDist = ObjectPositions.VERTICAL_GAP_TWEEN_NOTES();
         let noteCount = 17;
         let key = -8; // center of 17 is 9. zero out the 9, and you get range of -8 to +8
 
         for (let i = key; i <= 8; i++) {
             let y = staffCenterPos - (i * intervalDist);
-            let curSprite: PlayerNote = new PlayerNote(this.scene, 800, y, 'note_sprite');
+            let curSprite: PlayerNote = new PlayerNote(this.scene, this.note_left_x, y, 'note_sprite');
             sprites.set(i, curSprite)
         }
 
         return sprites;
-    } 
+    }
+
+    private spawnCursor = () => {
+
+        let cursor = this.scene.add.image(ObjectPositions.PLAYER_NOTE_LEFT_X(), ObjectPositions.HEIGHT() / 2, 'cursor').setAlpha(.4)
+
+        this.scene.tweens.add({
+            targets: cursor,
+            alpha: .2,
+            yoyo: true,
+            duration: 700,
+            repeat: -1
+        })
+    }
 }
