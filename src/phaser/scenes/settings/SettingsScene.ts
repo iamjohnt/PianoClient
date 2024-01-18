@@ -37,7 +37,6 @@ export default class SettingsScene extends Phaser.Scene{
     public preload = () => {
     
         let chordpool = 'assets/settings/chordpool/'
-        let hands = 'assets/settings/hands/'
         
         this.load.image('single_text', chordpool + 'single_text.png')
         this.load.image('note', chordpool + 'note.png')

@@ -61,6 +61,15 @@ export default class ObjectPositions{
     public static readonly NOTE_INTERVAL_TRIAD_TETRAD_X = () => this.COL_3()
     public static readonly NOTE_INTERVAL_TRIAD_TETRAD_Y = () => this.ROW_2()
 
+    // settings hands
+    public static readonly LEFT_HAND_CENTER_X = () => this.W * (1/4)
+    public static readonly LEFT_HAND_CENTER_Y = () => this.H * (9/10)
+    public static readonly RIGHT_HAND_CENTER_X = () =>  this.W * (3/4)
+    public static readonly RIGHT_HAND_CENTER_Y = () => this.H * (9/10)
+    public static readonly CHOOSE_HAND_TEXT_PROMPT_CENTER_X = () => this.W / 2
+    public static readonly CHOOSE_HAND_TEXT_PROMPT_CENTER_Y = () => this.H * (2/3)
+    public static readonly CHOOSE_HAND_PIANO_LEFT_X = () => 0 
+    public static readonly CHOOSE_HAND_PIANO_TOP_Y = () => 0
 
 
 

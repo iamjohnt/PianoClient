@@ -1,4 +1,5 @@
 import GameContext from "../../GameContext";
+import P from "../../ObjectPositions";
 
 export default class HandScene extends Phaser.Scene{
 
@@ -16,28 +17,25 @@ export default class HandScene extends Phaser.Scene{
 
     public preload = () => {
         
-        let hands = 'assets/settings/hands/'
+        let base = 'assets/settings/hands/'
 
+        this.load.image('piano', base + 'piano.png')
+        this.load.image('left', base + 'left_hand.png')
+        this.load.image('right', base + 'right_hand.png')
+        this.load.image('text', base + 'text.png')
     }
 
     public create = () => {
-
+        this.add.image(P.CHOOSE_HAND_TEXT_PROMPT_CENTER_X(), P.CHOOSE_HAND_TEXT_PROMPT_CENTER_Y(), 'text')
+        this.add.image(P.CHOOSE_HAND_PIANO_LEFT_X(), P.CHOOSE_HAND_PIANO_TOP_Y(), 'piano').setOrigin(0, 0)
+        this.add.image(P.LEFT_HAND_CENTER_X(), P.LEFT_HAND_CENTER_Y(), 'left').setInteractive()
+        this.add.image(P.RIGHT_HAND_CENTER_X(), P.RIGHT_HAND_CENTER_Y(), 'right').setInteractive()
     }
 
     public update = () => {
 
     }
 
-    // private createChordPoolButtons = () => {
-    //     const level_1 = this.createBasicButton(0, 100, 'Level 1 - NOTE', () => {this.context.settings.setChordPool(ChordPool.NOTE)});
-    //     const level_2 = this.createBasicButton(0, 200, 'Level 2 - INTERVAL', () => {this.context.settings.setChordPool(ChordPool.INTERVAL)});
-    //     const level_3 = this.createBasicButton(0, 300, 'Level 3 - TRIAD', () => {this.context.settings.setChordPool(ChordPool.TRIAD)});
-    //     const level_4 = this.createBasicButton(0, 400, 'Level 4 - TETRAD', () => {this.context.settings.setChordPool(ChordPool.TETRAD)});
-    //     const level_5 = this.createBasicButton(0, 500, 'Level 5 - NOTE_INTERVAL', () => {this.context.settings.setChordPool(ChordPool.NOTE_INTERVAL)});
-    //     const level_6 = this.createBasicButton(0, 600, 'Level 6 - NOTE_INTERVAL_TRIAD', () => {this.context.settings.setChordPool(ChordPool.NOTE_INTERVAL_TRIAD)});
-    //     const level_7 = this.createBasicButton(0, 700, 'Level 7 - NOTE_INTERVAL_TRIAD_TETRAD', () => {this.context.settings.setChordPool(ChordPool.NOTE_INTERVAL_TRIAD_TETRAD)});
-
-    // }
 
     // private createWhichHandButtons = () => {
     //     const left_hand = this.createBasicButton(0, 800, 'Left Hand', () => {
