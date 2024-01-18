@@ -94,7 +94,7 @@ export default class PlayerChordsManager implements MidiObservable {
 
     private spawnCursor = () => {
 
-        let cursor = this.scene.add.image(ObjectPositions.PLAYER_NOTE_LEFT_X(), ObjectPositions.HEIGHT() / 2, 'cursor').setAlpha(.6)
+        let cursor = this.scene.add.image(ObjectPositions.PLAYER_NOTE_LEFT_X(), ObjectPositions.HEIGHT() / 2, 'cursor').setAlpha(.6).setOrigin((1/3), .5)
 
         this.scene.tweens.add({
             targets: cursor,

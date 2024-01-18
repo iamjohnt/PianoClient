@@ -22,7 +22,7 @@ export default class LessonChordsManager {
 
     public spawnLessonChords = (startGameResponse: StartGameResponse) => {
 
-        this.lessonChordContainer = this.scene.add.container(800, 0)
+        this.lessonChordContainer = this.scene.add.container(ObjectPositions.PLAYER_NOTE_LEFT_X(), 0)
         
         // init lesson
         let len = startGameResponse.chordSequence.length;

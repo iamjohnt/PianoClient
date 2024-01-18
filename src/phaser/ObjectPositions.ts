@@ -74,7 +74,7 @@ export default class ObjectPositions{
 
 
     // game
-    public static readonly PLAYER_NOTE_LEFT_X = () => this.UNIT() * 8;
+    public static readonly PLAYER_NOTE_LEFT_X = () => this.UNIT() * 7;
     public static readonly NOTE_COLLIDE_OFFSET = () => this.UNIT() * .75
 
     public static readonly STAFF_TOPLEFT_X = () => this.UNIT() * 4;

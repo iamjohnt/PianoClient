@@ -39,7 +39,8 @@ export default class C_LessonChord extends Phaser.GameObjects.Container {
             noteX,
             noteY,
             'note_sprite'
-        )
+        ).setOrigin(0, 0.5)
+        
         this.noteSprites.set(sheetNote.getSheetNote(), noteSprite)
         this.add(noteSprite);
     }
@@ -53,7 +54,8 @@ export default class C_LessonChord extends Phaser.GameObjects.Container {
             noteX,
             noteY,
             'note_sprite'
-        )
+        ).setOrigin(0, 0.5)
+
         this.noteSprites.set(sheetNote.getSheetNote(), noteSprite)
         this.add(noteSprite);
     }
