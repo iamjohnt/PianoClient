@@ -18,15 +18,26 @@ export default class PlayScene extends Phaser.Scene{
     }
 
     public preload = () => {
-        this.load.image('staff', 'assets/staff.png')
-        this.load.image('note', 'assets/note.png')
-        this.load.image('line', 'assets/line.png')
 
+        let base = 'assets/game/'
+        this.load.image('staff', base + 'staff.png')
+        this.load.spritesheet('note_sprite', base + 'note_sprite.png', {
+            frameWidth: 100,
+            frameHeight: 100
+        })
+        this.load.spritesheet('speed_sprite', base + 'speed_sprite.png', {
+            frameWidth: 1300,
+            frameHeight: 600
+        })
+
+        this.load.image('ledger', base + 'ledger.png')
+        this.load.image('cursor', base + 'cursor.png')
+        this.load.image('spawner', base + 'spawner.png')
 
         if (this.context.settings?.getWhichHands() == WhichHands.LEFT) {
-            this.load.image('clef', 'assets/bass.png')
+            this.load.image('clef', base + 'bass.png')
         } else {
-            this.load.image('clef', 'assets/treble.png')
+            this.load.image('clef', base + 'treble.png')
         }
     };
     

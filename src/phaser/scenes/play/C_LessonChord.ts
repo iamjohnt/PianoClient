@@ -38,7 +38,7 @@ export default class C_LessonChord extends Phaser.GameObjects.Container {
         let noteSprite: GameObjects.Sprite = this.scene.add.sprite(
             noteX,
             noteY,
-            'note'
+            'note_sprite'
         )
         this.noteSprites.set(sheetNote.getSheetNote(), noteSprite)
         this.add(noteSprite);
@@ -52,7 +52,7 @@ export default class C_LessonChord extends Phaser.GameObjects.Container {
         let noteSprite: GameObjects.Sprite = this.scene.add.sprite(
             noteX,
             noteY,
-            'note'
+            'note_sprite'
         )
         this.noteSprites.set(sheetNote.getSheetNote(), noteSprite)
         this.add(noteSprite);

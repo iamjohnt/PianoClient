@@ -81,7 +81,7 @@ export default class PlayerChordsManager implements MidiObservable {
 
         for (let i = key; i <= 8; i++) {
             let y = staffCenterPos - (i * intervalDist);
-            let curSprite: PlayerNote = new PlayerNote(this.scene, 800, y, 'note');
+            let curSprite: PlayerNote = new PlayerNote(this.scene, 800, y, 'note_sprite');
             sprites.set(i, curSprite)
         }
 
