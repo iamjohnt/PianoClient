@@ -33,6 +33,8 @@ export default class PlayScene extends Phaser.Scene{
         this.load.image('ledger', base + 'ledger.png')
         this.load.image('cursor', base + 'cursor.png')
         this.load.image('spawner', base + 'spawner.png')
+        this.load.image('play_background', base + 'play_background.png')
+
 
         if (this.context.settings?.getWhichHands() == WhichHands.LEFT) {
             this.load.image('clef', base + 'bass.png')
@@ -42,8 +44,11 @@ export default class PlayScene extends Phaser.Scene{
     };
     
     public create = () => {
-        this.add.image(0, 0, 'staff').setOrigin(0,0);
-        this.add.image(0, 0, 'clef').setOrigin(0,0);
+
+        this.add.image(0, 0, 'play_background').setOrigin(0, 0).setDepth(-1)
+
+        this.add.image(0, 0, 'staff').setOrigin(0,0)
+        this.add.image(0, 0, 'clef').setOrigin(0,0)
 
         // create managers
         this.playerChordsManager = new PlayerChordsManager(this);

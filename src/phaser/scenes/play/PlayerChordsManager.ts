@@ -94,12 +94,13 @@ export default class PlayerChordsManager implements MidiObservable {
 
     private spawnCursor = () => {
 
-        let cursor = this.scene.add.image(ObjectPositions.PLAYER_NOTE_LEFT_X(), ObjectPositions.HEIGHT() / 2, 'cursor').setAlpha(.4)
+        let cursor = this.scene.add.image(ObjectPositions.PLAYER_NOTE_LEFT_X(), ObjectPositions.HEIGHT() / 2, 'cursor').setAlpha(.6)
 
         this.scene.tweens.add({
             targets: cursor,
             alpha: .2,
             yoyo: true,
+            ease: Phaser.Math.Easing.Quadratic.InOut,
             duration: 700,
             repeat: -1
         })
