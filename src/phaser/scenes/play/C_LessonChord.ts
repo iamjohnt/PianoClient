@@ -74,6 +74,18 @@ export default class C_LessonChord extends Phaser.GameObjects.Container {
         return noteSprite.x + this.x == this.x;
     }
 
+    public fadeOut = () => {
+        this.noteSprites.forEach(sprite => {
+            this.scene.tweens.add({
+                targets: sprite,
+                alpha: 0,
+                duration: 1,
+                ease: 'Linear',
+                onComplete: () => sprite.destroy()
+            });
+        })
+    }
+
     // private createNoteExplodeAnimation = () => {
     //     this.noteSprites.forEach(sprite => {
     //         sprite.anims.create({

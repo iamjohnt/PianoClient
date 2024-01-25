@@ -67,7 +67,8 @@ export default class LessonChordsManager {
     private moveAllChordsLeft = () => {
 
         let removedChord = this.lessonChordQ.dequeue();
-        this.lessonChordContainer.remove(removedChord);
+        removedChord.fadeOut();
+        // this.lessonChordContainer.remove(removedChord);
 
         let tween = this.scene.tweens.add({
             targets: this.lessonChordContainer,
