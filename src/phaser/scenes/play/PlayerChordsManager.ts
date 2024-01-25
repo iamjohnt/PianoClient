@@ -21,6 +21,12 @@ export default class PlayerChordsManager implements MidiObservable {
     }
 
 
+    /*
+    handle ledger
+    upon noteOn / noteOff, update lowest and highest note
+    unhide / hide ledgers based upon lowest and highest note
+    so if highest is 6 or 7, then spawn first ledger - if 8 or 9 then spawn first and second ledger
+    */
     public onUpdate(midiMessage: MidiMessage): void {
         let sheetNote: SheetNote = this.scene.context.converter.getSheetNote(midiMessage);
         let onOff = sheetNote.getOnOrOff();
@@ -57,7 +63,7 @@ export default class PlayerChordsManager implements MidiObservable {
                 }
             }
         } else {
-            // taking note off, so maybe all collided notes can reset? need to confirm, possible bug
+            // taking note off, so maybe all collided notes can reset? need to confirm, possible bug - possibly need flag / semaphore to avoid race condition
             let sprite: PlayerNote | undefined = this.possiblePlayerSprites.get(note);
             if (sprite) {
                 sprite.setIsActive(false)
