@@ -36,7 +36,6 @@ export default class PlayScene extends Phaser.Scene{
         this.load.image('cursor', base + 'cursor.png')
         this.load.image('spawner', base + 'spawner.png')
         this.load.image('white_background', base + 'white_background.png')
-        this.load.image('green_highlight', base + 'green_highlight.png')
 
 
 
@@ -52,7 +51,6 @@ export default class PlayScene extends Phaser.Scene{
         this.add.image(0, 0, 'white_background').setOrigin(0, 0).setDepth(-1)
         this.add.image(0, 0, 'staff').setOrigin(0,0)
         this.add.image(0, 0, 'clef').setOrigin(0,0)
-        this.add.image(0, 0, 'green_highlight').setOrigin(0, 0).setDepth(-1)
 
 
         // create managers
