@@ -35,9 +35,6 @@ export default class C_LessonChord extends Phaser.GameObjects.Container {
 
         let top = sheetChord.getTopPosition();
         let bot = sheetChord.getBottomPosition();
-        console.log('top position' + top)
-        console.log('bot position' + bot)
-
         
         if (top >= 6) {
             let y = this.sheetNoteYPositions.getYPositionFromValue(6)

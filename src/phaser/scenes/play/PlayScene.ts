@@ -51,8 +51,8 @@ export default class PlayScene extends Phaser.Scene{
         this.add.image(0, 0, 'clef').setOrigin(0,0)
 
         // create managers
-        this.playerChordsManager = new PlayerChordsManager(this);
         this.lessonChordsManager = new LessonChordsManager(this);
+        this.playerChordsManager = new PlayerChordsManager(this);
 
         // attach
         this.context.keyboardConnection.addNoteObserver(this.playerChordsManager);
