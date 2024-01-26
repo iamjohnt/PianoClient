@@ -2,6 +2,7 @@ import { WhichHands } from "../../../game/Enum";
 import GameContext from "../../GameContext";
 import PlayerChordsManager from "./PlayerChordsManager";
 import LessonChordsManager from "./LessonChordsManager";
+import ObjectPositions from "../../ObjectPositions";
 
 export default class PlayScene extends Phaser.Scene{
 
@@ -30,10 +31,13 @@ export default class PlayScene extends Phaser.Scene{
             frameHeight: 600
         })
 
+        this.load.image('blue_note', base + 'blue_note.png')
         this.load.image('ledger', base + 'ledger.png')
         this.load.image('cursor', base + 'cursor.png')
         this.load.image('spawner', base + 'spawner.png')
-        this.load.image('play_background', base + 'play_background.png')
+        this.load.image('white_background', base + 'white_background.png')
+        this.load.image('green_highlight', base + 'green_highlight.png')
+
 
 
         if (this.context.settings?.getWhichHands() == WhichHands.LEFT) {
@@ -45,14 +49,17 @@ export default class PlayScene extends Phaser.Scene{
     
     public create = () => {
 
-        this.add.image(0, 0, 'play_background').setOrigin(0, 0).setDepth(-1)
-
+        this.add.image(0, 0, 'white_background').setOrigin(0, 0).setDepth(-1)
         this.add.image(0, 0, 'staff').setOrigin(0,0)
         this.add.image(0, 0, 'clef').setOrigin(0,0)
+        this.add.image(0, 0, 'green_highlight').setOrigin(0, 0).setDepth(-1)
+
 
         // create managers
         this.lessonChordsManager = new LessonChordsManager(this);
         this.playerChordsManager = new PlayerChordsManager(this);
+
+        this.add.image(ObjectPositions.WIDTH(), ObjectPositions.HEIGHT() / 2, 'spawner').setOrigin(1, .5)
 
         // attach
         this.context.keyboardConnection.addNoteObserver(this.playerChordsManager);

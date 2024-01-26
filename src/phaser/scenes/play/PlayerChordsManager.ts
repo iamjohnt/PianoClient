@@ -17,7 +17,6 @@ export default class PlayerChordsManager implements MidiObservable {
         this.scene = scene;
         this.possiblePlayerSprites = this.populatePlayerNoteSprites();
         this.spawnCursor();
-        this.spawnNoteSpawner();
     }
 
 
@@ -91,7 +90,7 @@ export default class PlayerChordsManager implements MidiObservable {
 
         for (let i = key; i <= 8; i++) {
             let y = staffCenterPos - (i * intervalDist);
-            let curSprite: PlayerNote = new PlayerNote(this.scene, this.note_left_x, y, 'note_sprite');
+            let curSprite: PlayerNote = new PlayerNote(this.scene, this.note_left_x, y, 'blue_note');
             sprites.set(i, curSprite)
         }
 
@@ -100,7 +99,7 @@ export default class PlayerChordsManager implements MidiObservable {
 
     private spawnCursor = () => {
 
-        let cursor = this.scene.add.image(ObjectPositions.PLAYER_NOTE_LEFT_X(), ObjectPositions.HEIGHT() / 2, 'cursor').setAlpha(.6)
+        let cursor = this.scene.add.image(ObjectPositions.PLAYER_NOTE_LEFT_X(), ObjectPositions.HEIGHT() / 2, 'cursor').setAlpha(.6).setScale(.75, 1)
 
         this.scene.tweens.add({
             targets: cursor,
@@ -110,10 +109,5 @@ export default class PlayerChordsManager implements MidiObservable {
             duration: 700,
             repeat: -1
         })
-    }
-
-    private spawnNoteSpawner = () => {
-
-        let spawner = this.scene.add.image(ObjectPositions.WIDTH(), ObjectPositions.STAFF_CENTER_Y(), 'spawner')
     }
 }
