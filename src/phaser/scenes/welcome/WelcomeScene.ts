@@ -8,7 +8,7 @@ export default class GameScene extends Phaser.Scene{
 
     private context: GameContext;
     private logo: GameObjects.Sprite;
-    private isIntroAnimationDone: boolean = false;
+    private isIntroAnimationDone: boolean = true;
     private basePath: string = 'assets/welcome/';
 
     constructor() {
@@ -190,9 +190,6 @@ export default class GameScene extends Phaser.Scene{
                 let keyboard = new KeyboardConnection()
                 keyboard.connectMidi()
                 this.context.keyboardConnection = keyboard;
-
-                // stomp observers for keyboard chords
-                keyboard.addChordObserver(stompService);
 
             } else {
                 console.info('Intro animation is not complete yet, so cannot go to next screen')

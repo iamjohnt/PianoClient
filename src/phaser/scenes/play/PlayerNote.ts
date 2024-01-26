@@ -1,3 +1,5 @@
+import ObjectPositions from "../../ObjectPositions";
+
 export default class PlayerNote extends Phaser.GameObjects.Sprite{
 
     private isActive: boolean = false;
@@ -13,7 +15,7 @@ export default class PlayerNote extends Phaser.GameObjects.Sprite{
     public fadeIn = (onCompleteCallback?: Function) => {
         this.scene.tweens.add({
           targets: this,
-          alpha: 1,
+          alpha: .3,
           duration: 75,
           ease: 'Linear',
           onComplete: onCompleteCallback
@@ -33,7 +35,7 @@ export default class PlayerNote extends Phaser.GameObjects.Sprite{
     public goRight = (onCompleteCallback?: Function) => {
         this.scene.tweens.add({
             targets: this,
-            x: 800,
+            x: ObjectPositions.PLAYER_NOTE_LEFT_X(),
             duration: 75,
             ease: 'Linear',
             onComplete: onCompleteCallback
@@ -43,7 +45,7 @@ export default class PlayerNote extends Phaser.GameObjects.Sprite{
     public goLeft = (onCompleteCallback?: Function) => {
         this.scene.tweens.add({
             targets: this,
-            x: 725,
+            x: ObjectPositions.PLAYER_NOTE_LEFT_X() - (ObjectPositions.UNIT() * .75),
             duration: 125,
             ease: 'Quint.easeIn',
             onComplete: onCompleteCallback

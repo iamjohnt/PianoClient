@@ -25,4 +25,46 @@ export default class SheetChord {
     public getSheetNotes = (): Set<SheetNote> => {
         return this.sheetNotes
     }
+
+    public getTopPosition = (): number => {
+        let curTop = -999999;
+        this.sheetNotes.forEach(note => {
+            if (note.getSheetNote() > curTop) {
+                curTop = note.getSheetNote()
+            }
+        })
+        return curTop;
+    }
+
+    public getBottomPosition = (): number => {
+        let curBot = 999999;
+        this.sheetNotes.forEach(note => {
+            if (note.getSheetNote() < curBot) {
+                curBot = note.getSheetNote()
+            }
+        })
+        return curBot;
+    }
+
+    public getTopSheetNote = (): SheetNote => {
+        let curTop = -999999;
+        let rtn!: SheetNote;
+        this.sheetNotes.forEach(note => {
+            if (note.getSheetNote() > curTop) {
+                rtn = note
+            }
+        })
+        return rtn;
+    }
+
+    public getBottomSheetNote = (): SheetNote => {
+        let curBot = 9999999;
+        let rtn!: SheetNote;
+        this.sheetNotes.forEach(note => {
+            if (note.getSheetNote() < curBot) {
+                rtn = note;
+            }
+        })
+        return rtn;
+    }
 }

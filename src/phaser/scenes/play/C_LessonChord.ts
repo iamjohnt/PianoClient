@@ -15,6 +15,7 @@ export default class C_LessonChord extends Phaser.GameObjects.Container {
 
         this.sheetNoteYPositions = new SheetNoteYPositions();
         this.noteSprites = new Map<number, GameObjects.Sprite>;
+        this.spawnLedgers(sheetChord);
         this.spawnNotes(sheetChord);
     }
 
@@ -30,6 +31,33 @@ export default class C_LessonChord extends Phaser.GameObjects.Container {
         });
     }
 
+    private spawnLedgers = (sheetChord: SheetChord) => {
+
+        let top = sheetChord.getTopPosition();
+        let bot = sheetChord.getBottomPosition();
+        
+        if (top >= 6) {
+            let y = this.sheetNoteYPositions.getYPositionFromValue(6)
+            let ledgerSprite = this.scene.add.sprite(0, y, 'ledger')
+            this.add(ledgerSprite)
+        }
+        if (top >= 8) {
+            let y = this.sheetNoteYPositions.getYPositionFromValue(8)
+            let ledgerSprite = this.scene.add.sprite(0, y, 'ledger')
+            this.add(ledgerSprite)
+        }
+        if (bot <= -6) {
+            let y = this.sheetNoteYPositions.getYPositionFromValue(-6)
+            let ledgerSprite = this.scene.add.sprite(0, y, 'ledger')
+            this.add(ledgerSprite)
+        }
+        if (bot <= -8) {
+            let y = this.sheetNoteYPositions.getYPositionFromValue(-8)
+            let ledgerSprite = this.scene.add.sprite(0, y, 'ledger')
+            this.add(ledgerSprite)
+        }
+    }
+
     private spawnRight = (sheetNote: SheetNote) => {
 
         let noteX = 0 - ObjectPositions.NOTE_COLLIDE_OFFSET();
@@ -38,8 +66,9 @@ export default class C_LessonChord extends Phaser.GameObjects.Container {
         let noteSprite: GameObjects.Sprite = this.scene.add.sprite(
             noteX,
             noteY,
-            'note'
+            'note_sprite'
         )
+
         this.noteSprites.set(sheetNote.getSheetNote(), noteSprite)
         this.add(noteSprite);
     }
@@ -52,8 +81,9 @@ export default class C_LessonChord extends Phaser.GameObjects.Container {
         let noteSprite: GameObjects.Sprite = this.scene.add.sprite(
             noteX,
             noteY,
-            'note'
+            'note_sprite'
         )
+
         this.noteSprites.set(sheetNote.getSheetNote(), noteSprite)
         this.add(noteSprite);
     }
@@ -71,4 +101,41 @@ export default class C_LessonChord extends Phaser.GameObjects.Container {
     private isOnRight = (noteSprite: GameObjects.Sprite) => {
         return noteSprite.x + this.x == this.x;
     }
+
+    public fadeOut = () => {
+        // this.noteSprites.forEach(sprite => {
+        //     this.scene.tweens.add({
+        //         targets: sprite,
+        //         alpha: 0,
+        //         duration: 1,
+        //         ease: 'Linear',
+        //         onComplete: () => sprite.destroy()
+        //     });
+        // })
+        let children:Array<GameObjects.GameObject> = this.getAll();
+        children.forEach(obj => {
+            obj.destroy()
+        })
+    }
+
+    // private createNoteExplodeAnimation = () => {
+    //     this.noteSprites.forEach(sprite => {
+    //         sprite.anims.create({
+    //             key: 'explode',
+    //             frames: this.scene.anims.generateFrameNumbers('note_sprite', {start: 5, end: 13,}),
+    //             frameRate: 30,
+    //             repeat: 0
+    //         })
+    
+    //         sprite.on('animationcomplete', () => {
+    //             sprite.destroy()
+    //         })
+    //     })
+    // }
+
+    // public explode = () => {
+    //     this.noteSprites.forEach(sprite => {
+    //         sprite.play('explode');
+    //     })
+    // }
 }

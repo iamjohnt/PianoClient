@@ -22,7 +22,7 @@ export default class LessonChordsManager {
 
     public spawnLessonChords = (startGameResponse: StartGameResponse) => {
 
-        this.lessonChordContainer = this.scene.add.container(800, 0)
+        this.lessonChordContainer = this.scene.add.container(ObjectPositions.PLAYER_NOTE_LEFT_X(), 0)
         
         // init lesson
         let len = startGameResponse.chordSequence.length;
@@ -57,6 +57,8 @@ export default class LessonChordsManager {
         console.log(chordResponse.submissionCorrect)
         if (chordResponse.submissionCorrect) {
             this.moveAllChordsLeft();
+        } else {
+            this.scene.context.isReadyForChordInput = true;
         }
     }
 
@@ -64,15 +66,17 @@ export default class LessonChordsManager {
 
     private moveAllChordsLeft = () => {
 
+        let removedChord = this.lessonChordQ.dequeue();
+        removedChord.fadeOut();
+        // this.lessonChordContainer.remove(removedChord);
+
         let tween = this.scene.tweens.add({
             targets: this.lessonChordContainer,
             x: this.lessonChordContainer.x - ObjectPositions.GAP_TWEEN_LESSON_CHORDS(),
             duration: 300,
-            ease: 'Quint.InOut',
+            ease: Phaser.Math.Easing.Quintic.Out,
             onComplete: () => {
-                let leftMostChord: C_LessonChord = this.lessonChordQ.dequeue();
-                this.lessonChordContainer.remove(leftMostChord)
-                leftMostChord.destroy();
+                this.scene.context.isReadyForChordInput = true;
             }
         });    
     }

@@ -74,13 +74,14 @@ export default class ObjectPositions{
 
 
     // game
-    public static readonly PLAYER_NOTE_CENTER_X = () => this.UNIT() * 8;
+    public static readonly PLAYER_NOTE_LEFT_X = () => this.UNIT() * 7;
     public static readonly NOTE_COLLIDE_OFFSET = () => this.UNIT() * .75
 
     public static readonly STAFF_TOPLEFT_X = () => this.UNIT() * 4;
     public static readonly STAFF_TOPLEFT_Y = () => this.H * (1/3);
     public static readonly STAFF_CENTER_Y = () => 700;
 
-    public static readonly GAP_TWEEN_LESSON_CHORDS = () => this.UNIT() * 5;
+    public static readonly GAP_TWEEN_LESSON_CHORDS = () => this.UNIT() * 3;
+    public static readonly VERTICAL_GAP_TWEEN_NOTES = () => this.HALF_UNIT();
 
 }
