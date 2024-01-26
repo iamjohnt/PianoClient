@@ -15,6 +15,7 @@ export default class C_LessonChord extends Phaser.GameObjects.Container {
 
         this.sheetNoteYPositions = new SheetNoteYPositions();
         this.noteSprites = new Map<number, GameObjects.Sprite>;
+        this.spawnLedgers(sheetChord);
         this.spawnNotes(sheetChord);
     }
 
@@ -28,6 +29,36 @@ export default class C_LessonChord extends Phaser.GameObjects.Container {
                 this.spawnLeft(note);
             }
         });
+    }
+
+    private spawnLedgers = (sheetChord: SheetChord) => {
+
+        let top = sheetChord.getTopPosition();
+        let bot = sheetChord.getBottomPosition();
+        console.log('top position' + top)
+        console.log('bot position' + bot)
+
+        
+        if (top >= 6) {
+            let y = this.sheetNoteYPositions.getYPositionFromValue(6)
+            let ledgerSprite = this.scene.add.sprite(0, y, 'ledger')
+            this.add(ledgerSprite)
+        }
+        if (top >= 8) {
+            let y = this.sheetNoteYPositions.getYPositionFromValue(8)
+            let ledgerSprite = this.scene.add.sprite(0, y, 'ledger')
+            this.add(ledgerSprite)
+        }
+        if (bot <= -6) {
+            let y = this.sheetNoteYPositions.getYPositionFromValue(-6)
+            let ledgerSprite = this.scene.add.sprite(0, y, 'ledger')
+            this.add(ledgerSprite)
+        }
+        if (bot <= -8) {
+            let y = this.sheetNoteYPositions.getYPositionFromValue(-8)
+            let ledgerSprite = this.scene.add.sprite(0, y, 'ledger')
+            this.add(ledgerSprite)
+        }
     }
 
     private spawnRight = (sheetNote: SheetNote) => {
@@ -75,14 +106,18 @@ export default class C_LessonChord extends Phaser.GameObjects.Container {
     }
 
     public fadeOut = () => {
-        this.noteSprites.forEach(sprite => {
-            this.scene.tweens.add({
-                targets: sprite,
-                alpha: 0,
-                duration: 1,
-                ease: 'Linear',
-                onComplete: () => sprite.destroy()
-            });
+        // this.noteSprites.forEach(sprite => {
+        //     this.scene.tweens.add({
+        //         targets: sprite,
+        //         alpha: 0,
+        //         duration: 1,
+        //         ease: 'Linear',
+        //         onComplete: () => sprite.destroy()
+        //     });
+        // })
+        let children:Array<GameObjects.GameObject> = this.getAll();
+        children.forEach(obj => {
+            obj.destroy()
         })
     }
 

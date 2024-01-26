@@ -28,4 +28,14 @@ export default class SheetNoteYPositions {
             return val;
         }
     }
+
+    public getYPositionFromValue = (noteVal: number): number => {
+        let val = this.yPositions.get(noteVal);
+        if (val == undefined) {
+            console.error("SheetNoteYPositions: sheet note position does not exist in map: " + noteVal.toString())
+            return -12345
+        } else {
+            return val;
+        }
+    }
 }
