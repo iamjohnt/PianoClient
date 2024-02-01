@@ -178,7 +178,9 @@ export default class GameScene extends Phaser.Scene{
             if (this.isIntroAnimationDone) {
 
                 // init stomp
-                let stompService = new StompService('ws://localhost:8081/ws');
+                // let stompService = new StompService('wss://stomp.supersightread.com/ws');
+                let url: string = import.meta.env.VITE_STOMP_SERVER_URL;
+                let stompService = new StompService(url);
                 this.context.stompService = stompService;
                 stompService.setOnConnect(frame => {
                     console.log(frame)

@@ -6,6 +6,7 @@ import ChordSequenceHandler from "./ChordSequenceHandler";
 
 export default class StompConnection {
 
+    // private stompURL = 'wss://stomp.supersightread.com/ws';
     private stompURL = 'ws://localhost:8081/ws';
     // private stompDomain = 'ws://localhost:8080';
     // private stompBrokerPath = '/chordresponse';
