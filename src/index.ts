@@ -22,6 +22,7 @@ class EntryPoint {
     ]
 }
 
-const entry = new EntryPoint();
+console.log("stomp server url: " + import.meta.env.VITE_STOMP_SERVER_URL)
 
+const entry = new EntryPoint();
 entry.goToFirstScene()

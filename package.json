@@ -8,7 +8,9 @@
     "test": "vitest",
     "coverage": "vitest --coverage",
     "build": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "bprod": "vite build --mode=production",
+    "bdev": "vite build --mode=development"
   },
   "repository": {
     "type": "git",

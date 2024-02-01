@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import replace from '@rollup/plugin-replace';
+import { resolve } from 'path';
 
 export default defineConfig({
   build: {
