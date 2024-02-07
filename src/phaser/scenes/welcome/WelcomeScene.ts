@@ -200,7 +200,7 @@ export default class GameScene extends Phaser.Scene{
 
         this.add.image(0, 0, 'transparent')
             .setOrigin(0,0)
-            .setAlpha(0.1)
+            .setAlpha(1)
             .setInteractive()
             .on('pointerdown', goNextScene);
     }
