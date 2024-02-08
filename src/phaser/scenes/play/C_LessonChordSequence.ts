@@ -1,28 +1,27 @@
-import { GameObjects } from "phaser";
+import { GameObjects, Scene } from "phaser";
 import StartGameResponse from "../../../stomp_connection/response_objects/StartGameResponse";
 import Queue from "../../../data_structure/Queue";
 import SheetChord from "../../../music_model/SheetChord";
 import MidiMessage from "../../../keyboard_connection/MidiMessage";
-import PlayScene from "./PlayScene";
 import SheetNote from "../../../music_model/SheetNote";
 import C_LessonChord from "./C_LessonChord";
 import ObjectPositions from "../../ObjectPositions";
 import ChordResponse from "../../../stomp_connection/response_objects/ChordResponse";
+import GameContext from "../../GameContext";
 
-export default class LessonChordsManager {
+export default class C_LessonChordSequence extends GameObjects.Container{
 
-    private scene: PlayScene;
-    private lessonChordContainer: GameObjects.Container;
     private lessonChordQ: Queue<C_LessonChord>;
+    private context: GameContext;
 
 
-    constructor(scene: PlayScene) {
-        this.scene = scene;
+    constructor(scene: Scene, x: number, y: number, context: GameContext) {
+        super(scene, x, y)
+        scene.add.existing(this)
+        this.context = context;
     }
 
     public spawnLessonChords = (startGameResponse: StartGameResponse) => {
-
-        this.lessonChordContainer = this.scene.add.container(ObjectPositions.PLAYER_NOTE_LEFT_X(), 0)
         
         // init lesson
         let len = startGameResponse.chordSequence.length;
@@ -36,7 +35,7 @@ export default class LessonChordsManager {
             let sheetChord: SheetChord = new SheetChord();
             chordObj.chord.forEach(note => {
                 let midiNote: MidiMessage = new MidiMessage(144, note, 100);
-                let sheetNote: SheetNote = this.scene.context.converter.getSheetNote(midiNote);
+                let sheetNote: SheetNote = this.context.converter.getSheetNote(midiNote);
                 sheetChord.addNote(sheetNote);
             });
 
@@ -44,7 +43,7 @@ export default class LessonChordsManager {
             let c_lessonChord = new C_LessonChord(this.scene, chordX, 0, sheetChord)
 
             // add game object chord to container + queue
-            this.lessonChordContainer.add(c_lessonChord)
+            this.add(c_lessonChord)
             this.lessonChordQ.enqueue(c_lessonChord);
 
             // increment position
@@ -58,7 +57,7 @@ export default class LessonChordsManager {
         if (chordResponse.submissionCorrect) {
             this.moveAllChordsLeft();
         } else {
-            this.scene.context.isReadyForChordInput = true;
+            this.context.isReadyForChordInput = true;
         }
     }
 
@@ -71,14 +70,14 @@ export default class LessonChordsManager {
         // this.lessonChordContainer.remove(removedChord);
 
         let tween = this.scene.tweens.add({
-            targets: this.lessonChordContainer,
-            x: this.lessonChordContainer.x - ObjectPositions.GAP_TWEEN_LESSON_CHORDS(),
+            targets: this,
+            x: this.x - ObjectPositions.GAP_TWEEN_LESSON_CHORDS(),
             duration: 300,
             ease: Phaser.Math.Easing.Quintic.Out,
             onComplete: () => {
-                this.scene.context.isReadyForChordInput = true;
+                this.context.isReadyForChordInput = true;
             }
-        });    
+        });
     }
 
 

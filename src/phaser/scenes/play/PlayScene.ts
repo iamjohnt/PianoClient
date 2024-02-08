@@ -1,14 +1,15 @@
 import { WhichHands } from "../../../game/Enum";
 import GameContext from "../../GameContext";
 import PlayerChordsManager from "./PlayerChordsManager";
-import LessonChordsManager from "./LessonChordsManager";
+import LessonChordsContainer from "./C_LessonChordSequence";
 import ObjectPositions from "../../ObjectPositions";
+import C_LessonChordSequence from "./C_LessonChordSequence";
 
 export default class PlayScene extends Phaser.Scene{
 
     public context: GameContext;
     private playerChordsManager: PlayerChordsManager;
-    private lessonChordsManager: LessonChordsManager;
+    private lessonChordsManager: LessonChordsContainer;
 
     constructor() {
         super({ key: 'game' });
@@ -54,7 +55,7 @@ export default class PlayScene extends Phaser.Scene{
 
 
         // create managers
-        this.lessonChordsManager = new LessonChordsManager(this);
+        this.lessonChordsManager = new C_LessonChordSequence(this, ObjectPositions.PLAYER_NOTE_LEFT_X() , 0, this.context);
         this.playerChordsManager = new PlayerChordsManager(this);
 
         this.add.image(ObjectPositions.WIDTH(), ObjectPositions.HEIGHT() / 2, 'spawner').setOrigin(1, .5)
