@@ -4,6 +4,7 @@ import C_PlayerNotePool from "./C_PlayerNotePool";
 import LessonChordsContainer from "./C_LessonChordSequence";
 import ObjectPositions from "../../ObjectPositions";
 import C_LessonChordSequence from "./C_LessonChordSequence";
+import C_MusicSheet from "./C_MusicSheet";
 
 export default class PlayScene extends Phaser.Scene{
 
@@ -22,7 +23,7 @@ export default class PlayScene extends Phaser.Scene{
     public preload = () => {
 
         let base = 'assets/game/'
-        this.load.image('staff', base + 'staff.png')
+        this.load.image('staff', base + 'staff2.png')
         this.load.spritesheet('note_sprite', base + 'note_sprite.png', {
             frameWidth: 100,
             frameHeight: 100
@@ -41,22 +42,22 @@ export default class PlayScene extends Phaser.Scene{
 
 
         if (this.context.settings?.getWhichHands() == WhichHands.LEFT) {
-            this.load.image('clef', base + 'bass.png')
+            this.load.image('clef', base + 'bass2.png')
         } else {
-            this.load.image('clef', base + 'treble.png')
+            this.load.image('clef', base + 'treble2.png')
         }
     };
     
     public create = () => {
 
         this.add.image(0, 0, 'white_background').setOrigin(0, 0).setDepth(-1)
-        this.add.image(0, 0, 'staff').setOrigin(0,0)
-        this.add.image(0, 0, 'clef').setOrigin(0,0)
-
 
         // create managers
         this.lessonChordsManager = new C_LessonChordSequence(this, ObjectPositions.PLAYER_NOTE_LEFT_X() , 0, this.context);
         this.playerChordsManager = new C_PlayerNotePool(this, ObjectPositions.PLAYER_NOTE_LEFT_X(), 0, this.context);
+        let musicSheet = new C_MusicSheet(this, ObjectPositions.WIDTH() / 10, ObjectPositions.HEIGHT() / 2, this.context.settings.getWhichHands());
+        musicSheet.add(this.lessonChordsManager)
+        musicSheet.add(this.playerChordsManager)
 
         this.add.image(ObjectPositions.WIDTH(), ObjectPositions.HEIGHT() / 2, 'spawner').setOrigin(1, .5)
 

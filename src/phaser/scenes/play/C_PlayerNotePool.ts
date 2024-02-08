@@ -87,13 +87,12 @@ export default class C_PlayerNotePool extends GameObjects.Container implements M
 
         let sprites: Map<number, PlayerNote> = new Map<number, PlayerNote>();
 
-        let staffCenterPos = ObjectPositions.STAFF_CENTER_Y();
         let intervalDist = ObjectPositions.VERTICAL_GAP_TWEEN_NOTES();
         let noteCount = 17;
         let key = -8; // center of 17 is 9. zero out the 9, and you get range of -8 to +8
 
         for (let i = key; i <= 8; i++) {
-            let y = staffCenterPos - (i * intervalDist);
+            let y = 0 - (i * intervalDist);
             let curSprite: PlayerNote = new PlayerNote(this.scene, 0, y, 'blue_note');
             this.add(curSprite);
             sprites.set(i, curSprite)
@@ -104,7 +103,7 @@ export default class C_PlayerNotePool extends GameObjects.Container implements M
 
     private spawnCursor = () => {
 
-        let cursor = this.scene.add.image(0, ObjectPositions.HEIGHT() / 2, 'cursor').setAlpha(.3).setScale(.75, 1).setOrigin(.5, .5)
+        let cursor = this.scene.add.image(0, 0, 'cursor').setAlpha(.3).setScale(.75, 1).setOrigin(.5, .5)
         this.add(cursor)
 
         this.scene.tweens.add({
