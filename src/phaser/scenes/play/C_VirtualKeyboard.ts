@@ -61,7 +61,11 @@ export default class C_VirtualKeyboard extends GameObjects.Container{
         .setOrigin(0, 0)
         .setInteractive()
         .on('pointerdown', () => {
+            key.setFillStyle(0XC8C8C8);
             console.log(midivalue.toString())
+        })
+        .on('pointerout', () => {
+            key.setFillStyle(0Xffffff);
         })
         this.add(key)
     }
@@ -71,7 +75,11 @@ export default class C_VirtualKeyboard extends GameObjects.Container{
         .setOrigin(.5, 0)
         .setInteractive()
         .on('pointerdown', () => {
+            key.setFillStyle(0X303030);
             console.log(midivalue.toString())
+        })
+        .on('pointerout', () => {
+            key.setFillStyle(0X000000);
         })
         this.add(key)
     }
