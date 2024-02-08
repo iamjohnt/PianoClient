@@ -4,6 +4,7 @@ import PlayScene from './phaser/scenes/play/PlayScene';
 import WelcomeScene from './phaser/scenes/welcome/WelcomeScene'
 import SettingsScene from './phaser/scenes/settings/SettingsScene';
 import HandScene from './phaser/scenes/settings/HandScene';
+import PlaySceneVirtualKeyboard from './phaser/scenes/play/PlaySceneVirtualKeyboard';
 
 class EntryPoint {
 
@@ -12,7 +13,7 @@ class EntryPoint {
     constructor() {
         this.game = new Phaser.Game(
             Object.assign(config, {
-                scene: [WelcomeScene, SettingsScene, PlayScene, HandScene]
+                scene: [WelcomeScene, SettingsScene, PlayScene, HandScene, PlaySceneVirtualKeyboard]
             })
         );
     }
