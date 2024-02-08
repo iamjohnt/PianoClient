@@ -35,7 +35,7 @@ export default class PlayerNote extends Phaser.GameObjects.Sprite{
     public goRight = (onCompleteCallback?: Function) => {
         this.scene.tweens.add({
             targets: this,
-            x: ObjectPositions.PLAYER_NOTE_LEFT_X(),
+            x: 0,
             duration: 75,
             ease: 'Linear',
             onComplete: onCompleteCallback
@@ -45,7 +45,7 @@ export default class PlayerNote extends Phaser.GameObjects.Sprite{
     public goLeft = (onCompleteCallback?: Function) => {
         this.scene.tweens.add({
             targets: this,
-            x: ObjectPositions.PLAYER_NOTE_LEFT_X() - (ObjectPositions.UNIT() * .75),
+            x: 0 - (ObjectPositions.UNIT() * .75),
             duration: 125,
             ease: 'Quint.easeIn',
             onComplete: onCompleteCallback

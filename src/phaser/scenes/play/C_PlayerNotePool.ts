@@ -5,16 +5,20 @@ import MidiObservable from "../../../keyboard_connection/MidiObservable";
 import MidiMessage from "../../../keyboard_connection/MidiMessage";
 import PlayScene from "./PlayScene";
 import ObjectPositions from "../../ObjectPositions";
+import { GameObjects } from "phaser";
+import GameContext from "../../GameContext";
 
-export default class PlayerChordsManager implements MidiObservable {
+export default class C_PlayerNotePool extends GameObjects.Container implements MidiObservable {
 
-    private scene: PlayScene;
     private possiblePlayerSprites: Map<number, PlayerNote>;
-    private note_left_x: number = ObjectPositions.PLAYER_NOTE_LEFT_X();
+    private context: GameContext;
 
 
-    constructor(scene: PlayScene) {
-        this.scene = scene;
+    constructor(scene: Phaser.Scene, x: number, y: number, context: GameContext) {
+        super(scene, x, y)
+        scene.add.existing(this)
+        this.context = context;
+
         this.possiblePlayerSprites = this.populatePlayerNoteSprites();
         this.spawnCursor();
     }
@@ -27,7 +31,7 @@ export default class PlayerChordsManager implements MidiObservable {
     so if highest is 6 or 7, then spawn first ledger - if 8 or 9 then spawn first and second ledger
     */
     public onUpdate(midiMessage: MidiMessage): void {
-        let sheetNote: SheetNote = this.scene.context.converter.getSheetNote(midiMessage);
+        let sheetNote: SheetNote = this.context.converter.getSheetNote(midiMessage);
         let onOff = sheetNote.getOnOrOff();
         let note = sheetNote.getSheetNote();
         let noteAbove = note + 1;
@@ -90,7 +94,8 @@ export default class PlayerChordsManager implements MidiObservable {
 
         for (let i = key; i <= 8; i++) {
             let y = staffCenterPos - (i * intervalDist);
-            let curSprite: PlayerNote = new PlayerNote(this.scene, this.note_left_x, y, 'blue_note');
+            let curSprite: PlayerNote = new PlayerNote(this.scene, 0, y, 'blue_note');
+            this.add(curSprite);
             sprites.set(i, curSprite)
         }
 
@@ -99,7 +104,8 @@ export default class PlayerChordsManager implements MidiObservable {
 
     private spawnCursor = () => {
 
-        let cursor = this.scene.add.image(ObjectPositions.PLAYER_NOTE_LEFT_X(), ObjectPositions.HEIGHT() / 2, 'cursor').setAlpha(.3).setScale(.75, 1)
+        let cursor = this.scene.add.image(0, ObjectPositions.HEIGHT() / 2, 'cursor').setAlpha(.3).setScale(.75, 1).setOrigin(.5, .5)
+        this.add(cursor)
 
         this.scene.tweens.add({
             targets: cursor,
