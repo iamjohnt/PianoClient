@@ -1,8 +1,11 @@
 import { GameObjects } from "phaser";
+import ChordBuffer from "../../../keyboard_connection/ChordBuffer";
 
 export default class C_VirtualKeyboard extends GameObjects.Container{
 
     // private testText: GameObjects.Text;
+
+    private chordBuffer: ChordBuffer;
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y)
@@ -67,6 +70,9 @@ export default class C_VirtualKeyboard extends GameObjects.Container{
         .on('pointerout', () => {
             key.setFillStyle(0Xffffff);
         })
+        .on('pointerup', () => {
+            key.setFillStyle(0Xffffff);
+        })
         this.add(key)
     }
 
@@ -79,6 +85,9 @@ export default class C_VirtualKeyboard extends GameObjects.Container{
             console.log(midivalue.toString())
         })
         .on('pointerout', () => {
+            key.setFillStyle(0X000000);
+        })
+        .on('pointerup', () => {
             key.setFillStyle(0X000000);
         })
         this.add(key)
