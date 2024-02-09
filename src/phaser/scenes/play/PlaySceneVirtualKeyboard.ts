@@ -7,6 +7,7 @@ import C_LessonChordSequence from "./C_LessonChordSequence";
 import C_MusicSheet from "./C_MusicSheet";
 import C_VirtualKeyboard from "./C_VirtualKeyboard";
 import ChordBuffer from "../../../keyboard_connection/ChordBuffer";
+import MidiObservable from "../../../keyboard_connection/MidiObservable";
 
 export default class PlaySceneVirtualKeyboard extends Phaser.Scene{
 
@@ -78,7 +79,9 @@ export default class PlaySceneVirtualKeyboard extends Phaser.Scene{
 
         // virtual keyboard
         let virtualKeyboard = new C_VirtualKeyboard(this, 100, 750).setScale(1.42, 1.42)
-        virtualKeyboard.setChordBuffer(this.context.virtualKeyboardChordBuffer)
+        virtualKeyboard.setChordBuffer(this.context.virtualKeyboardChordBuffer) // connect to server
+        virtualKeyboard.addNoteObserver(this.playerChordsManager);
+
     };
 
     public update = () => {

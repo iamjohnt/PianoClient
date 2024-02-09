@@ -10,6 +10,8 @@ export default class C_VirtualKeyboard extends GameObjects.Container{
 
     public chordBuffer: MidiObservable; 
 
+    private playerChordManager: MidiObservable;
+
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y)
         scene.add.existing(this)
@@ -74,12 +76,12 @@ export default class C_VirtualKeyboard extends GameObjects.Container{
             key.setFillStyle(0XC8C8C8);
             console.log(midivalue.toString())
             this.chordBuffer.onUpdate(new MidiMessage(144, midivalue, 100));
+            this.playerChordManager.onUpdate(new MidiMessage(144, midivalue, 100))
         })
         .on('pointerout', () => {
             key.setFillStyle(0Xffffff);
-        })
-        .on('pointerup', () => {
-            key.setFillStyle(0Xffffff);
+            console.log('pointer out')
+            this.playerChordManager.onUpdate(new MidiMessage(144, midivalue, 0))
         })
         this.add(key)
     }
@@ -92,14 +94,19 @@ export default class C_VirtualKeyboard extends GameObjects.Container{
             key.setFillStyle(0X303030);
             console.log(midivalue.toString())
             this.chordBuffer.onUpdate(new MidiMessage(144, midivalue, 100));
+            this.playerChordManager.onUpdate(new MidiMessage(144, midivalue, 100))
         })
         .on('pointerout', () => {
             key.setFillStyle(0X000000);
-        })
-        .on('pointerup', () => {
-            key.setFillStyle(0X000000);
+            this.playerChordManager.onUpdate(new MidiMessage(144, midivalue, 0))
         })
         this.add(key)
+    }
+
+
+
+    public addNoteObserver = (observer: MidiObservable) => {
+        this.playerChordManager = observer;
     }
 
 }
