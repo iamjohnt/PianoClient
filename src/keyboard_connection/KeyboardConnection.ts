@@ -21,7 +21,8 @@ export default class KeyboardConnection {
             )
         } 
 
-        this.chordBuffer = new ChordBuffer(this.notifyObservers);
+        this.chordBuffer = new ChordBuffer();
+        this.chordBuffer.setWhenChordReadyHandler(this.notifyObservers)
         this.midiConnection = new MidiConnection();
         this.midiConnectionRelay = new MidiConnectionRelay();
 

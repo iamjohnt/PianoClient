@@ -8,9 +8,11 @@ export default class ChordBuffer implements MidiObservable{
     private chord: Set<number>;
     private countdown: CountdownV2;
 
-    constructor(whenChordReadyHandler: (chord: Set<number>) => void) {
+    constructor() {
         this.chord = new Set();
+    }
 
+    public setWhenChordReadyHandler = (whenChordReadyHandler: (chord: Set<number>) => void) => {
         let onCountdownDone = () => {
             whenChordReadyHandler(this.chord);
             this.chord.clear();

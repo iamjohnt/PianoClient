@@ -6,6 +6,7 @@ import ObjectPositions from "../../ObjectPositions";
 import C_LessonChordSequence from "./C_LessonChordSequence";
 import C_MusicSheet from "./C_MusicSheet";
 import C_VirtualKeyboard from "./C_VirtualKeyboard";
+import ChordBuffer from "../../../keyboard_connection/ChordBuffer";
 
 export default class PlaySceneVirtualKeyboard extends Phaser.Scene{
 
@@ -65,7 +66,7 @@ export default class PlaySceneVirtualKeyboard extends Phaser.Scene{
         this.add.image(ObjectPositions.WIDTH(), ObjectPositions.HEIGHT() / 2, 'spawner').setOrigin(1, .5)
 
         // attach
-        this.context.keyboardConnection.addNoteObserver(this.playerChordsManager);
+        // this.context.keyboardConnection.addNoteObserver(this.playerChordsManager);
         this.context.handleChordSequence = this.lessonChordsManager.spawnLessonChords;
         this.context.handleChordResponse = this.lessonChordsManager.handleChordResponse;
 
@@ -75,8 +76,9 @@ export default class PlaySceneVirtualKeyboard extends Phaser.Scene{
         // start the game
         this.context.stompService.stompOut.startGame("dummytext");
 
+        // virtual keyboard
         let virtualKeyboard = new C_VirtualKeyboard(this, 100, 750).setScale(1.42, 1.42)
-
+        virtualKeyboard.setChordBuffer(this.context.virtualKeyboardChordBuffer)
     };
 
     public update = () => {

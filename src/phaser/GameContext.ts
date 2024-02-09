@@ -9,6 +9,8 @@ import StartGameResponse from "../stomp_connection/response_objects/StartGameRes
 import ChordSequenceHandler from "../stomp_connection/ChordSequenceHandler";
 import ChordResponse from "../stomp_connection/response_objects/ChordResponse";
 import ChordObservable from "../keyboard_connection/ChordObservable";
+import MidiObservable from "../keyboard_connection/MidiObservable";
+import ChordBuffer from "../keyboard_connection/ChordBuffer";
 
 
 export default class GameContext implements ChordSequenceHandler, ChordObservable {
@@ -25,6 +27,8 @@ export default class GameContext implements ChordSequenceHandler, ChordObservabl
     public handleChordSequence: (startGameResponse: StartGameResponse) => void;
     public handleChordResponse: (chordResponse: ChordResponse) => void;
     public handleNoteFromKeyboard: () => void;
+    public isVirtualKeyboard: boolean = true;
+    public virtualKeyboardChordBuffer: ChordBuffer;
 
     // flags
     public isReadyForChordInput = true;
@@ -34,8 +38,14 @@ export default class GameContext implements ChordSequenceHandler, ChordObservabl
     }
 
     public connectGameToServer = () => {
+        // !!!!! IF connected keybord, then use below. If virtual, then virtual keyboard add a chord observer. Inside the virtual keyboard, the chord buffer will observe for midi outputs
         // keyboard chords has stomp observer - (on observe, sends chord)
-        this.keyboardConnection.addChordObserver(this);
+        if (this.isVirtualKeyboard) {
+            this.virtualKeyboardChordBuffer = new ChordBuffer();
+            this.virtualKeyboardChordBuffer.setWhenChordReadyHandler(this.onKeyboardChord)
+        } else {
+            this.keyboardConnection.addChordObserver(this);
+        }
 
         // subscribe for game start
         this.stompService.stompIn.subscribeStartGameResponse((chordSeq: StartGameResponse) => {

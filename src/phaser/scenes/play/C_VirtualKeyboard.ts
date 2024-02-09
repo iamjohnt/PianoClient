@@ -1,11 +1,14 @@
 import { GameObjects } from "phaser";
 import ChordBuffer from "../../../keyboard_connection/ChordBuffer";
+import ChordObservable from "../../../keyboard_connection/ChordObservable";
+import MidiObservable from "../../../keyboard_connection/MidiObservable";
+import MidiMessage from "../../../keyboard_connection/MidiMessage";
 
 export default class C_VirtualKeyboard extends GameObjects.Container{
 
     // private testText: GameObjects.Text;
 
-    private chordBuffer: ChordBuffer;
+    public chordBuffer: MidiObservable; 
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y)
@@ -53,6 +56,10 @@ export default class C_VirtualKeyboard extends GameObjects.Container{
         this.createBlackKey(1700, 85) // c sharp 6
     }
 
+    public setChordBuffer = (chordBuffer: ChordBuffer) => {
+        this.chordBuffer = chordBuffer;
+    }
+
     private createPianoBase = (scene: Phaser.Scene) => {
         let base = scene.add.rectangle(-60, 0, 1820, 350, 0X000000)
             .setOrigin(0, 0)
@@ -66,6 +73,7 @@ export default class C_VirtualKeyboard extends GameObjects.Container{
         .on('pointerdown', () => {
             key.setFillStyle(0XC8C8C8);
             console.log(midivalue.toString())
+            this.chordBuffer.onUpdate(new MidiMessage(144, midivalue, 100));
         })
         .on('pointerout', () => {
             key.setFillStyle(0Xffffff);
@@ -83,6 +91,7 @@ export default class C_VirtualKeyboard extends GameObjects.Container{
         .on('pointerdown', () => {
             key.setFillStyle(0X303030);
             console.log(midivalue.toString())
+            this.chordBuffer.onUpdate(new MidiMessage(144, midivalue, 100));
         })
         .on('pointerout', () => {
             key.setFillStyle(0X000000);
