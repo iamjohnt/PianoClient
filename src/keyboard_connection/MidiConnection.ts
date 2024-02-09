@@ -47,7 +47,7 @@ export default class MidiConnection {
     } 
 
     public setOnConnectFailure = (newHandler: (error: any) => void) => {
-        this.onConnectSuccess = newHandler;
+        this.onConnectFailure = newHandler;
     } 
 
     private onMIDIMessageHandler = (message: any) => {

@@ -86,8 +86,16 @@ export default class HandScene extends Phaser.Scene{
         
     
     private sendSettingsToServerGoNextScene = () => {
+
+        let nextSceneId = ''
+        if (this.context.isVirtualKeyboard) {
+            nextSceneId = 'play_virtual_keyboard'
+        } else {
+            nextSceneId = 'game'
+        }
+
         this.context.stompService.stompIn.subscribeSettingsResponse((settings: SettingsResponse) => {
-            this.scene.start('game', this.context)
+            this.scene.start(nextSceneId, this.context)
         })
         this.context.stompService.stompOut.sendGameSettings(this.context.settings);
     }

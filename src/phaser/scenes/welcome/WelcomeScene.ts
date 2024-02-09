@@ -184,14 +184,14 @@ export default class GameScene extends Phaser.Scene{
                 this.context.stompService = stompService;
                 stompService.setOnConnect(frame => {
                     console.log(frame)
-                    this.scene.start('settings', this.context)
+                    this.scene.start('keyboardmode', this.context)
                 })
                 stompService.connectStomp();
 
-                // init keyboard
-                let keyboard = new KeyboardConnection()
-                keyboard.connectMidi()
-                this.context.keyboardConnection = keyboard;
+                // // init keyboard
+                // let keyboard = new KeyboardConnection()
+                // keyboard.connectMidi()
+                // this.context.keyboardConnection = keyboard;
 
             } else {
                 console.info('Intro animation is not complete yet, so cannot go to next screen')
