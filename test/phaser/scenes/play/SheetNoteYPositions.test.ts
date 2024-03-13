@@ -22,12 +22,12 @@ describe('sheet note y positions', () => {
     it('center note', () => {
         let note = new SheetNote(0, Accidental.NATURAL, NoteOnOff.ON)
         let y = yPos.getYPosition(note);
-        expect(y).toBe(ObjectPositions.STAFF_CENTER_Y())
+        expect(y).toBe(0)
     })
 
     it('higher note', () => {
         let note = new SheetNote(1, Accidental.NATURAL, NoteOnOff.ON)
         let y = yPos.getYPosition(note);
-        expect(y).toBe(ObjectPositions.STAFF_CENTER_Y() - (ObjectPositions.UNIT() / 2))
+        expect(y).toBe(-50)
     })
 })
