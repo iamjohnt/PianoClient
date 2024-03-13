@@ -6,4 +6,4 @@
 /coverage
 /test/dummy.ts
 /public
-/.DS_Store
+**/.DS_Store
