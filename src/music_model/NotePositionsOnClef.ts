@@ -3,7 +3,7 @@ import BlackWhiteKeys from "./BlackWhiteKeys";
 
 export default class NotePositionsOnClef {
 
-    private readonly D3 = 48;
+    private readonly D3 = 50;
     private readonly B4 = 71;
     private center: number;
     private centerIndex: number;
