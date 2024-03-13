@@ -22,7 +22,8 @@ afterEach(() => {
 describe('when single note received, and timer done', () => {
 
     it('mock should execute once, when done', () => {
-        let buffer = new ChordBuffer(mockOnChordReady);
+        let buffer = new ChordBuffer();
+        buffer.setWhenChordReadyHandler(mockOnChordReady)
         relay.addObserver(buffer);
         relay.receiveMidiMessage(new MidiMessage(144, 60, 1));
         vi.runAllTimers();
@@ -30,7 +31,8 @@ describe('when single note received, and timer done', () => {
     })
 
     it('mock should execute once, at exact buffer time limit ', () => {
-        let buffer = new ChordBuffer(mockOnChordReady);
+        let buffer = new ChordBuffer();
+        buffer.setWhenChordReadyHandler(mockOnChordReady)
         relay.addObserver(buffer);
         relay.receiveMidiMessage(new MidiMessage(144, 60, 1));
         vi.advanceTimersByTime(buffer.MS_TILL_BUFFER_FLUSH);
@@ -42,7 +44,8 @@ describe('when single note received, and timer done', () => {
 describe('when single note received, but timer NOT done yet', () => {
 
     it('mock should NOT execute after only half time limit has passed', () => {
-        let buffer = new ChordBuffer(mockOnChordReady);
+        let buffer = new ChordBuffer();
+        buffer.setWhenChordReadyHandler(mockOnChordReady)
         relay.addObserver(buffer);
         relay.receiveMidiMessage(new MidiMessage(144, 60, 1));
         vi.advanceTimersByTime(buffer.MS_TILL_BUFFER_FLUSH - (buffer.MS_TILL_BUFFER_FLUSH / 2));
@@ -50,7 +53,8 @@ describe('when single note received, but timer NOT done yet', () => {
     })
 
     it('mock should NOT execute after 1 ms below the time limit has passed', () => {
-        let buffer = new ChordBuffer(mockOnChordReady);
+        let buffer = new ChordBuffer();
+        buffer.setWhenChordReadyHandler(mockOnChordReady)
         relay.addObserver(buffer);
         relay.receiveMidiMessage(new MidiMessage(144, 60, 1));
         vi.advanceTimersByTime(buffer.MS_TILL_BUFFER_FLUSH - 1);
@@ -68,7 +72,8 @@ describe('when 2 notes received before countdown finishes, and then timer finish
     }
 
     it('there should be NO notes stored, since the buffer flushes upon countdown finish', () => {
-        let buffer = new ChordBuffer(getChord);
+        let buffer = new ChordBuffer();
+        buffer.setWhenChordReadyHandler(getChord)
         relay.addObserver(buffer);
         relay.receiveMidiMessage(new MidiMessage(144, 60, 1));
         relay.receiveMidiMessage(new MidiMessage(144, 62, 1));
@@ -82,7 +87,8 @@ describe('when 2 notes received before countdown finishes, and then timer finish
 describe('when 2 notes received before timer finishes, and the timer is NOT finished yet', () => {
 
     it('the 2 notes should be bundled together as one chord, when midi message is recieved barely before time limite both times', () => {
-        let buffer = new ChordBuffer(mockOnChordReady);
+        let buffer = new ChordBuffer();
+        buffer.setWhenChordReadyHandler(mockOnChordReady)
         relay.addObserver(buffer);
 
         relay.receiveMidiMessage(new MidiMessage(144, 60, 1));
