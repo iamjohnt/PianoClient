@@ -3,9 +3,9 @@ import config from './phaser/config';
 import PlayScene from './phaser/scenes/play/PlayScene';
 import WelcomeScene from './phaser/scenes/welcome/WelcomeScene'
 import SettingsScene from './phaser/scenes/settings/SettingsScene';
-import HandScene from './phaser/scenes/settings/HandScene';
+import HandScene from './phaser/scenes/hand/HandScene';
 import PlaySceneVirtualKeyboard from './phaser/scenes/play/PlaySceneVirtualKeyboard';
-import KeyboardModeScene from './phaser/scenes/settings/KeyboardModeScene';
+import KeyboardModeScene from './phaser/scenes/keyboard_mode/KeyboardModeScene';
 
 class EntryPoint {
 
