@@ -23,18 +23,20 @@ export default class KeyboardModeScene extends Phaser.Scene{
 
     public create = () => {
 
-        let errorX = ObjectPositions.WIDTH() * (3/4) - 100
-        let errorY = ObjectPositions.HEIGHT() * (9.5/10)
-        let error_no_midi = this.add.text(errorX, errorY, 'error, no connected midi devices detected')
+        // error message
+        let errorMsgX = ObjectPositions.WIDTH() * (3/4) - 100
+        let errorMsgY = ObjectPositions.HEIGHT() * (9.5/10)
+        let error_no_midi_msg = this.add.text(errorMsgX, errorMsgY, 'error, no connected midi devices detected')
             .setColor('#ff0000')
             .setAlpha(0)
             .setFontFamily('Arial')
             .setFontSize(48)
             .setOrigin(.5, .5)
 
-        let virtualX = ObjectPositions.WIDTH() * (1/4) + 100
-        let virtualY = ObjectPositions.HEIGHT() * (1.25/3)
-        let virtual_button = this.add.image(virtualX, virtualY, 'virtual')
+        // virtual keyboard button
+        let virtualKeyboardButtonX = ObjectPositions.WIDTH() * (1/4) + 100
+        let virtualKeyboardButtonY = ObjectPositions.HEIGHT() * (1.25/3)
+        let virtual_button = this.add.image(virtualKeyboardButtonX, virtualKeyboardButtonY, 'virtual')
             .setOrigin(.5, .5)
             .setScale(.70)
             .setInteractive()
@@ -43,9 +45,10 @@ export default class KeyboardModeScene extends Phaser.Scene{
                 this.scene.start('settings', this.context)
             })
         
-        let connectedX = ObjectPositions.WIDTH() * (3/4) - 100
-        let connectedY = ObjectPositions.HEIGHT() * (1.25/3)
-        let connected_button = this.add.image(connectedX, connectedY, 'connected')
+        // connected keyboard button
+        let connectedKeyboardButtonX = ObjectPositions.WIDTH() * (3/4) - 100
+        let connectedKeyboardButtonY = ObjectPositions.HEIGHT() * (1.25/3)
+        let connected_button = this.add.image(connectedKeyboardButtonX, connectedKeyboardButtonY, 'connected')
             .setOrigin(.5, .5)
             .setScale(.70)
             .setInteractive()
@@ -57,7 +60,7 @@ export default class KeyboardModeScene extends Phaser.Scene{
                 keyboard.setOnConnectMidiFailure((error: any) => {
                     console.log(error)
                     console.log('ayylmao')
-                    error_no_midi.setAlpha(1)
+                    error_no_midi_msg.setAlpha(1)
                 })
 
                 keyboard.setOnConnectMidiSuccess((error: any) => {
@@ -69,9 +72,10 @@ export default class KeyboardModeScene extends Phaser.Scene{
                 keyboard.connectMidi()
             })
 
-        let textX = ObjectPositions.WIDTH() * (3/4) - 100
-        let textY = ObjectPositions.HEIGHT() * (3.25/4)
-        let required_text = this.add.image(textX, textY, 'required')
+        // connected keyboard instructions / info
+        let infoMsgX = ObjectPositions.WIDTH() * (3/4) - 100
+        let infoMsgY = ObjectPositions.HEIGHT() * (3.25/4)
+        let required_text = this.add.image(infoMsgX, infoMsgY, 'required')
             .setOrigin(.5, .5)
             .setScale(.9)
 
