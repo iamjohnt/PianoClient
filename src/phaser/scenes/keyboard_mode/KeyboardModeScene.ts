@@ -1,8 +1,13 @@
+import { ChordPool } from "../../../game/Enum";
+import { GameSettings } from "../../../game/GameSettings";
 import KeyboardConnection from "../../../keyboard_connection/KeyboardConnection";
+import { KeySigMode, KeySigNote } from "../../../music_model/Enums";
 import GameContext from "../../GameContext";
 import ObjectPositions from "../../ObjectPositions";
 
 export default class KeyboardModeScene extends Phaser.Scene{
+
+    private noDetectedMidiDeviceErrorText: Phaser.GameObjects.Text;
 
     public context: GameContext;
 
@@ -26,7 +31,7 @@ export default class KeyboardModeScene extends Phaser.Scene{
         // error message
         let errorMsgX = ObjectPositions.WIDTH() * (3/4) - 100
         let errorMsgY = ObjectPositions.HEIGHT() * (9.5/10)
-        let error_no_midi_msg = this.add.text(errorMsgX, errorMsgY, 'error, no connected midi devices detected')
+        this.noDetectedMidiDeviceErrorText = this.add.text(errorMsgX, errorMsgY, 'error, no connected midi devices detected')
             .setColor('#ff0000')
             .setAlpha(0)
             .setFontFamily('Arial')
@@ -40,10 +45,7 @@ export default class KeyboardModeScene extends Phaser.Scene{
             .setOrigin(.5, .5)
             .setScale(.70)
             .setInteractive()
-            .on('pointerdown', () => {
-                this.context.isVirtualKeyboard = true;
-                this.scene.start('settings', this.context)
-            })
+            .on('pointerdown', this.onVirtualKeyboardButtonClick)
         
         // connected keyboard button
         let connectedKeyboardButtonX = ObjectPositions.WIDTH() * (3/4) - 100
@@ -52,25 +54,7 @@ export default class KeyboardModeScene extends Phaser.Scene{
             .setOrigin(.5, .5)
             .setScale(.70)
             .setInteractive()
-            .on('pointerdown', () => {
-                this.context.isVirtualKeyboard = false;
-
-                // init keyboard
-                let keyboard = new KeyboardConnection()
-                keyboard.setOnConnectMidiFailure((error: any) => {
-                    console.log(error)
-                    console.log('ayylmao')
-                    error_no_midi_msg.setAlpha(1)
-                })
-
-                keyboard.setOnConnectMidiSuccess((error: any) => {
-                    console.log(error)
-                    console.log('ayylmao')
-                    this.context.keyboardConnection = keyboard;
-                    this.scene.start('settings', this.context)
-                })
-                keyboard.connectMidi()
-            })
+            .on('pointerdown', this.onConnectedKeyboardButtonClick)
 
         // connected keyboard instructions / info
         let infoMsgX = ObjectPositions.WIDTH() * (3/4) - 100
@@ -78,11 +62,43 @@ export default class KeyboardModeScene extends Phaser.Scene{
         let required_text = this.add.image(infoMsgX, infoMsgY, 'required')
             .setOrigin(.5, .5)
             .setScale(.9)
-
-
-
-            
     }
 
+    private onConnectedKeyboardButtonClick = () => {
+        // connect to the keyboard
+        this.context.isVirtualKeyboard = false;
+
+        let keyboard = new KeyboardConnection()
+        keyboard.setOnConnectMidiFailure((error: any) => {
+            console.log(error)
+            console.log('ayylmao')
+            this.noDetectedMidiDeviceErrorText.setAlpha(1)
+        })
+
+        keyboard.setOnConnectMidiSuccess((error: any) => {
+            console.log(error)
+            console.log('ayylmao')
+            this.context.keyboardConnection = keyboard;
+            this.scene.start('settings', this.context)
+        })
+        keyboard.connectMidi()
+    }
+
+    private onVirtualKeyboardButtonClick = () => {
+        
+        this.context.isVirtualKeyboard = true;
+        let baseSettings = new GameSettings()
+            .setKeySigNote(KeySigNote.C)
+            .setKeySigMode(KeySigMode.MAJOR)
+            .setLeftMin(36) // c2
+            .setLeftMax(64) // e4
+            .setRightMin(57) // a3
+            .setRightMax(84) // c6
+            .setLength(30)
+            .setChordPool(ChordPool.NOTE)
+
+        this.context.settings = baseSettings;
+        this.scene.start('hands', this.context)
+    }
 
 }
