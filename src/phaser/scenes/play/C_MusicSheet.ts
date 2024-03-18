@@ -1,6 +1,6 @@
 import { GameObjects } from "phaser";
 import ObjectPositions from "../../ObjectPositions";
-import { WhichHands } from "../../../game/Enum";
+import { WhichHands } from "../../../music_model/Enums";
 
 export default class C_MusicSheet extends GameObjects.Container{
 

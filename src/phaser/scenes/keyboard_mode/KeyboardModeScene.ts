@@ -1,7 +1,6 @@
-import { ChordPool } from "../../../game/Enum";
 import { GameSettings } from "../../../game/GameSettings";
 import KeyboardConnection from "../../../keyboard_connection/KeyboardConnection";
-import { KeySigMode, KeySigNote } from "../../../music_model/Enums";
+import { ChordPool, KeySigMode, KeySigNote } from "../../../music_model/Enums";
 import GameContext from "../../GameContext";
 import ObjectPositions from "../../ObjectPositions";
 

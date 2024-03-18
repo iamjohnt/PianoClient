@@ -1,4 +1,4 @@
-import { ChordPool, KeySigMode, KeySigNote, WhichHands } from "../../../game/Enum";
+import { ChordPool, KeySigMode, KeySigNote, WhichHands } from "../../../music_model/Enums";
 import { GameSettings } from "../../../game/GameSettings";
 import StompConnection from "../../../stomp_connection/StompConnection";
 

@@ -1,4 +1,4 @@
-import { KeyboardType, WhichHands } from "../../../game/Enum";
+import { KeyboardType, WhichHands } from "../../../music_model/Enums";
 import MidiToSheetNote from "../../../music_model/MidiToSheetNote";
 import SettingsResponse from "../../../stomp_connection/response_objects/SettingsResponse";
 import GameContext from "../../GameContext";

@@ -1,4 +1,4 @@
-import { WhichHands } from "../../../game/Enum";
+import { WhichHands } from "../../../music_model/Enums";
 import GameContext from "../../GameContext";
 import C_PlayerNotePool from "./C_PlayerNotePool";
 import LessonChordsContainer from "./C_LessonChordSequence";

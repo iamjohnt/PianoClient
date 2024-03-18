@@ -1,7 +1,7 @@
 import { GameSettings } from "../game/GameSettings";
 import KeyboardConnection from "../keyboard_connection/KeyboardConnection";
 import StompService from "../stomp_connection/StompService";
-import { KeyboardType } from "../game/Enum";
+import { KeyboardType } from "../music_model/Enums";
 import MidiToSheetNote from "../music_model/MidiToSheetNote";
 import Queue from "../data_structure/Queue";
 import SheetChord from "../music_model/SheetChord";

@@ -1,4 +1,4 @@
-import { WhichHands } from "../game/Enum";
+import { WhichHands } from "../music_model/Enums";
 import MidiMessage from "../keyboard_connection/MidiMessage";
 import BlackWhiteKeys from "./BlackWhiteKeys";
 import { Accidental, Clef, KeySigMode, KeySigNote, NoteOnOff } from "./Enums";

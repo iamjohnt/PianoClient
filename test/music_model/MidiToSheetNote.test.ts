@@ -2,7 +2,7 @@ import {afterEach, beforeEach, describe, test, expect, it, vi} from "vitest";
 import MidiToSheetNote from "../../src/music_model/MidiToSheetNote"
 import { KeySigNote, KeySigMode, Clef, NoteOnOff } from "../../src/music_model/Enums";
 import MidiMessage from "../../src/keyboard_connection/MidiMessage";
-import { WhichHands } from "../../src/game/Enum";
+import { WhichHands } from "../../src/music_model/Enums";
 
 describe('midi msg to sheet note converter RIGHT hand', () => {
 

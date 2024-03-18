@@ -1,4 +1,4 @@
-import { KeySigNote, KeySigMode, ChordPool, WhichHands } from "./Enum";
+import { KeySigNote, KeySigMode, ChordPool, WhichHands } from "../music_model/Enums";
 
 export class GameSettings {
 

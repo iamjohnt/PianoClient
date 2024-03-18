@@ -2,7 +2,7 @@ import { GameObjects } from "phaser";
 import ChordBuffer from "../../../keyboard_connection/ChordBuffer";
 import MidiObservable from "../../../keyboard_connection/MidiObservable";
 import MidiMessage from "../../../keyboard_connection/MidiMessage";
-import { WhichHands } from "../../../game/Enum";
+import { WhichHands } from "../../../music_model/Enums";
 
 export default class C_VirtualKeyboard extends GameObjects.Container{
 

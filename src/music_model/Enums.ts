@@ -86,3 +86,25 @@ export enum NoteOnOff {
     ON,
     OFF
 }
+
+export enum ChordPool {
+    NOTE,
+    INTERVAL,
+    TRIAD,
+    TETRAD,
+    NOTE_INTERVAL,
+    NOTE_INTERVAL_TRIAD,
+    NOTE_INTERVAL_TRIAD_TETRAD
+}
+
+export enum WhichHands {
+    LEFT,
+    RIGHT,
+    BOTH
+}
+
+export enum KeyboardType {
+    VIRTUAL,
+    CONNECTED,
+    COMPUTER
+}

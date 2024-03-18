@@ -1,10 +1,6 @@
 import { GameObjects } from "phaser";
-import { ChordPool, KeySigMode, KeyboardType, WhichHands } from "../../../game/Enum";
 import { GameSettings } from "../../../game/GameSettings";
-import KeyboardConnection from "../../../keyboard_connection/KeyboardConnection";
-import { KeySigNote } from "../../../music_model/Enums";
-import MidiToSheetNote from "../../../music_model/MidiToSheetNote";
-import SettingsResponse from "../../../stomp_connection/response_objects/SettingsResponse";
+import { ChordPool, KeySigMode, KeySigNote } from "../../../music_model/Enums";
 import GameContext from "../../GameContext";
 import POS from "../../ObjectPositions";
 
