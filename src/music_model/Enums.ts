@@ -24,8 +24,8 @@ export enum KeySigNote {
 }
 
 export enum KeySigMode {
-    MAJOR,
-    MINOR
+    MINOR,
+    MAJOR
 }
 
 export enum Accidental {
