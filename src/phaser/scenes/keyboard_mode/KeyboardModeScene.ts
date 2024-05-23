@@ -23,6 +23,7 @@ export default class KeyboardModeScene extends Phaser.Scene{
         this.load.image('virtual', base + 'virtual.png')
         this.load.image('connected', base + 'connected.png')
         this.load.image('required', base + 'required_text.png')
+        this.load.image('back', 'assets/global/back.png')
     }
 
     public create = () => {
@@ -61,6 +62,20 @@ export default class KeyboardModeScene extends Phaser.Scene{
         let required_text = this.add.image(infoMsgX, infoMsgY, 'required')
             .setOrigin(.5, .5)
             .setScale(.9)
+
+        // adds back button
+        this.add.image(200, 150, 'back')
+            .setOrigin(.5, .5)
+            .setScale(1.5)
+            .setDepth(4)
+            .setInteractive()
+            .on('pointerdown', () => { 
+                this.context.stompService.stompClient.onDisconnect = () => {
+                    this.scene.start('welcome', new GameContext());
+                }
+                this.context.stompService.stompClient.deactivate();
+            })
+
     }
 
     private onConnectedKeyboardButtonClick = () => {

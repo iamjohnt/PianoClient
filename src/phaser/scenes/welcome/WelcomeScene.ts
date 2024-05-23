@@ -16,7 +16,10 @@ export default class GameScene extends Phaser.Scene{
         this.context = new GameContext();
     }
 
-    // public init = () => {}
+    public init = (context: GameContext) => {
+        console.log('init')
+        this.context = context;
+    }
 
     public preload = () => {
         this.load.image('welcome_background', 'assets/welcome/welcome_background.png')
@@ -175,6 +178,7 @@ export default class GameScene extends Phaser.Scene{
     private spawnTransparentNextSceneButton = () => {
 
         let goNextScene = () => {
+            console.log('hello scrubs')
             if (this.isIntroAnimationDone) {
 
                 // init stomp
@@ -183,6 +187,7 @@ export default class GameScene extends Phaser.Scene{
                 let stompService = new StompService(url);
                 this.context.stompService = stompService;
                 stompService.setOnConnect(frame => {
+                    console.log('hello on connect stomp')
                     console.log(frame)
                     this.scene.start('keyboardmode', this.context)
                 })
