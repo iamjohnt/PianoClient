@@ -13,12 +13,11 @@ export default class GameScene extends Phaser.Scene{
 
     constructor() {
         super({ key: 'welcome' });
-        this.context = new GameContext();
     }
 
-    public init = (context: GameContext) => {
+    public init = () => {
         console.log('init')
-        this.context = context;
+        this.context = new GameContext()
     }
 
     public preload = () => {
