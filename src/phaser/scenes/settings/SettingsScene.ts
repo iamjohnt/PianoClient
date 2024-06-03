@@ -1,4 +1,4 @@
-import { GameObjects } from "phaser";
+import { GameObjects, Scene } from "phaser";
 import { GameSettings } from "../../../game/GameSettings";
 import { ChordPool, KeySigMode, KeySigNote } from "../../../music_model/Enums";
 import GameContext from "../../GameContext";
@@ -17,17 +17,6 @@ export default class SettingsScene extends Phaser.Scene{
 
     public init = (context: GameContext) => {
         this.context = context;
-        
-        let baseSettings = new GameSettings()
-            .setKeySigNote(KeySigNote.C)
-            .setKeySigMode(KeySigMode.MAJOR)
-            .setLeftMin(36) // c2
-            .setLeftMax(64) // e4
-            .setRightMin(57) // a3
-            .setRightMax(84) // c6
-            .setLength(30)
-
-        this.context.settings = baseSettings;
     }
 
     public preload = () => {

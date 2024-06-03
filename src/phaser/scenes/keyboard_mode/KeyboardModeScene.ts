@@ -90,8 +90,19 @@ export default class KeyboardModeScene extends Phaser.Scene{
         })
 
         keyboard.setOnConnectMidiSuccess((error: any) => {
-            console.log(error)
-            console.log('ayylmao')
+
+            this.context.isVirtualKeyboard = false;
+            let defaultBaseSettings = new GameSettings()
+                .setKeySigNote(KeySigNote.C)
+                .setKeySigMode(KeySigMode.MAJOR)
+                .setLeftMin(36) // c2
+                .setLeftMax(64) // e4
+                .setRightMin(57) // a3
+                .setRightMax(84) // c6
+                .setLength(30)
+    
+            this.context.settings = defaultBaseSettings;
+
             this.context.keyboardConnection = keyboard;
             this.scene.start('settings', this.context)
         })
