@@ -20,26 +20,23 @@ export default class SettingsScene extends Phaser.Scene{
     }
 
     public preload = () => {
-    
         let chordpool = 'assets/settings/chordpool/'
-        
         this.load.image('single_text', chordpool + 'single_text.png')
         this.load.image('note', chordpool + 'note.png')
         this.load.image('interval', chordpool + 'interval.png')
         this.load.image('triad', chordpool + 'triad.png')
         this.load.image('tetrad', chordpool + 'tetrad.png')
-
         this.load.image('combo_text', chordpool + 'combo_text.png')
         this.load.image('note_interval', chordpool + 'note_interval.png')
         this.load.image('note_interval_triad', chordpool + 'note_interval_triad.png')
         this.load.image('note_interval_triad_tetrad', chordpool + 'note_interval_triad_tetrad.png')
-
+        this.load.image('back', 'assets/global/back.png')
     };
     
     public create = () => {
-
         this.createSingleModeButtons()
         this.createComboModeButtons()
+        this.createBackButton()
     };
 
     public update = () => {
@@ -73,5 +70,18 @@ export default class SettingsScene extends Phaser.Scene{
         note_interval_triad_tetrad.on('pointerdown', () => {this.context.settings.setChordPool(ChordPool.NOTE_INTERVAL_TRIAD_TETRAD); this.scene.start('hands', this.context)}) 
 
         this.comboContainer = this.add.container(0, 0, [text, note_interval, note_interval_triad, note_interval_triad_tetrad])
+    }
+
+    private createBackButton = () => {
+        this.add.image(200, 150, 'back')
+            .setOrigin(.5, .5)
+            .setScale(1.5)
+            .setDepth(4)
+            .setInteractive()
+            .on('pointerdown', () => { 
+                // reset settings, that was established in previous KeyboardModeScene, allowing app to go back with reset settings
+                this.context.settings = new GameSettings();
+                this.scene.start('keyboardmode', this.context);
+            })
     }
 }
