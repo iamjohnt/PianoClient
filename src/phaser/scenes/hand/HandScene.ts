@@ -1,3 +1,4 @@
+import { GameSettings } from "../../../game/GameSettings";
 import { KeyboardType, WhichHands } from "../../../music_model/Enums";
 import MidiToSheetNote from "../../../music_model/MidiToSheetNote";
 import SettingsResponse from "../../../stomp_connection/response_objects/SettingsResponse";
@@ -19,13 +20,12 @@ export default class HandScene extends Phaser.Scene{
     }
 
     public preload = () => {
-        
         let base = 'assets/settings/hands/'
-
         this.load.image('piano', base + 'piano.png')
         this.load.image('left', base + 'left_hand.png')
         this.load.image('right', base + 'right_hand.png')
         this.load.image('text', base + 'text.png')
+        this.load.image('back', 'assets/global/back.png')
     }
 
     public create = () => {
@@ -58,6 +58,8 @@ export default class HandScene extends Phaser.Scene{
                 this.context.keyboardType = KeyboardType.CONNECTED;
                 this.sendSettingsToServerGoNextScene()
             })
+
+        this.createBackButton()
     }
 
     public update = () => {
@@ -98,6 +100,25 @@ export default class HandScene extends Phaser.Scene{
             this.scene.start(nextSceneId, this.context)
         })
         this.context.stompService.stompOut.sendGameSettings(this.context.settings);
+    }
+
+    private createBackButton = () => {
+        this.add.image(200, 150, 'back')
+            .setOrigin(.5, .5)
+            .setScale(1.5)
+            .setDepth(4)
+            .setInteractive()
+            .on('pointerdown', () => {
+                if (this.context.isVirtualKeyboard == true) {
+                    // the previous scene should be keyboard scene, so go back there
+                    // reset settings, that was established in previous KeyboardModeScene, allowing app to go back with reset settings
+                    this.context.settings = new GameSettings();
+                    this.scene.start('keyboardmode', this.context);
+                } else {
+                    // the previous cene should be settings scene (which handles setting chord pool), so go back there
+                    this.scene.start('settings', this.context);
+                }
+            })
     }
 
 }
