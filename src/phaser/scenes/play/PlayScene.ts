@@ -56,7 +56,8 @@ export default class PlayScene extends Phaser.Scene{
         // create managers
         this.lessonChordsManager = new C_LessonChordSequence(this, ObjectPositions.PLAYER_NOTE_LEFT_X() , 0, this.context);
         this.playerChordsManager = new C_PlayerNotePool(this, ObjectPositions.PLAYER_NOTE_LEFT_X(), 0, this.context);
-        let musicSheet = new C_MusicSheet(this, ObjectPositions.WIDTH() / 10, ObjectPositions.HEIGHT() / 2, this.context.settings.getWhichHands());
+        let musicSheet = new C_MusicSheet(this, ObjectPositions.WIDTH() / 10, ObjectPositions.HEIGHT() / 2, this.context.settings.getWhichHands())
+            .setScale(.7, .7);
         musicSheet.add(this.lessonChordsManager)
         musicSheet.add(this.playerChordsManager)
 
