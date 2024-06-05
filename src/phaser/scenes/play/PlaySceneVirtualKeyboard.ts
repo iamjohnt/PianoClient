@@ -47,6 +47,7 @@ export default class PlaySceneVirtualKeyboard extends Phaser.Scene{
         } else {
             this.load.image('clef', base + 'treble2.png')
         }
+        this.load.image('back', 'assets/global/back.png')
     };
     
     public create = () => {
@@ -81,9 +82,26 @@ export default class PlaySceneVirtualKeyboard extends Phaser.Scene{
         virtualKeyboard.setChordBuffer(this.context.virtualKeyboardChordBuffer) // connect to server
         virtualKeyboard.addNoteObserver(this.playerChordsManager);
 
+        // back button
+        this.createBackButton();
     };
 
     public update = () => {
 
+    }
+
+    private createBackButton = () => {
+        // adds back button
+        this.add.image(200, 150, 'back')
+        .setOrigin(.5, .5)
+        .setScale(1.5)
+        .setDepth(4)
+        .setInteractive()
+        .on('pointerdown', () => { 
+            this.context.stompService.stompClient.onDisconnect = () => {
+                this.scene.start('welcome', new GameContext());
+            }
+            this.context.stompService.stompClient.deactivate();
+        })
     }
 }
