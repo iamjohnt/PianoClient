@@ -1,5 +1,6 @@
 import { GameObjects } from "phaser";
 import ObjectPositions from "../../ObjectPositions";
+import GameContext from "../../GameContext";
 
 /**
 This popup will appear when the game has ended.
@@ -7,9 +8,13 @@ User can press buttons to take certain actions after game ends.
 */
 export default class C_PlayerNotePool extends GameObjects.Container {
 
+    private context: GameContext;
+    private parentScene: Phaser.Scene;
+
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y)
         scene.add.existing(this);
+        this.parentScene = scene;
 
         let center_x = ObjectPositions.WIDTH() / 2
         let center_y = ObjectPositions.HEIGHT() / 2
@@ -37,7 +42,10 @@ export default class C_PlayerNotePool extends GameObjects.Container {
     }
 
     private goToWelcomeScene = () => {
-        console.log('home')
+        this.context.stompService.stompClient.onDisconnect = () => {
+            this.parentScene.scene.start('welcome', new GameContext());
+        }
+        this.context.stompService.stompClient.deactivate();
     }
 
     private replayGame = () => {
@@ -74,5 +82,9 @@ export default class C_PlayerNotePool extends GameObjects.Container {
 
     private calcTopY = (centerY: number, height: number) => {
         return centerY - height / 2
+    }
+
+    public setContext = (context: GameContext) => {
+        this.context = context;
     }
 }
