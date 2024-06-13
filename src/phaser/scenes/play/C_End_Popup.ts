@@ -15,11 +15,7 @@ export default class C_PlayerNotePool extends GameObjects.Container {
         super(scene, x, y)
         scene.add.existing(this);
         this.parentScene = scene;
-
-        let center_x = ObjectPositions.WIDTH() / 2
-        let center_y = ObjectPositions.HEIGHT() / 2
-
-        this.assembleAndCreatePopup(center_x, center_y)
+        this.assembleAndCreatePopup(0, 0)
     }
 
     private assembleAndCreatePopup = (x: number, y: number) => {
@@ -29,10 +25,12 @@ export default class C_PlayerNotePool extends GameObjects.Container {
         let border = this.createRectangle(x, y, 1015, 615, 0x000000)
         let fill = this.createRectangle(x, y, 1000, 600, 0xFFFFFF)
 
-        this.scene.add.text(x, y - 175, 'Finished!')
+        let header = this.scene.add.text(x, y - 175, 'Finished!')
             .setFontSize(72)
             .setFill('#000')
             .setOrigin(0.5,0.5)
+
+        this.add([border, fill, header])
 
         this.createButton(x, y, 250, 100, 'Home')
             .on('pointerdown', this.goToWelcomeScene);
@@ -56,11 +54,14 @@ export default class C_PlayerNotePool extends GameObjects.Container {
         // button background
         this.createRectangle(x, y, w, h, 0x000000)
 
-        return this.scene.add.text(x, y, text)
+        let msg = this.scene.add.text(x, y, text)
             .setFontSize(48)
             .setFill('#fff')
             .setOrigin(0.5,0.5)
             .setInteractive()
+
+        this.add(msg)
+        return msg
     }
 
     private createRectangle = (x: number, y: number, w: number, h: number, colorHexCode: number) : Phaser.GameObjects.Graphics=> {
@@ -73,6 +74,7 @@ export default class C_PlayerNotePool extends GameObjects.Container {
         graphics.fillStyle(colorHexCode, 1);
         graphics.fillRoundedRect(leftX, topY, w, h, 16);
 
+        this.add(graphics)
         return graphics;
     }
 
