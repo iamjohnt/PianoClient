@@ -6,6 +6,8 @@ import ObjectPositions from "../../ObjectPositions";
 import C_LessonChordSequence from "./C_LessonChordSequence";
 import C_MusicSheet from "./C_MusicSheet";
 import C_VirtualKeyboard from "./C_VirtualKeyboard";
+import C_End_Popup from "./C_End_Popup"
+import ChordResponse from "../../../stomp_connection/response_objects/ChordResponse";
 
 export default class PlaySceneVirtualKeyboard extends Phaser.Scene{
 
@@ -65,11 +67,22 @@ export default class PlaySceneVirtualKeyboard extends Phaser.Scene{
 
         this.add.image(ObjectPositions.WIDTH(), ObjectPositions.HEIGHT() / 2, 'spawner').setOrigin(1, .5)
 
+        // popup
+        let center_x = ObjectPositions.WIDTH() / 2
+        let center_y = ObjectPositions.HEIGHT() / 2
+        let endPopup = new C_End_Popup(this, center_x, center_y).setVisible(false)
+        endPopup.setContext(this.context)
+
         // attach
         // this.context.keyboardConnection.addNoteObserver(this.playerChordsManager);
         this.context.handleChordSequence = this.lessonChordsManager.spawnLessonChords;
-        this.context.handleChordResponse = this.lessonChordsManager.handleChordResponse;
-
+        this.context.handleChordResponse = (chordResponse: ChordResponse) => {
+            this.lessonChordsManager.handleChordResponse(chordResponse);
+            if (chordResponse.isGameDone == true) {
+                endPopup.setVisible(true)
+                endPopup.setDepth(1000)
+            }
+        }
         // connect to server
         this.context.connectGameToServer();
 
