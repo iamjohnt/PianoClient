@@ -47,7 +47,7 @@ export default class C_PlayerNotePool extends GameObjects.Container {
     }
 
     private replayGame = () => {
-        console.log('replay')
+        this.parentScene.scene.restart(this.context);
     }
 
     private createButton = (x: number, y: number, w: number, h: number, text: string) : Phaser.GameObjects.Text => {
