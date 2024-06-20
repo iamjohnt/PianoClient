@@ -11,13 +11,13 @@ export default class StompInbound {
 
     private stompClient: Client;
 
-    private helloResponseSub: StompSubscription;
-    private chordResponseSub: StompSubscription;
-    private settingsResponseSub: StompSubscription;
-    private startGameResponseSub: StompSubscription;
-    private endGameResponseSub: StompSubscription;
-    private createSessionResponseSub: StompSubscription;
-    private endSessionResponseSub: StompSubscription;
+    private helloResponseSub: StompSubscription | null = null;
+    private chordResponseSub: StompSubscription | null = null;
+    private settingsResponseSub: StompSubscription | null = null;
+    public startGameResponseSub: StompSubscription | null = null;
+    private endGameResponseSub: StompSubscription | null = null;
+    private createSessionResponseSub: StompSubscription | null = null;
+    private endSessionResponseSub: StompSubscription | null = null;
 
     constructor(stompClient: Client){
         this.stompClient = stompClient;
@@ -28,7 +28,7 @@ export default class StompInbound {
         if (this.helloResponseSub) {
             this.helloResponseSub.unsubscribe();
         }
-        this.helloResponseSub = this.stompClient.subscribe('/user/queue/hello', (response: any) => {
+        this.helloResponseSub = this.helloResponseSub = this.stompClient.subscribe('/user/queue/hello', (response: any) => {
             let hello: HelloResponse = JSON.parse(response.body);
             callback(hello)
         });
@@ -38,7 +38,7 @@ export default class StompInbound {
         if (this.chordResponseSub) {
             this.chordResponseSub.unsubscribe();
         }
-        this.stompClient.subscribe('/user/queue/chord', (response: any) => {
+        this.chordResponseSub = this.stompClient.subscribe('/user/queue/chord', (response: any) => {
             let chordResponse: ChordResponse = JSON.parse(response.body);
             callback(chordResponse);
         });
@@ -59,7 +59,7 @@ export default class StompInbound {
         if (this.startGameResponseSub) {
             this.startGameResponseSub.unsubscribe();
         }
-        this.stompClient.subscribe('/user/queue/startgame', (response: any) => {
+        this.startGameResponseSub = this.stompClient.subscribe('/user/queue/startgame', (response: any) => {
             let chordSeq: StartGameResponse = JSON.parse(response.body);
             callback(chordSeq);
         });
@@ -69,7 +69,7 @@ export default class StompInbound {
         if (this.endGameResponseSub) {
             this.endGameResponseSub.unsubscribe();
         }
-        this.stompClient.subscribe('/user/queue/endgame', (response: any) => {
+        this.endGameResponseSub = this.stompClient.subscribe('/user/queue/endgame', (response: any) => {
             let parsedResponse: EndGameResponse = JSON.parse(response.body);
             callback(parsedResponse);
         });    
@@ -79,7 +79,7 @@ export default class StompInbound {
         if (this.createSessionResponseSub) {
             this.createSessionResponseSub.unsubscribe();
         }
-        this.stompClient.subscribe('/user/queue/startsession', (response: any) => {
+        this.createSessionResponseSub = this.stompClient.subscribe('/user/queue/startsession', (response: any) => {
             let parsedResponse: CreateSessionResponse = JSON.parse(response.body);
             callback(parsedResponse);
         });    
@@ -89,7 +89,7 @@ export default class StompInbound {
         if (this.endSessionResponseSub) {
             this.endSessionResponseSub.unsubscribe();
         }
-        this.stompClient.subscribe('/user/queue/endsession', (response: any) => {
+       this.endSessionResponseSub = this.stompClient.subscribe('/user/queue/endsession', (response: any) => {
             let parsedResponse: EndSessionResponse = JSON.parse(response.body);
             callback(parsedResponse);
         });    
