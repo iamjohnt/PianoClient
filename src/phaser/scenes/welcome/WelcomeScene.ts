@@ -15,9 +15,9 @@ export default class GameScene extends Phaser.Scene{
         super({ key: 'welcome' });
     }
 
-    public init = () => {
+    public init = (cxt: GameContext) => {
         console.log('init')
-        this.context = new GameContext()
+        this.context = cxt
     }
 
     public preload = () => {

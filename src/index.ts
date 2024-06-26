@@ -6,6 +6,7 @@ import SettingsScene from './phaser/scenes/settings/SettingsScene';
 import HandScene from './phaser/scenes/hand/HandScene';
 import PlaySceneVirtualKeyboard from './phaser/scenes/play/PlaySceneVirtualKeyboard';
 import KeyboardModeScene from './phaser/scenes/keyboard_mode/KeyboardModeScene';
+import GameContext from './phaser/GameContext';
 
 class EntryPoint {
 
@@ -20,7 +21,7 @@ class EntryPoint {
     }
     
     public goToFirstScene = () => [
-        this.game.scene.start('WelcomeScene')
+        this.game.scene.start('welcome', new GameContext)
     ]
 }
 

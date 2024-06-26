@@ -41,14 +41,8 @@ export default class PlaySceneVirtualKeyboard extends Phaser.Scene{
         this.load.image('cursor', base + 'cursor.png')
         this.load.image('spawner', base + 'spawner.png')
         this.load.image('white_background', base + 'white_background.png')
-
-
-
-        if (this.context.settings?.getWhichHands() == WhichHands.LEFT) {
-            this.load.image('clef', base + 'bass2.png')
-        } else {
-            this.load.image('clef', base + 'treble2.png')
-        }
+        this.load.image('bass_clef', base + 'bass2.png')
+        this.load.image('treble_clef', base + 'treble2.png')
         this.load.image('back', 'assets/global/back.png')
     };
     
