@@ -29,7 +29,7 @@ export default class GameScene extends Phaser.Scene{
         this.load.image('glint', 'assets/welcome/glint_square.png')
         this.load.spritesheet('logo', 'assets/welcome/logo_spritesheet.png', {
             frameWidth: 685,
-            frameHeight: 600
+            frameHeight: 700
         })
         this.load.image('transparent', this.basePath + "transparent.png")
     };
@@ -38,7 +38,6 @@ export default class GameScene extends Phaser.Scene{
         this.spawnTransparentNextSceneButton();
         this.spawnBackground(500);
         this.spawnLogo(700)
-        this.spawnGlint(700)
         this.animateLogoGlintOnce(1500)
         this.loopAnimateLogoGlint(4000)
         this.spawnWelcomeText(2500)
@@ -65,11 +64,14 @@ export default class GameScene extends Phaser.Scene{
 
     private spawnLogo = (spawnTime: number) => {
 
+        let x = Pos.LOGO_CENTER_X()
+        let y = Pos.LOGO_CENTER_Y() - Pos.UNIT() - Pos.UNIT()
+
         this.logo = this.add
-            .sprite(Pos.LOGO_CENTER_X(), Pos.LOGO_CENTER_Y() - Pos.UNIT(), 'logo')
+            .sprite(x, y, 'logo')
             .setOrigin(0.5, 0.5)
             .setAlpha(0)
-            .setScale(1.25, 1.25)
+            .setScale(1.1, 1.1)
 
         // create sprite animation
         this.anims.create({
@@ -87,7 +89,7 @@ export default class GameScene extends Phaser.Scene{
                 this.tweens.add({
                     targets: this.logo,
                     alpha: 1,
-                    y: Pos.LOGO_CENTER_Y(),
+                    y: Pos.LOGO_CENTER_Y() - Pos.UNIT(),
                     ease: Phaser.Math.Easing.Quadratic.Out,
                     duration: 500            
                 })
@@ -151,26 +153,6 @@ export default class GameScene extends Phaser.Scene{
             callbackScope: this,
             loop: false,
             callback: fadeInText
-        });
-    }
-
-    private spawnGlint = (spawnTime: number) => {
-
-        let g = this.add.image(Pos.GLINT_CENTER_X(), Pos.GLINT_CENTER_Y() - Pos.UNIT(), 'glint').setAlpha(0).setOrigin(.5, .5)
-
-        this.time.addEvent({
-            delay: spawnTime,
-            callbackScope: this,
-            loop: false,
-            callback: () => {
-                this.tweens.add({
-                    targets: g,
-                    alpha: 1,
-                    y: Pos.GLINT_CENTER_Y(),
-                    ease: Phaser.Math.Easing.Quadratic.Out,
-                    duration: 500            
-                })            
-            }
         });
     }
 
